@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<!--
+  Apex Desktop settings (design/SPEC.md 6.2): only keys with no upstream home. The
+  Apex layer in gnome-shell looks the schema up before use, and a missing schema means
+  safe mode (ADR 0014). S1a ships the two keys of the safety net; S1b adds the rest of
+  SPEC 6.2 and the .Keybindings child. Installed by apex-desktop
+  (packaging/apex-desktop.spec).
+-->
+<schemalist>
+  <schema id="io.github.sekirokenjii.Apex.Desktop" path="/io/github/sekirokenjii/apex/desktop/">
+    <key name="layer-enabled" type="b">
+      <default>true</default>
+      <summary>Run the Apex desktop layer</summary>
+      <description>
+        When false, gnome-shell runs without the Apex layer in this user's sessions:
+        every hook gives its stock value, upstream's stylesheets load, and the colour
+        scheme is stock. It takes effect at the next login. The greeter ignores it.
+        The shell crash guard sets it to false.
+      </description>
+    </key>
+    <key name="disabled-features" type="as">
+      <default>[]</default>
+      <summary>Apex features to turn off</summary>
+      <description>
+        Features of the Apex layer to leave off without a rebuild, by name: glass,
+        dock, spotlight, lock, motion, notifications, overview, panel, quick-settings,
+        shadows. A disabled feature's hooks give their stock values. It takes effect
+        at the next login.
+      </description>
+    </key>
+  </schema>
+</schemalist>
