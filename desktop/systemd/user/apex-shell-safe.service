@@ -1,28 +1,21 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 #
-# The Apex crash guard (ADR 0014; ARCHITECTURE 7.4), shipped by apex-desktop: started by
-# OnFailure= of GNOME Shell's unit (org.gnome.Shell@.service.d/50-apex.conf). When the
-# shell failed within 60 s of the Apex layer's enable, it turns the layer off for this
-# user, so the next login runs upstream's JS and stylesheets.
+# Started by OnFailure= of GNOME Shell's unit (org.gnome.Shell@.service.d/50-apex.conf).
 [Unit]
 Description=Turn the Apex desktop layer off after an early GNOME Shell failure
 # As upstream's org.gnome.Shell-disable-extensions.service: it must not conflict with
 # anything, and runs next to gnome-session-shutdown.target.
 DefaultDependencies=no
-# The same OnFailure= list starts gnome-session-shutdown.target, which restarts the
-# session bus (gnome-session-restart-dbus.service). gsettings reaches dconf over that bus
-# and exits 0 even when the write is lost, so the guard finishes first. Without this, a
-# guard whose gsettings had to start dconf.service lost the write in G2.
+# The same OnFailure= list restarts the session bus. gsettings reaches dconf over that
+# bus and exits 0 even when the write is lost, so the guard finishes first.
 Before=gnome-session-restart-dbus.service
-# The layer creates this file at enable and removes it after 60 s or at shutdown
-# (desktop/shell/js/ui/apex/layer.js), as the extension system does with its own file.
+# layer.js creates this file at enable and removes it after 60 s or at shutdown.
 ConditionPathExists=%t/apex-shell-starting
 
 [Service]
 Type=oneshot
 ExecStart=/usr/bin/gsettings set io.github.sekirokenjii.Apex.Desktop layer-enabled false
-# The marker apex-session-agent reads to offer "Turn the Apex desktop back on" (S1b):
-# $XDG_STATE_HOME/apex/shell-guard-tripped.
+# apex-session-agent offers to turn the layer back on while this marker exists.
 StateDirectory=apex
 ExecStartPost=/usr/bin/touch %S/apex/shell-guard-tripped
 # The failed start is handled; a later failure needs the layer's marker again.
