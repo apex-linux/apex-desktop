@@ -1,13 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 #
-# Built by `make rpm-desktop` from git HEAD, with the macros of `make rpm`. desktop/shell/
-# ships inside the rebuilt gnome-shell instead.
-#
-# No scriptlets: the image compiles the schemas in its final stage, and glib2's file
-# trigger covers a dnf install. The user units have no [Install] section: only OnFailure=
-# of GNOME Shell's unit starts apex-shell-safe.service.
+# No scriptlets: the image and glib2's file trigger compile the schemas; no unit has [Install].
 
-# Local builds without the macros still work; they get the lowest possible Release.
 %{!?commitdate:%global commitdate 0}
 %{!?shortcommit:%global shortcommit unknown}
 
@@ -18,8 +12,6 @@ Summary:        Apex desktop data: the Apex GSettings schema and the shell crash
 
 License:        GPL-3.0-or-later
 URL:            https://github.com/SekiroKenjii/apex-fedora
-# Produced by `make rpm-desktop`: git archive --prefix=apex-desktop-%%{version}/ HEAD
-# desktop ':(exclude)desktop/shell' LICENSE
 Source0:        %{name}-%{version}.tar.gz
 
 BuildArch:      noarch
