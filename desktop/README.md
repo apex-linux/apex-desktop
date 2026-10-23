@@ -238,6 +238,11 @@ leave GTK 4 with hicolor alone and no Adwaita symbolic icons.
 `60-apex.xml` goes to `/usr/share/gnome-control-center/keybindings/`, so Settings >
 Keyboard lists and edits "Open Spotlight" under Launchers.
 
+G1's `image/checks/keybindings.sh` fails when two default bindings share a combination
+across `wm.keybindings`, mutter's two schemas, the shell's, media keys and the Apex
+Keybindings schema. It reads the image's compiled schemas with the override applied, and
+treats `<Primary>` and `<Control>`, `<Mod4>` and `<Super>`, and any modifier order as one.
+
 ## `wallpapers/`
 
 The spec renders `apex-facets-{light,dark}.svg` with `rsvg-convert` at 3840×2400, which
