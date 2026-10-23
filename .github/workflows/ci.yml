@@ -30,7 +30,7 @@ jobs:
       - name: Tools for checkout and the data checks
         run: >-
           dnf5 -y --setopt=install_weak_deps=False --repo=fedora --repo=updates install
-          git-core make libxml2 glib2 dconf
+          git-core make libxml2 glib2 dconf inkscape
 
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -66,7 +66,7 @@ jobs:
 
       - name: bash -n and shellcheck
         run: |
-          files=(.github/scripts/*.sh)
+          files=(.github/scripts/*.sh desktop/icons/check-theme.sh)
           for f in "${files[@]}"; do bash -n "$f"; done
           shellcheck -x -P .github/scripts --severity=style "${files[@]}"
 

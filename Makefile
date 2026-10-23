@@ -11,6 +11,10 @@ DESKTOP_XML := desktop/schemas/io.github.apex_linux.Apex.Desktop.gschema.xml \
 	desktop/keybindings/60-apex.xml desktop/wallpapers/apex-facets.xml \
 	desktop/fontconfig/60-apex-adwaita-sans-ss03.conf
 CHECK_DIR := $(abspath $(BUILD_DIR))/check-data
+COLLOID_GIT := $(abspath $(BUILD_DIR))/colloid.git
+COLLOID_URL := https://github.com/vinceliuice/Colloid-icon-theme.git
+# Only the full-colour app icons and the licence; the spec's colloid_sha256 covers this list.
+COLLOID_PATHS := LICENSE src/apps/scalable links/apps/scalable
 
 # The = variables expand lazily, so git and sed run only when a target needs them.
 SPEC        := packaging/apex-desktop.spec
@@ -18,6 +22,7 @@ RPM_TOPDIR  := $(abspath $(BUILD_DIR))/rpm
 VERSION      = $(shell sed -n 's/^Version:[[:space:]]*//p' $(SPEC))
 COMMITDATE   = $(shell TZ=UTC git log -1 --format=%cd --date=format-local:%Y%m%d HEAD 2>/dev/null)
 SHORTCOMMIT  = $(shell git rev-parse --short=12 HEAD 2>/dev/null)
+COLLOID_COMMIT = $(shell sed -n 's/^%global colloid_commit[[:space:]]*//p' $(SPEC))
 RPMBUILD_FLAGS ?=
 
 .PHONY: all check-data rpm clean help
@@ -26,10 +31,11 @@ RPMBUILD_FLAGS ?=
 all: help
 
 help:
-	@echo 'make check-data   xmllint, glib-compile-schemas --strict and dconf compile on desktop/'
+	@echo 'make check-data   xmllint, glib-compile-schemas --strict, dconf compile and the icon theme'
+	@echo '                  check on desktop/'
 	@echo '                  (validators that are not installed are skipped)'
 	@echo 'make rpm          the apex-desktop SRPM and RPM from git HEAD, into $(RPM_TOPDIR)'
-	@echo 'make clean        remove $(RPM_TOPDIR) and $(CHECK_DIR)'
+	@echo 'make clean        remove $(RPM_TOPDIR), $(CHECK_DIR) and $(COLLOID_GIT)'
 
 check-data:
 	@if command -v xmllint >/dev/null 2>&1; then \
@@ -51,6 +57,24 @@ check-data:
 	else \
 		echo "skip: dconf not found (Fedora: dconf)"; \
 	fi
+	@if command -v xmllint >/dev/null 2>&1; then \
+		rm -rf '$(CHECK_DIR)/Apex' && mkdir -p '$(CHECK_DIR)/Apex/symbolic'; \
+		cp desktop/icons/index.theme '$(CHECK_DIR)/Apex/'; \
+		echo "xmllint --noout --nonet desktop/icons/symbolic/*.svg"; \
+		xmllint --noout --nonet desktop/icons/symbolic/*.svg; \
+		if command -v inkscape >/dev/null 2>&1; then \
+			for f in desktop/icons/symbolic/*.svg; do \
+				n=$${f##*/}; \
+				inkscape --actions="select-all:all;selection-ungroup;select-all:all;selection-ungroup;select-all:all;object-stroke-to-path;export-plain-svg;export-filename:$(CHECK_DIR)/Apex/symbolic/$${n%.svg}-symbolic.svg;export-do" "$$f" || exit 1; \
+			done; \
+		else \
+			echo "skip: inkscape not found (Fedora: inkscape); the theme has no symbolic icons"; \
+		fi; \
+		echo "bash desktop/icons/check-theme.sh $(CHECK_DIR)/Apex"; \
+		bash desktop/icons/check-theme.sh '$(CHECK_DIR)/Apex'; \
+	else \
+		echo "skip: xmllint not found, so no icon theme check (Fedora: libxml2)"; \
+	fi
 
 rpm:
 	@if [ -z '$(SHORTCOMMIT)' ]; then \
@@ -62,6 +86,10 @@ rpm:
 	mkdir -p '$(RPM_TOPDIR)/SOURCES'
 	git archive --format=tar.gz --prefix='apex-desktop-$(VERSION)/' \
 		-o '$(RPM_TOPDIR)/SOURCES/apex-desktop-$(VERSION).tar.gz' HEAD -- desktop LICENSE
+	git init -q --bare '$(COLLOID_GIT)'
+	git -C '$(COLLOID_GIT)' fetch -q --depth 1 '$(COLLOID_URL)' '$(COLLOID_COMMIT)'
+	git -C '$(COLLOID_GIT)' archive --format=tar --prefix='Colloid-icon-theme-$(COLLOID_COMMIT)/' \
+		-o '$(RPM_TOPDIR)/SOURCES/Colloid-icon-theme-$(COLLOID_COMMIT).tar' '$(COLLOID_COMMIT)' -- $(COLLOID_PATHS)
 	$(RPMBUILD) -ba $(SPEC) \
 		--define '_topdir $(RPM_TOPDIR)' \
 		--define 'commitdate $(COMMITDATE)' \
@@ -69,4 +97,4 @@ rpm:
 		$(RPMBUILD_FLAGS)
 
 clean:
-	rm -rf '$(RPM_TOPDIR)' '$(CHECK_DIR)'
+	rm -rf '$(RPM_TOPDIR)' '$(CHECK_DIR)' '$(COLLOID_GIT)'

@@ -10,6 +10,8 @@ font-name='Adwaita Sans 10.125'
 document-font-name='Adwaita Sans 10.125'
 monospace-font-name='JetBrains Mono 9.75'
 font-hinting='none'
+# Only with the Apex theme in this package: its Inherits= reaches Adwaita's symbolic icons.
+icon-theme='Apex'
 show-battery-percentage=true
 clock-show-weekday=true
 

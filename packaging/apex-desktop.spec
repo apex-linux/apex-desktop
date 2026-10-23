@@ -5,24 +5,34 @@
 
 %{!?commitdate:%global commitdate 0}
 %{!?shortcommit:%global shortcommit unknown}
+# Colloid's app icons; make rpm fetches this commit and archives the Makefile's COLLOID_PATHS.
+%global colloid_commit ceac6608ecd0e40025cbc2ebbd32bf0e0f4ebc6a
+%global colloid_sha256 e81d7d9d3a473c0772f9a3afe762d6ec5b7f2292655466e9a1ac32590ba093f0
 
 Name:           apex-desktop
 Version:        0.1.0
 Release:        0.%{commitdate}.git%{shortcommit}%{?dist}
-Summary:        Apex desktop data: the Apex GSettings schema, vendor defaults, the shell crash guard and the wallpapers
+Summary:        Apex desktop data: the Apex GSettings schema, vendor defaults, the shell crash guard, the wallpapers and the Apex icon theme
 
-License:        GPL-3.0-or-later
+# Colloid's app icons ship the GPLv3 text and state no version beyond it.
+License:        GPL-3.0-or-later AND GPL-3.0-only
 URL:            https://github.com/apex-linux/apex-desktop
 Source0:        %{name}-%{version}.tar.gz
+Source1:        Colloid-icon-theme-%{colloid_commit}.tar
 
 BuildArch:      noarch
 
 BuildRequires:  /usr/bin/glib-compile-schemas
+BuildRequires:  /usr/bin/inkscape
 BuildRequires:  /usr/bin/rsvg-convert
+BuildRequires:  /usr/bin/xmllint
 BuildRequires:  systemd-rpm-macros
 
 # apex-shell-safe.service runs gsettings.
 Requires:       /usr/bin/gsettings
+# The Apex theme inherits both, and icon-theme='Apex' relies on it.
+Requires:       adwaita-icon-theme
+Requires:       hicolor-icon-theme
 Requires:       dconf
 Requires:       fontconfig
 Requires:       gnome-control-center-filesystem
@@ -35,15 +45,26 @@ vendor defaults for GNOME's own schemas, the Open Spotlight row of Settings > Ke
 the ss03 feature of Adwaita Sans, and the default Ptyxis profile. It also ships the
 crash guard: when GNOME Shell fails within 60 seconds of the layer's enable,
 apex-shell-safe.service sets layer-enabled to false for that user. The light and dark
-Apex Facets wallpapers ship as PNGs, paired for GNOME's background chooser.
+Apex Facets wallpapers ship as PNGs, paired for GNOME's background chooser. The Apex
+icon theme carries Colloid's full-colour app icons and the Apex Symbolic glyphs, with
+their strokes turned into fills, and inherits Adwaita and hicolor.
 
 %prep
 %autosetup -n %{name}-%{version}
+echo '%{colloid_sha256}  %{SOURCE1}' | sha256sum -c -
+tar -xf %{SOURCE1}
+cp -p Colloid-icon-theme-%{colloid_commit}/LICENSE LICENSE.Colloid
 
 %build
 # 3840x2400 covers the laptop's 2880x1800 panel and a 4K monitor.
 rsvg-convert -w 3840 -h 2400 -o apex-facets-light.png desktop/wallpapers/apex-facets-light.svg
 rsvg-convert -w 3840 -h 2400 -o apex-facets-dark.png desktop/wallpapers/apex-facets-dark.svg
+mkdir symbolic
+# Ungrouping moves a group's stroke onto its children, so stroke-to-path reaches every stroke.
+for f in desktop/icons/symbolic/*.svg; do
+    n=${f##*/}
+    inkscape --actions="select-all:all;selection-ungroup;select-all:all;selection-ungroup;select-all:all;object-stroke-to-path;export-plain-svg;export-filename:$PWD/symbolic/${n%.svg}-symbolic.svg;export-do" "$f"
+done
 
 %install
 install -Dm0644 desktop/schemas/io.github.apex_linux.Apex.Desktop.gschema.xml \
@@ -67,12 +88,22 @@ install -Dm0644 apex-facets-light.png %{buildroot}%{_datadir}/backgrounds/apex/a
 install -Dm0644 apex-facets-dark.png %{buildroot}%{_datadir}/backgrounds/apex/apex-facets-dark.png
 install -Dm0644 desktop/wallpapers/apex-facets.xml \
     %{buildroot}%{_datadir}/gnome-background-properties/apex-facets.xml
+install -Dm0644 desktop/icons/index.theme %{buildroot}%{_datadir}/icons/Apex/index.theme
+install -Dm0644 -t %{buildroot}%{_datadir}/icons/Apex/symbolic symbolic/*-symbolic.svg
+install -dm0755 %{buildroot}%{_datadir}/icons/Apex/scalable/apps
+cp -a Colloid-icon-theme-%{colloid_commit}/src/apps/scalable/. \
+    Colloid-icon-theme-%{colloid_commit}/links/apps/scalable/. \
+    %{buildroot}%{_datadir}/icons/Apex/scalable/apps/
+# Colloid links a few names to icons it does not ship, and one symbolic name to a colour icon.
+find %{buildroot}%{_datadir}/icons/Apex/scalable/apps \( -xtype l -o -name '*-symbolic.svg' \) -print -delete
 
 %check
 glib-compile-schemas --strict --dry-run %{buildroot}%{_datadir}/glib-2.0/schemas
+bash desktop/icons/check-theme.sh %{buildroot}%{_datadir}/icons/Apex
 
 %files
 %license LICENSE
+%license LICENSE.Colloid
 %{_datadir}/glib-2.0/schemas/io.github.apex_linux.Apex.Desktop.gschema.xml
 %{_datadir}/glib-2.0/schemas/90_apex.gschema.override
 %{_datadir}/gnome-control-center/keybindings/60-apex.xml
@@ -88,8 +119,14 @@ glib-compile-schemas --strict --dry-run %{buildroot}%{_datadir}/glib-2.0/schemas
 %{_datadir}/backgrounds/apex/apex-facets-dark.png
 %dir %{_datadir}/gnome-background-properties
 %{_datadir}/gnome-background-properties/apex-facets.xml
+%{_datadir}/icons/Apex/
 
 %changelog
+* Fri Oct 23 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
+- The Apex icon theme: Colloid's app icons from a pinned commit, Apex Symbolic glyphs
+  turned into fills with Inkscape, Inherits=Adwaita,hicolor
+- icon-theme='Apex' in the vendor override
+
 * Fri Oct 23 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
 - The Apex Ptyxis profile: the default, with line height 1.21, in dconf's distro database
 

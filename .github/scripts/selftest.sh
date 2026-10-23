@@ -58,12 +58,64 @@ fi
 # --- apex-desktop.spec installs every file of desktop/ ---------------------------------------
 unpackaged=$(cd "$APEX_ROOT" && git ls-files --cached --others --exclude-standard -- desktop ':(exclude)desktop/README.md' |
     while IFS= read -r f; do
-        grep -Fq -- "$f" packaging/apex-desktop.spec || printf '%s ' "$f"
+        grep -Fq -e "$f" -e "${f%/*}/*.${f##*.}" packaging/apex-desktop.spec || printf '%s ' "$f"
     done)
 check "apex-desktop.spec installs every desktop/ file" "" "$unpackaged"
 misplaced=$(awk '/^%install/ {s = 1; next} /^%(check|files|changelog)/ {s = 0} s && /^%(config|dir|license|doc)/' \
     "$APEX_ROOT/packaging/apex-desktop.spec")
 check "apex-desktop.spec's %install holds no %files directive" "" "$misplaced"
+files_section=$(awk '/^%files/ {s = 1; next} /^%changelog/ {s = 0} s' "$APEX_ROOT/packaging/apex-desktop.spec")
+for line in '%license LICENSE.Colloid' '%{_datadir}/icons/Apex/'; do
+    check_true "apex-desktop.spec's %files lists $line" grep -Fxq -- "$line" <<<"$files_section"
+done
+
+# --- The Colloid pin is a key input -------------------------------------------------------
+spec_global() { sed -n "s/^%global $1[[:space:]]*//p" "$APEX_ROOT/packaging/apex-desktop.spec"; }
+check_true "the spec pins a Colloid commit" grep -Eqx '[0-9a-f]{40}' <<<"$(spec_global colloid_commit)"
+check_true "the spec pins Colloid's SHA-256" grep -Eqx '[0-9a-f]{64}' <<<"$(spec_global colloid_sha256)"
+check_true "%prep checks the Colloid source's SHA-256 before unpacking it" \
+    awk '/^%prep/ {p = 1} p && /sha256sum -c/ {c = NR} p && /tar -xf %\{SOURCE1\}/ {t = NR} END {exit !(c && t > c)}' \
+    "$APEX_ROOT/packaging/apex-desktop.spec"
+check_true "make rpm fetches the commit the spec pins" \
+    grep -Fq -- "fetch -q --depth 1 'https://github.com/vinceliuice/Colloid-icon-theme.git' '$(spec_global colloid_commit)'" \
+    <<<"$(make -s -n -C "$APEX_ROOT" rpm 2>/dev/null)"
+
+# --- icon-theme='Apex' ships with a theme that inherits Adwaita ------------------------------
+check "the override sets icon-theme='Apex'" "icon-theme='Apex'" \
+    "$(grep -x "icon-theme=.*" "$APEX_ROOT/desktop/schemas/90_apex.gschema.override")"
+check "desktop/icons/index.theme names the Apex theme" "Name=Apex" "$(grep -x 'Name=.*' "$APEX_ROOT/desktop/icons/index.theme")"
+
+# --- check-theme.sh -------------------------------------------------------------------------
+if command -v xmllint >/dev/null 2>&1; then
+    theme_fake() {
+        rm -rf "$TMP/Apex" && mkdir -p "$TMP/Apex/scalable/apps" "$TMP/Apex/symbolic"
+        cp "$APEX_ROOT/desktop/icons/index.theme" "$TMP/Apex/"
+        printf '<svg xmlns="http://www.w3.org/2000/svg"><path fill="#000" d="M0 0h1v1z"/></svg>\n' >"$TMP/Apex/scalable/apps/a.svg"
+        ln -s a.svg "$TMP/Apex/scalable/apps/b.svg"
+        cp "$TMP/Apex/scalable/apps/a.svg" "$TMP/Apex/symbolic/c-symbolic.svg"
+    }
+    check_theme() { bash "$APEX_ROOT/desktop/icons/check-theme.sh" "$TMP/Apex"; }
+    theme_fake
+    check_true "check-theme.sh passes a good theme" check_theme
+    theme_fake && sed -i 's/^Inherits=.*/Inherits=hicolor/' "$TMP/Apex/index.theme"
+    check_false "check-theme.sh fails without Adwaita in Inherits" check_theme
+    theme_fake && sed -i 's/^Directories=.*/Directories=symbolic/' "$TMP/Apex/index.theme"
+    check_false "check-theme.sh fails on icons in an unlisted directory" check_theme
+    theme_fake && sed -i '/^\[symbolic\]/,$ s/^Size=.*/Size=big/' "$TMP/Apex/index.theme"
+    check_false "check-theme.sh fails on a Size that is not an integer" check_theme
+    theme_fake && printf '<svg>\n' >"$TMP/Apex/scalable/apps/a.svg"
+    check_false "check-theme.sh fails on an SVG that does not parse" check_theme
+    theme_fake && ln -s gone.svg "$TMP/Apex/scalable/apps/d.svg"
+    check_false "check-theme.sh fails on a dangling link" check_theme
+    theme_fake && sed -i 's/fill="#000"/fill="none" stroke="#000"/' "$TMP/Apex/symbolic/c-symbolic.svg"
+    check_false "check-theme.sh fails on a symbolic icon with a stroke" check_theme
+    theme_fake && ln -s a.svg "$TMP/Apex/scalable/apps/e-symbolic.svg"
+    check_false "check-theme.sh fails on a symbolic icon outside symbolic/" check_theme
+    theme_fake && sed -i 's/fill="#000"/style="fill:#000;stroke-linecap:round;-inkscape-stroke:none"/' "$TMP/Apex/symbolic/c-symbolic.svg"
+    check_true "check-theme.sh passes Inkscape's stroke-to-path output" check_theme
+    theme_fake && sed -i 's/fill="#000"/style="fill:#000;stroke:#000"/' "$TMP/Apex/symbolic/c-symbolic.svg"
+    check_false "check-theme.sh fails on a stroke in a style attribute" check_theme
+fi
 
 # --- .gitignore: biometric data never gets tracked --------------------------------------
 for f in a.pgm B.PGM x/print.Variant rec.ioctl x/y/rec.UMOCKDEV cap.pcap cap.PcapNG var/lib/fprint/u/1; do
