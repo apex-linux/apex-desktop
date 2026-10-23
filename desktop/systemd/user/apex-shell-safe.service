@@ -14,7 +14,7 @@ ConditionPathExists=%t/apex-shell-starting
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/gsettings set io.github.sekirokenjii.Apex.Desktop layer-enabled false
+ExecStart=/usr/bin/gsettings set io.github.apex_linux.Apex.Desktop layer-enabled false
 # apex-session-agent offers to turn the layer back on while this marker exists.
 StateDirectory=apex
 ExecStartPost=/usr/bin/touch %S/apex/shell-guard-tripped

@@ -2,7 +2,7 @@
 
 The Apex desktop sources ([ADR 0014](../docs/adr/0014-engine-level-desktop.md),
 [ARCHITECTURE 7.4](../docs/ARCHITECTURE.md#74-desktop-layer),
-[design/SPEC.md](../design/SPEC.md)).
+[docs/DESIGN.md](../docs/DESIGN.md)).
 
 | Directory | Ships in | Licence |
 |---|---|---|
@@ -27,7 +27,7 @@ directory with `git archive` and unpacks it at the top of Fedora's gnome-shell t
 | `js/ui/apex/fault/feature.js` | the fault-injection feature: loaded only when `APEX_SHELL_TEST_FAULT` names a phase, it fails in that phase (below) |
 | `data/theme/apex/_apex-tokens.scss` | the design tokens as SCSS variables, imported after upstream's `_colors` |
 | `data/theme/apex/_apex.scss` | the Apex sheet, imported last by the light and dark entry files |
-| `data/theme/apex/_top-bar.scss` | the top bar ([SPEC 3.4](../design/SPEC.md)) over upstream's panel, in the user session and the overview. Its text sizes are in pt (`apex-text-size`), so Large Text grows the text and nothing else: the bar, the pills and the glyphs keep SPEC's px sizes, where upstream sizes the bar in em. The unread-notification dot is `$apex_bar_fg` until S1b brings the wallpaper SPEC's accent dot was drawn over; over Fedora's wallpaper the light bar hides an accent dot. G2 asserts both ([tests/shots](../tests/shots/README.md)) |
+| `data/theme/apex/_top-bar.scss` | the top bar over upstream's panel, in the user session and the overview. Its text sizes are in pt (`apex-text-size`), so Large Text grows the text and nothing else: the bar, the pills and the glyphs keep SPEC's px sizes, where upstream sizes the bar in em. The unread-notification dot is `$apex_bar_fg` until S1b brings the wallpaper SPEC's accent dot was drawn over; over Fedora's wallpaper the light bar hides an accent dot. G2 asserts both ([tests/shots](../tests/shots/README.md)) |
 | `data/theme/apex/diamond-{light,dark}.svg` | the Apex diamond in the Activities pill, stroked in each variant's `$apex_bar_fg` |
 | `data/theme/apex/_apex-structure.scss` | Apex actors' geometry for the high-contrast sheet |
 | `data/theme/apex/meson.build` | adds the partials to upstream's `theme_sources`, so an edit recompiles the sheets |
@@ -89,7 +89,7 @@ systemctl --user daemon-reload
 # log out and in: the shell aborts 5 s after the layer's enable; the next login is stock
 rm ~/.config/systemd/user/org.gnome.Shell@.service.d/90-fault.conf
 systemctl --user daemon-reload
-gsettings set io.github.sekirokenjii.Apex.Desktop layer-enabled true
+gsettings set io.github.apex_linux.Apex.Desktop layer-enabled true
 ```
 
 ### The dev loop
@@ -181,7 +181,7 @@ Limits:
   the shell, so its shutdown handlers run while its bus is still up. A nested shell
   that dies within 60 s of its start leaves the marker, and a session shell failure
   after that trips the guard
-  (`gsettings set io.github.sekirokenjii.Apex.Desktop layer-enabled true`).
+  (`gsettings set io.github.apex_linux.Apex.Desktop layer-enabled true`).
 
 #### C: `just shell-c`
 
@@ -211,13 +211,13 @@ committed there, applied as a commit to the builder VM's work tree, and written 
 
 ## `schemas/`
 
-`io.github.sekirokenjii.Apex.Desktop` holds only keys with no upstream home
-(SPEC 6.2). S1a ships `layer-enabled` and `disabled-features`; S1b adds the rest and
+`io.github.apex_linux.Apex.Desktop` holds only keys with no upstream home
+([docs/DESIGN.md](../docs/DESIGN.md#settings-contract)). S1a ships `layer-enabled` and `disabled-features`; S1b adds the rest and
 the `.Keybindings` child.
 
 ```bash
-gsettings set io.github.sekirokenjii.Apex.Desktop layer-enabled true   # after the crash guard turned it off
-gsettings set io.github.sekirokenjii.Apex.Desktop disabled-features "['glass']"
+gsettings set io.github.apex_linux.Apex.Desktop layer-enabled true   # after the crash guard turned it off
+gsettings set io.github.apex_linux.Apex.Desktop disabled-features "['glass']"
 ```
 
 ## `systemd/`

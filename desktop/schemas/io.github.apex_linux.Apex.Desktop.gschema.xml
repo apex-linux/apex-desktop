@@ -2,7 +2,7 @@
 <!-- SPDX-License-Identifier: GPL-3.0-or-later -->
 <!-- Only keys with no upstream home. Without this schema the shell runs in safe mode. -->
 <schemalist>
-  <schema id="io.github.sekirokenjii.Apex.Desktop" path="/io/github/sekirokenjii/apex/desktop/">
+  <schema id="io.github.apex_linux.Apex.Desktop" path="/io/github/apex_linux/apex/desktop/">
     <key name="layer-enabled" type="b">
       <default>true</default>
       <summary>Run the Apex desktop layer</summary>
