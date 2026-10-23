@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<!DOCTYPE wallpapers SYSTEM "gnome-wp-list.dtd">
+<wallpapers>
+  <wallpaper deleted="false">
+    <name>Apex Facets</name>
+    <filename>/usr/share/backgrounds/apex/apex-facets-light.png</filename>
+    <filename-dark>/usr/share/backgrounds/apex/apex-facets-dark.png</filename-dark>
+    <options>zoom</options>
+    <shade_type>solid</shade_type>
+    <pcolor>#e8ebf0</pcolor>
+    <scolor>#0f1115</scolor>
+  </wallpaper>
+</wallpapers>
