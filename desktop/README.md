@@ -89,7 +89,7 @@ systemctl --user daemon-reload
 # log out and in: the shell aborts 5 s after the layer's enable; the next login is stock
 rm ~/.config/systemd/user/org.gnome.Shell@.service.d/90-fault.conf
 systemctl --user daemon-reload
-gsettings set io.github.sekirokenjii.Apex.Desktop layer-enabled true
+gsettings set io.github.apex_linux.Apex.Desktop layer-enabled true
 ```
 
 ### The dev loop
@@ -181,7 +181,7 @@ Limits:
   the shell, so its shutdown handlers run while its bus is still up. A nested shell
   that dies within 60 s of its start leaves the marker, and a session shell failure
   after that trips the guard
-  (`gsettings set io.github.sekirokenjii.Apex.Desktop layer-enabled true`).
+  (`gsettings set io.github.apex_linux.Apex.Desktop layer-enabled true`).
 
 #### C: `just shell-c`
 
@@ -211,13 +211,13 @@ committed there, applied as a commit to the builder VM's work tree, and written 
 
 ## `schemas/`
 
-`io.github.sekirokenjii.Apex.Desktop` holds only keys with no upstream home
+`io.github.apex_linux.Apex.Desktop` holds only keys with no upstream home
 ([docs/DESIGN.md](../docs/DESIGN.md#settings-contract)). S1a ships `layer-enabled` and `disabled-features`; S1b adds the rest and
 the `.Keybindings` child.
 
 ```bash
-gsettings set io.github.sekirokenjii.Apex.Desktop layer-enabled true   # after the crash guard turned it off
-gsettings set io.github.sekirokenjii.Apex.Desktop disabled-features "['glass']"
+gsettings set io.github.apex_linux.Apex.Desktop layer-enabled true   # after the crash guard turned it off
+gsettings set io.github.apex_linux.Apex.Desktop disabled-features "['glass']"
 ```
 
 ## `systemd/`

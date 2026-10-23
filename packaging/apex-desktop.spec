@@ -11,7 +11,7 @@ Release:        0.%{commitdate}.git%{shortcommit}%{?dist}
 Summary:        Apex desktop data: the Apex GSettings schema, the shell crash guard and the wallpapers
 
 License:        GPL-3.0-or-later
-URL:            https://github.com/SekiroKenjii/apex-fedora
+URL:            https://github.com/apex-linux/apex-desktop
 Source0:        %{name}-%{version}.tar.gz
 
 BuildArch:      noarch
@@ -23,7 +23,7 @@ BuildRequires:  systemd-rpm-macros
 Requires:       /usr/bin/gsettings
 
 %description
-Data files of the Apex desktop. This build ships the io.github.sekirokenjii.Apex.Desktop
+Data files of the Apex desktop. This build ships the io.github.apex_linux.Apex.Desktop
 GSettings schema: layer-enabled and disabled-features, the switches of the Apex layer
 in the rebuilt gnome-shell. The layer treats a missing schema as safe mode. It also
 ships the crash guard: when GNOME Shell fails within 60 seconds of the layer's enable,
@@ -36,8 +36,8 @@ Apex Facets wallpapers ship too.
 %build
 
 %install
-install -Dm0644 desktop/schemas/io.github.sekirokenjii.Apex.Desktop.gschema.xml \
-    %{buildroot}%{_datadir}/glib-2.0/schemas/io.github.sekirokenjii.Apex.Desktop.gschema.xml
+install -Dm0644 desktop/schemas/io.github.apex_linux.Apex.Desktop.gschema.xml \
+    %{buildroot}%{_datadir}/glib-2.0/schemas/io.github.apex_linux.Apex.Desktop.gschema.xml
 install -Dm0644 desktop/systemd/user/apex-shell-safe.service \
     %{buildroot}%{_userunitdir}/apex-shell-safe.service
 install -Dm0644 'desktop/systemd/user/org.gnome.Shell@.service.d/50-apex.conf' \
@@ -52,7 +52,7 @@ glib-compile-schemas --strict --dry-run %{buildroot}%{_datadir}/glib-2.0/schemas
 
 %files
 %license LICENSE
-%{_datadir}/glib-2.0/schemas/io.github.sekirokenjii.Apex.Desktop.gschema.xml
+%{_datadir}/glib-2.0/schemas/io.github.apex_linux.Apex.Desktop.gschema.xml
 %{_userunitdir}/apex-shell-safe.service
 # gnome-shell ships no drop-in directory for its unit, so this package owns it.
 %dir %{_userunitdir}/org.gnome.Shell@.service.d
