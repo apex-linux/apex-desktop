@@ -115,6 +115,30 @@ if command -v xmllint >/dev/null 2>&1; then
     check_true "check-theme.sh passes Inkscape's stroke-to-path output" check_theme
     theme_fake && sed -i 's/fill="#000"/style="fill:#000;stroke:#000"/' "$TMP/Apex/symbolic/c-symbolic.svg"
     check_false "check-theme.sh fails on a stroke in a style attribute" check_theme
+    theme_fake && sed -i 's/fill="#000"/fill="#000" stroke="none" style="stroke:none"/' "$TMP/Apex/symbolic/c-symbolic.svg"
+    check_true "check-theme.sh passes a stroke of none" check_theme
+    mkdir -p "$TMP/src"
+    printf '<svg xmlns="http://www.w3.org/2000/svg"><path d="M0 0h1" stroke="#000" stroke-opacity=".35"/></svg>\n' >"$TMP/src/c.svg"
+    check_opacity() { bash "$APEX_ROOT/desktop/icons/check-theme.sh" "$TMP/Apex" "$TMP/src"; }
+    theme_fake && sed -i 's/fill="#000"/style="fill:#000;fill-opacity:0.35"/' "$TMP/Apex/symbolic/c-symbolic.svg"
+    check_true "check-theme.sh passes a stroke-opacity that became a fill-opacity" check_opacity
+    theme_fake
+    check_false "check-theme.sh fails when a stroke-opacity is lost" check_opacity
+    theme_fake && rm "$TMP/Apex/symbolic/c-symbolic.svg"
+    check_false "check-theme.sh fails when a source has no symbolic output" check_opacity
+fi
+
+# --- fill-strokes.sh ------------------------------------------------------------------------
+printf '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"/>\n' >"$TMP/big.svg"
+check "fill-strokes.sh refuses a glyph off the 16 px grid" 1 \
+    "$(rc_of bash "$APEX_ROOT/desktop/icons/fill-strokes.sh" "$TMP/big.svg" "$TMP/big-symbolic.svg")"
+if command -v inkscape >/dev/null 2>&1; then
+    printf '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><g stroke="#000" stroke-width="1.75" fill="none"><g><path d="M2 8h12"/></g></g></svg>\n' >"$TMP/g.svg"
+    bash "$APEX_ROOT/desktop/icons/fill-strokes.sh" "$TMP/g.svg" "$TMP/g-symbolic.svg" >/dev/null 2>&1 || true
+    check_true "fill-strokes.sh fills the strokes of a glyph nested two groups deep" \
+        grep -Eq 'd="[Mm]' "$TMP/g-symbolic.svg"
+    check_false "fill-strokes.sh leaves no stroke in a glyph nested two groups deep" \
+        grep -Eq '(^|[^-[:alnum:]])stroke[[:space:]]*(=[[:space:]]*"|:)[[:space:]]*#' "$TMP/g-symbolic.svg"
 fi
 
 # --- .gitignore: biometric data never gets tracked --------------------------------------
