@@ -109,6 +109,12 @@ if command -v xmllint >/dev/null 2>&1; then
     check_false "check-theme.sh fails on a dangling link" check_theme
     theme_fake && sed -i 's/fill="#000"/fill="none" stroke="#000"/' "$TMP/Apex/symbolic/c-symbolic.svg"
     check_false "check-theme.sh fails on a symbolic icon with a stroke" check_theme
+    theme_fake && ln -s a.svg "$TMP/Apex/scalable/apps/e-symbolic.svg"
+    check_false "check-theme.sh fails on a symbolic icon outside symbolic/" check_theme
+    theme_fake && sed -i 's/fill="#000"/style="fill:#000;stroke-linecap:round;-inkscape-stroke:none"/' "$TMP/Apex/symbolic/c-symbolic.svg"
+    check_true "check-theme.sh passes Inkscape's stroke-to-path output" check_theme
+    theme_fake && sed -i 's/fill="#000"/style="fill:#000;stroke:#000"/' "$TMP/Apex/symbolic/c-symbolic.svg"
+    check_false "check-theme.sh fails on a stroke in a style attribute" check_theme
 fi
 
 # --- .gitignore: biometric data never gets tracked --------------------------------------

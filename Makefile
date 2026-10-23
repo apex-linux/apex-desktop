@@ -62,13 +62,13 @@ check-data:
 		cp desktop/icons/index.theme '$(CHECK_DIR)/Apex/'; \
 		echo "xmllint --noout --nonet desktop/icons/symbolic/*.svg"; \
 		xmllint --noout --nonet desktop/icons/symbolic/*.svg; \
-		if command -v picosvg >/dev/null 2>&1; then \
+		if command -v inkscape >/dev/null 2>&1; then \
 			for f in desktop/icons/symbolic/*.svg; do \
 				n=$${f##*/}; \
-				picosvg "$$f" >"$(CHECK_DIR)/Apex/symbolic/$${n%.svg}-symbolic.svg" || exit 1; \
+				inkscape --actions="select-all:all;selection-ungroup;select-all:all;selection-ungroup;select-all:all;object-stroke-to-path;export-plain-svg;export-filename:$(CHECK_DIR)/Apex/symbolic/$${n%.svg}-symbolic.svg;export-do" "$$f" || exit 1; \
 			done; \
 		else \
-			echo "skip: picosvg not found (Fedora: python3-picosvg); the theme has no symbolic icons"; \
+			echo "skip: inkscape not found (Fedora: inkscape); the theme has no symbolic icons"; \
 		fi; \
 		echo "bash desktop/icons/check-theme.sh $(CHECK_DIR)/Apex"; \
 		bash desktop/icons/check-theme.sh '$(CHECK_DIR)/Apex'; \

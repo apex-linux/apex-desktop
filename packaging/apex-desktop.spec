@@ -23,7 +23,7 @@ Source1:        Colloid-icon-theme-%{colloid_commit}.tar
 BuildArch:      noarch
 
 BuildRequires:  /usr/bin/glib-compile-schemas
-BuildRequires:  /usr/bin/picosvg
+BuildRequires:  /usr/bin/inkscape
 BuildRequires:  /usr/bin/rsvg-convert
 BuildRequires:  /usr/bin/xmllint
 BuildRequires:  systemd-rpm-macros
@@ -60,9 +60,10 @@ cp -p Colloid-icon-theme-%{colloid_commit}/LICENSE LICENSE.Colloid
 rsvg-convert -w 3840 -h 2400 -o apex-facets-light.png desktop/wallpapers/apex-facets-light.svg
 rsvg-convert -w 3840 -h 2400 -o apex-facets-dark.png desktop/wallpapers/apex-facets-dark.svg
 mkdir symbolic
+# Ungrouping moves a group's stroke onto its children, so stroke-to-path reaches every stroke.
 for f in desktop/icons/symbolic/*.svg; do
     n=${f##*/}
-    picosvg "$f" >"symbolic/${n%.svg}-symbolic.svg"
+    inkscape --actions="select-all:all;selection-ungroup;select-all:all;selection-ungroup;select-all:all;object-stroke-to-path;export-plain-svg;export-filename:$PWD/symbolic/${n%.svg}-symbolic.svg;export-do" "$f"
 done
 
 %install
@@ -93,8 +94,8 @@ install -dm0755 %{buildroot}%{_datadir}/icons/Apex/scalable/apps
 cp -a Colloid-icon-theme-%{colloid_commit}/src/apps/scalable/. \
     Colloid-icon-theme-%{colloid_commit}/links/apps/scalable/. \
     %{buildroot}%{_datadir}/icons/Apex/scalable/apps/
-# Colloid links a few names to icons it does not ship.
-find %{buildroot}%{_datadir}/icons/Apex -xtype l -print -delete
+# Colloid links a few names to icons it does not ship, and one symbolic name to a colour icon.
+find %{buildroot}%{_datadir}/icons/Apex/scalable/apps \( -xtype l -o -name '*-symbolic.svg' \) -print -delete
 
 %check
 glib-compile-schemas --strict --dry-run %{buildroot}%{_datadir}/glib-2.0/schemas
@@ -123,7 +124,7 @@ bash desktop/icons/check-theme.sh %{buildroot}%{_datadir}/icons/Apex
 %changelog
 * Fri Oct 23 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
 - The Apex icon theme: Colloid's app icons from a pinned commit, Apex Symbolic glyphs
-  turned into fills with picosvg, Inherits=Adwaita,hicolor
+  turned into fills with Inkscape, Inherits=Adwaita,hicolor
 - icon-theme='Apex' in the vendor override
 
 * Fri Oct 23 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0

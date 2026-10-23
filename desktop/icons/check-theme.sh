@@ -75,9 +75,13 @@ main() {
 
     find "$theme" -name '*.svg' ! -xtype l -print0 | xargs -0 -r -n 500 xmllint --noout --nonet || fail "an SVG does not parse"
 
+    local misplaced
+    misplaced=$(cd "$theme" && find . -name '*-symbolic.svg' ! -path './symbolic/*')
+    [[ -z $misplaced ]] || fail "symbolic icons outside symbolic/, where they would shadow Adwaita's: $misplaced"
+
     local stroked
     # GTK and St recolour fills only, so a stroke in a symbolic icon keeps its drawn colour.
-    stroked=$(find "$theme" -name '*-symbolic.svg' -print0 | xargs -0 -r grep -El 'stroke[[:space:]]*[=:]' || true)
+    stroked=$(find "$theme" -name '*-symbolic.svg' -print0 | xargs -0 -r grep -El '(^|[^-[:alnum:]])stroke[[:space:]]*[=:]' || true)
     [[ -z $stroked ]] || fail "symbolic icons with a stroke: $stroked"
 
     ((FAILED == 0)) || exit 1

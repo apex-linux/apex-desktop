@@ -89,8 +89,8 @@ The `Apex` icon theme, in `/usr/share/icons/Apex/` (DESIGN.md, "Visual principle
 
 | Directory | What it holds |
 |---|---|
-| `scalable/apps/` | Colloid's full-colour app icons and its alias links, from the commit `colloid_commit` in the spec pins. `make rpm` fetches that commit with git and archives only `COLLOID_PATHS`; `%prep` checks the archive against `colloid_sha256` |
-| `symbolic/` | Apex Symbolic: each `icons/symbolic/NAME.svg` becomes `NAME-symbolic.svg`, its strokes turned into fills by `picosvg`, because GTK and St recolour fills only |
+| `scalable/apps/` | Colloid's full-colour app icons and its alias links, less the one alias with a `-symbolic` name, from the commit `colloid_commit` in the spec pins. `make rpm` fetches that commit with git and archives only `COLLOID_PATHS`; `%prep` checks the archive against `colloid_sha256` |
+| `symbolic/` | Apex Symbolic: each `icons/symbolic/NAME.svg` becomes `NAME-symbolic.svg`, its strokes turned into fills by Inkscape's stroke-to-path, after ungrouping, because GTK and St recolour fills only |
 
 `index.theme` inherits `Adwaita,hicolor`, so every symbolic icon Apex Symbolic does not
 draw yet, and every app icon Colloid lacks, comes from Adwaita and then hicolor. Folders,
@@ -98,11 +98,12 @@ places and mimetypes are Adwaita's until S7. Glyphs are drawn on a 16 px grid wi
 keyline, a 1.75 px stroke, and round caps and joins; `apex-test.svg` proves the build
 step until the set from board 31 lands.
 
-`check-theme.sh` fails when `index.theme` lacks a key, a group or `Inherits=Adwaita,hicolor`,
-when a directory with icons is not listed, when an SVG does not parse, when a link is
-absolute or dangling, and when a symbolic icon has a stroke. The spec's `%check` runs it on
-the installed theme; `make check-data` runs it on a theme built from `icons/`. GTK's icon
-cache is left to the image build and to gtk-update-icon-cache's file trigger.
+`check-theme.sh` fails when `index.theme` lacks a key, a group or
+`Inherits=Adwaita,hicolor`, when a directory with icons is not listed, when an SVG does
+not parse, when a link is absolute or dangling, and when a symbolic icon has a stroke or
+sits outside `symbolic/`. The spec's `%check` runs it on the installed theme; `make
+check-data` runs it on a theme built from `icons/`. GTK's icon cache is left to the image
+build and to gtk-update-icon-cache's file trigger.
 
 To move the Colloid pin, set `colloid_commit` and run `make rpm`: `%prep` fails, and
 `sha256sum target/rpm/SOURCES/Colloid-icon-theme-*.tar` gives the new `colloid_sha256`.

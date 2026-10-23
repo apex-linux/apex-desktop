@@ -35,7 +35,7 @@ just rpm          # the RPM from git HEAD, on Fedora 45
 ```
 
 `make check-data` runs xmllint, `glib-compile-schemas --strict`, `dconf compile` and the
-icon theme check (`picosvg` for the symbolic icons) when they are installed. `make rpm`
+icon theme check (Inkscape for the symbolic icons) when they are installed. `make rpm`
 fetches Colloid from github.com. CI also builds the RPM in Fedora 45. The comment guard is
 `apex-lint`, from [apex-ci](https://github.com/apex-linux/apex-ci):
 `cargo install --locked --git https://github.com/apex-linux/apex-ci apex-lint`.
