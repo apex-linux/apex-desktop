@@ -10,6 +10,8 @@ RPM, which carries no code:
   `distro` database for the Ptyxis profile;
 - the Open Spotlight row of Settings > Keyboard, the `ss03` feature of Adwaita Sans and
   the Apex Facets wallpapers;
+- the `Apex` icon theme: Colloid's app icons from a pinned commit, and the Apex Symbolic
+  glyphs with their strokes turned into fills;
 - the shell's crash guard, as user units.
 
 [desktop/README.md](desktop/README.md) describes each directory. The layer itself lives
@@ -32,11 +34,14 @@ just rpm          # the RPM from git HEAD, on Fedora 45
 .github/scripts/rpms.sh key    # the RPM's content key for git HEAD
 ```
 
-`make check-data` runs xmllint, `glib-compile-schemas --strict` and `dconf compile` when
-they are installed. CI also builds the RPM in Fedora 45. The comment guard is
+`make check-data` runs xmllint, `glib-compile-schemas --strict`, `dconf compile` and the
+icon theme check (`picosvg` for the symbolic icons) when they are installed. `make rpm`
+fetches Colloid from github.com. CI also builds the RPM in Fedora 45. The comment guard is
 `apex-lint`, from [apex-ci](https://github.com/apex-linux/apex-ci):
 `cargo install --locked --git https://github.com/apex-linux/apex-ci apex-lint`.
 
 ## License
 
-GPL-3.0-or-later (`LICENSE`).
+GPL-3.0-or-later (`LICENSE`). The Colloid app icons in the RPM are GPL-3.0-only, from
+[Colloid-icon-theme](https://github.com/vinceliuice/Colloid-icon-theme)
+(`LICENSE.Colloid`).

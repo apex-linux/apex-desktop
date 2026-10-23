@@ -12,8 +12,9 @@ The Apex desktop sources ([ADR 0014](https://github.com/apex-linux/apex/blob/mai
 | `fontconfig/` | `apex-desktop`: `ss03` for Adwaita Sans | GPL-3.0-or-later |
 | `dconf/` | `apex-desktop`: defaults no override can express, in dconf's `distro` database | GPL-3.0-or-later |
 | `systemd/` | `apex-desktop`: the shell's crash guard, as user units | GPL-3.0-or-later |
+| `icons/` | `apex-desktop`: the `Apex` icon theme, with Colloid's app icons fetched at build | GPL-3.0-or-later; Colloid GPL-3.0-only |
 
-S1b adds the icon theme and Plymouth directories to `apex-desktop`.
+S1b adds the Plymouth directory to `apex-desktop`.
 
 The Apex layer itself, `desktop/shell/`, ships inside the rebuilt gnome-shell and lives in
 [apex-gnome](https://github.com/apex-linux/apex-gnome), with its own
@@ -37,9 +38,9 @@ gsettings get io.github.apex_linux.Apex.Desktop.Keybindings toggle-spotlight
 the image build, which validates it with `--strict` against every installed schema; G1
 (`image/checks/desktop.sh`) checks it again and fails on a `color-scheme`, because the
 rebuilt shell draws GNOME's `'default'` light. The input-source keys move to
-Super+Alt+Space, so Super+Space is free for Spotlight. `icon-theme='Apex'` arrives
-with the Apex icon theme, whose `Inherits=` reaches Adwaita: a missing theme would
-leave GTK 4 with hicolor alone and no Adwaita symbolic icons.
+Super+Alt+Space, so Super+Space is free for Spotlight. `icon-theme='Apex'` ships in the
+same package as the Apex icon theme, whose `Inherits=` reaches Adwaita: a missing theme
+would leave GTK 4 with hicolor alone and no Adwaita symbolic icons.
 
 ## `dconf/`
 
@@ -81,6 +82,30 @@ covers the laptop's 2880×1800 panel and a 4K monitor, into `/usr/share/backgrou
 `apex-facets.xml` pairs them for the background chooser
 (`/usr/share/gnome-background-properties/`); the override points
 `picture-uri` and `picture-uri-dark` at the same PNGs.
+
+## `icons/`
+
+The `Apex` icon theme, in `/usr/share/icons/Apex/` (DESIGN.md, "Visual principles"):
+
+| Directory | What it holds |
+|---|---|
+| `scalable/apps/` | Colloid's full-colour app icons and its alias links, from the commit `colloid_commit` in the spec pins. `make rpm` fetches that commit with git and archives only `COLLOID_PATHS`; `%prep` checks the archive against `colloid_sha256` |
+| `symbolic/` | Apex Symbolic: each `icons/symbolic/NAME.svg` becomes `NAME-symbolic.svg`, its strokes turned into fills by `picosvg`, because GTK and St recolour fills only |
+
+`index.theme` inherits `Adwaita,hicolor`, so every symbolic icon Apex Symbolic does not
+draw yet, and every app icon Colloid lacks, comes from Adwaita and then hicolor. Folders,
+places and mimetypes are Adwaita's until S7. Glyphs are drawn on a 16 px grid with a 1 px
+keyline, a 1.75 px stroke, and round caps and joins; `apex-test.svg` proves the build
+step until the set from board 31 lands.
+
+`check-theme.sh` fails when `index.theme` lacks a key, a group or `Inherits=Adwaita,hicolor`,
+when a directory with icons is not listed, when an SVG does not parse, when a link is
+absolute or dangling, and when a symbolic icon has a stroke. The spec's `%check` runs it on
+the installed theme; `make check-data` runs it on a theme built from `icons/`. GTK's icon
+cache is left to the image build and to gtk-update-icon-cache's file trigger.
+
+To move the Colloid pin, set `colloid_commit` and run `make rpm`: `%prep` fails, and
+`sha256sum target/rpm/SOURCES/Colloid-icon-theme-*.tar` gives the new `colloid_sha256`.
 
 ## `fontconfig/`
 
