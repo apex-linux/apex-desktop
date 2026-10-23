@@ -229,7 +229,9 @@ gsettings get io.github.apex_linux.Apex.Desktop.Keybindings toggle-spotlight
 the image build, which validates it with `--strict` against every installed schema; G1
 (`image/checks/desktop.sh`) checks it again and fails on a `color-scheme`, because the
 rebuilt shell draws GNOME's `'default'` light. The input-source keys move to
-Super+Alt+Space, so Super+Space is free for Spotlight.
+Super+Alt+Space, so Super+Space is free for Spotlight. `icon-theme='Apex'` arrives
+with the Apex icon theme, whose `Inherits=` reaches Adwaita: a missing theme would
+leave GTK 4 with hicolor alone and no Adwaita symbolic icons.
 
 ## `keybindings/`
 
