@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 #
-# No scriptlets: the image and glib2's file trigger compile the schemas; no unit has [Install].
+# No scriptlets: the image and glib2's file trigger compile the schemas, the image runs
+# dconf update; no unit has [Install].
 
 %{!?commitdate:%global commitdate 0}
 %{!?shortcommit:%global shortcommit unknown}
@@ -22,6 +23,7 @@ BuildRequires:  systemd-rpm-macros
 
 # apex-shell-safe.service runs gsettings.
 Requires:       /usr/bin/gsettings
+Requires:       dconf
 Requires:       fontconfig
 Requires:       gnome-control-center-filesystem
 
@@ -30,7 +32,7 @@ Data files of the Apex desktop. This build ships the io.github.apex_linux.Apex.D
 GSettings schema, with its Keybindings child: the settings of the Apex layer in the
 rebuilt gnome-shell. The layer treats a missing schema as safe mode. It ships Apex's
 vendor defaults for GNOME's own schemas, the Open Spotlight row of Settings > Keyboard,
-and the ss03 feature of Adwaita Sans. It also ships the crash guard: when GNOME Shell
+the ss03 feature of Adwaita Sans, and the default Ptyxis profile. It also ships the crash guard: when GNOME Shell
 fails within 60 seconds of the layer's enable, apex-shell-safe.service sets
 layer-enabled to false for that user. The light and dark Apex Facets wallpapers ship
 as PNGs, paired for GNOME's background chooser.
@@ -52,8 +54,11 @@ install -Dm0644 'desktop/systemd/user/org.gnome.Shell@.service.d/50-apex.conf' \
     '%{buildroot}%{_userunitdir}/org.gnome.Shell@.service.d/50-apex.conf'
 install -Dm0644 desktop/schemas/90_apex.gschema.override \
     %{buildroot}%{_datadir}/glib-2.0/schemas/90_apex.gschema.override
+install -Dm0644 desktop/dconf/distro.d/50-apex-ptyxis \
+    %{buildroot}%{_sysconfdir}/dconf/db/distro.d/50-apex-ptyxis
 install -Dm0644 desktop/keybindings/60-apex.xml \
     %{buildroot}%{_datadir}/gnome-control-center/keybindings/60-apex.xml
+%config(noreplace) %{_sysconfdir}/dconf/db/distro.d/50-apex-ptyxis
 install -Dm0644 desktop/fontconfig/60-apex-adwaita-sans-ss03.conf \
     %{buildroot}%{_datadir}/fontconfig/conf.avail/60-apex-adwaita-sans-ss03.conf
 install -dm0755 %{buildroot}%{_sysconfdir}/fonts/conf.d
@@ -85,6 +90,9 @@ glib-compile-schemas --strict --dry-run %{buildroot}%{_datadir}/glib-2.0/schemas
 %{_datadir}/gnome-background-properties/apex-facets.xml
 
 %changelog
+* Fri Oct 23 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
+- The Apex Ptyxis profile: the default, with line height 1.21, in dconf's distro database
+
 * Fri Oct 23 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
 - The rest of the Apex schema and its Keybindings child (toggle-spotlight)
 - 90_apex.gschema.override moves here from the image, with the S1b vendor defaults

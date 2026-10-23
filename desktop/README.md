@@ -11,9 +11,10 @@ The Apex desktop sources ([ADR 0014](../docs/adr/0014-engine-level-desktop.md),
 | `keybindings/` | `apex-desktop`: the Apex rows of Settings > Keyboard | GPL-3.0-or-later |
 | `wallpapers/` | `apex-desktop`: Apex Facets, rendered to PNG at build | GPL-3.0-or-later |
 | `fontconfig/` | `apex-desktop`: `ss03` for Adwaita Sans | GPL-3.0-or-later |
+| `dconf/` | `apex-desktop`: defaults no override can express, in dconf's `distro` database | GPL-3.0-or-later |
 | `systemd/` | `apex-desktop`: the shell's crash guard, as user units | GPL-3.0-or-later |
 
-S1b adds the icon theme, Plymouth and Ptyxis directories to `apex-desktop`.
+S1b adds the icon theme and Plymouth directories to `apex-desktop`.
 
 ## `shell/`
 
@@ -232,6 +233,29 @@ rebuilt shell draws GNOME's `'default'` light. The input-source keys move to
 Super+Alt+Space, so Super+Space is free for Spotlight. `icon-theme='Apex'` arrives
 with the Apex icon theme, whose `Inherits=` reaches Adwaita: a missing theme would
 leave GTK 4 with hicolor alone and no Adwaita symbolic icons.
+
+## `dconf/`
+
+Vendor defaults have two homes, and only two:
+
+- `90_apex.gschema.override` holds every default of a fixed-path key.
+- dconf's `distro` database (`/etc/dconf/db/distro.d/`, compiled by `dconf update` in the
+  image build) holds only defaults no override can express: keys of a relocatable
+  schema, which an override cannot reach. Today that is the Ptyxis profile. It never
+  holds a lock (ADR 0011).
+
+`distro.d/50-apex-ptyxis` sets the Apex profile's `label='Apex'` and
+`cell-height-scale=1.21`, DESIGN.md's line height of 1.6. The override makes its fixed
+UUID Ptyxis's `profile-uuids` and `default-profile-uuid`. The font is not set here:
+Ptyxis uses the system monospace font, `monospace-font-name`.
+
+G1 (`image/checks/desktop.sh`) fails when:
+
+- `/etc/dconf/profile/user` does not list `system-db:distro`;
+- the compiled database is missing, or older than a keyfile;
+- a lock ships;
+- a keyfile sets a fixed-path key, or a profile that is not the default;
+- a value is not a valid `org.gnome.Ptyxis.Profile` setting.
 
 ## `keybindings/`
 

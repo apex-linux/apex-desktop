@@ -35,6 +35,11 @@ sort-order=['org.gnome.Calculator.desktop', 'org.gnome.Settings.desktop', 'org.g
 # The shell hides an entry whose app is not installed, such as Bazaar before the preinstall.
 favorite-apps=['org.gnome.Nautilus.desktop', 'org.gnome.Epiphany.desktop', 'org.gnome.Calendar.desktop', 'org.gnome.Music.desktop', 'org.gnome.TextEditor.desktop', 'org.gnome.Ptyxis.desktop', 'io.github.kolunmi.Bazaar.desktop', 'org.gnome.Settings.desktop']
 
+[org.gnome.Ptyxis]
+# The profile's keys are in dconf's distro database: no override reaches a relocatable schema.
+default-profile-uuid='d14b2180d28c41f3a9ee7785f4daa697'
+profile-uuids=['d14b2180d28c41f3a9ee7785f4daa697']
+
 [org.gnome.settings-daemon.plugins.power]
 # The fingerprint sensor is the power key: 'interactive' does nothing on the lock screen.
 power-button-action='interactive'

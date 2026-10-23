@@ -1,0 +1,5 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+# The Apex Ptyxis profile, which 90_apex.gschema.override makes the default.
+[org/gnome/Ptyxis/Profiles/d14b2180d28c41f3a9ee7785f4daa697]
+label='Apex'
+cell-height-scale=1.21
