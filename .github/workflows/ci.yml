@@ -66,7 +66,7 @@ jobs:
 
       - name: bash -n and shellcheck
         run: |
-          files=(.github/scripts/*.sh desktop/icons/check-theme.sh)
+          files=(.github/scripts/*.sh desktop/icons/*.sh)
           for f in "${files[@]}"; do bash -n "$f"; done
           shellcheck -x -P .github/scripts --severity=style "${files[@]}"
 

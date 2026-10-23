@@ -90,18 +90,28 @@ The `Apex` icon theme, in `/usr/share/icons/Apex/` (DESIGN.md, "Visual principle
 | Directory | What it holds |
 |---|---|
 | `scalable/apps/` | Colloid's full-colour app icons and its alias links, less the one alias with a `-symbolic` name, from the commit `colloid_commit` in the spec pins. `make rpm` fetches that commit with git and archives only `COLLOID_PATHS`; `%prep` checks the archive against `colloid_sha256` |
-| `symbolic/` | Apex Symbolic: each `icons/symbolic/NAME.svg` becomes `NAME-symbolic.svg`, its strokes turned into fills by Inkscape's stroke-to-path, after ungrouping, because GTK and St recolour fills only |
+| `symbolic/` | Apex Symbolic: each `icons/symbolic/NAME.svg` becomes `NAME-symbolic.svg`, its strokes turned into fills by `fill-strokes.sh` (Inkscape's stroke-to-path), because GTK and St recolour fills only |
 
 `index.theme` inherits `Adwaita,hicolor`, so every symbolic icon Apex Symbolic does not
 draw yet, and every app icon Colloid lacks, comes from Adwaita and then hicolor. Folders,
 places and mimetypes are Adwaita's until S7. Glyphs are drawn on a 16 px grid with a 1 px
-keyline, a 1.75 px stroke, and round caps and joins; `apex-test.svg` proves the build
-step until the set from board 31 lands.
+keyline, a 1.75 px stroke, and round caps and joins: the 78 glyphs of board 31, named by
+the board's ids. Nine of them (`go-next-arrow`, `apex-desktop`, `auth-fingerprint`,
+`selection-area`, `pointer`, `window`, `briefcase`, `globe`, `dark-mode`) add icons; the
+rest replace Adwaita's symbolic icon of the same name.
+
+`fill-strokes.sh` scales a glyph 100 times before stroke-to-path, because Inkscape offsets
+curves to a fixed tolerance in user units, and the 16-unit canvas made that tolerance a
+visible 0.2 px at `globe`'s cusps; the output keeps the scale in its viewBox. It ungroups
+first, so a group's stroke and transform reach its children, up to two levels of the
+glyph's own groups; a deeper stroke is left for `check-theme.sh` to catch. Fills, evenodd
+cores and opacities pass through, and a `stroke-opacity` becomes a `fill-opacity`.
 
 `check-theme.sh` fails when `index.theme` lacks a key, a group or
 `Inherits=Adwaita,hicolor`, when a directory with icons is not listed, when an SVG does
-not parse, when a link is absolute or dangling, and when a symbolic icon has a stroke or
-sits outside `symbolic/`. The spec's `%check` runs it on the installed theme; `make
+not parse, when a link is absolute or dangling, when a symbolic icon has a stroke that is
+not `none` or sits outside `symbolic/`, and, given the sources, when a glyph's
+`stroke-opacity` did not survive as a fill or opacity. The spec's `%check` runs it on the installed theme; `make
 check-data` runs it on a theme built from `icons/`. GTK's icon cache is left to the image
 build and to gtk-update-icon-cache's file trigger.
 

@@ -60,10 +60,9 @@ cp -p Colloid-icon-theme-%{colloid_commit}/LICENSE LICENSE.Colloid
 rsvg-convert -w 3840 -h 2400 -o apex-facets-light.png desktop/wallpapers/apex-facets-light.svg
 rsvg-convert -w 3840 -h 2400 -o apex-facets-dark.png desktop/wallpapers/apex-facets-dark.svg
 mkdir symbolic
-# Ungrouping moves a group's stroke onto its children, so stroke-to-path reaches every stroke.
 for f in desktop/icons/symbolic/*.svg; do
     n=${f##*/}
-    inkscape --actions="select-all:all;selection-ungroup;select-all:all;selection-ungroup;select-all:all;object-stroke-to-path;export-plain-svg;export-filename:$PWD/symbolic/${n%.svg}-symbolic.svg;export-do" "$f"
+    bash desktop/icons/fill-strokes.sh "$f" "symbolic/${n%.svg}-symbolic.svg"
 done
 
 %install
@@ -99,7 +98,7 @@ find %{buildroot}%{_datadir}/icons/Apex/scalable/apps \( -xtype l -o -name '*-sy
 
 %check
 glib-compile-schemas --strict --dry-run %{buildroot}%{_datadir}/glib-2.0/schemas
-bash desktop/icons/check-theme.sh %{buildroot}%{_datadir}/icons/Apex
+bash desktop/icons/check-theme.sh %{buildroot}%{_datadir}/icons/Apex desktop/icons/symbolic
 
 %files
 %license LICENSE
@@ -122,6 +121,9 @@ bash desktop/icons/check-theme.sh %{buildroot}%{_datadir}/icons/Apex
 %{_datadir}/icons/Apex/
 
 %changelog
+* Fri Oct 23 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
+- The 78 Apex Symbolic glyphs of board 31, filled by fill-strokes.sh at 100x scale
+
 * Fri Oct 23 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
 - The Apex icon theme: Colloid's app icons from a pinned commit, Apex Symbolic glyphs
   turned into fills with Inkscape, Inherits=Adwaita,hicolor
