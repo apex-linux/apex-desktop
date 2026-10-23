@@ -7,11 +7,13 @@ The Apex desktop sources ([ADR 0014](../docs/adr/0014-engine-level-desktop.md),
 | Directory | Ships in | Licence |
 |---|---|---|
 | `shell/` | the rebuilt `gnome-shell` package, as `Source1` ([packaging/pkgs/gnome-shell](../packaging/pkgs/gnome-shell/README.md)) | GPL-2.0-or-later, gnome-shell's licence, so any piece can be offered upstream |
-| `schemas/` | `apex-desktop` ([packaging/apex-desktop.spec](../packaging/apex-desktop.spec)) | GPL-3.0-or-later |
+| `schemas/` | `apex-desktop` ([packaging/apex-desktop.spec](../packaging/apex-desktop.spec)): the Apex schema and the vendor override | GPL-3.0-or-later |
+| `keybindings/` | `apex-desktop`: the Apex rows of Settings > Keyboard | GPL-3.0-or-later |
+| `wallpapers/` | `apex-desktop`: Apex Facets, rendered to PNG at build | GPL-3.0-or-later |
+| `fontconfig/` | `apex-desktop`: `ss03` for Adwaita Sans | GPL-3.0-or-later |
 | `systemd/` | `apex-desktop`: the shell's crash guard, as user units | GPL-3.0-or-later |
 
-S1b adds the icon theme, Plymouth, wallpaper, fontconfig and Ptyxis directories to
-`apex-desktop`.
+S1b adds the icon theme, Plymouth and Ptyxis directories to `apex-desktop`.
 
 ## `shell/`
 
@@ -211,14 +213,45 @@ committed there, applied as a commit to the builder VM's work tree, and written 
 
 ## `schemas/`
 
-`io.github.apex_linux.Apex.Desktop` holds only keys with no upstream home
-([docs/DESIGN.md](../docs/DESIGN.md#settings-contract)). S1a ships `layer-enabled` and `disabled-features`; S1b adds the rest and
-the `.Keybindings` child.
+`io.github.apex_linux.Apex.Desktop` holds only keys with no upstream home, with the
+types and defaults of [docs/DESIGN.md](../docs/DESIGN.md#settings-contract), and the
+`.Keybindings` child with `toggle-spotlight`. A key's reader may land in a later slice:
+the schema is the contract.
 
 ```bash
 gsettings set io.github.apex_linux.Apex.Desktop layer-enabled true   # after the crash guard turned it off
 gsettings set io.github.apex_linux.Apex.Desktop disabled-features "['glass']"
+gsettings get io.github.apex_linux.Apex.Desktop.Keybindings toggle-spotlight
 ```
+
+`90_apex.gschema.override` holds the vendor defaults of GNOME's own schemas (DESIGN.md,
+"Vendor defaults"), with no locks. It is installed next to the schema and compiled by
+the image build, which validates it with `--strict` against every installed schema; G1
+(`image/checks/desktop.sh`) checks it again and fails on a `color-scheme`, because the
+rebuilt shell draws GNOME's `'default'` light. The input-source keys move to
+Super+Alt+Space, so Super+Space is free for Spotlight. `icon-theme='Apex'` arrives
+with the Apex icon theme, whose `Inherits=` reaches Adwaita: a missing theme would
+leave GTK 4 with hicolor alone and no Adwaita symbolic icons.
+
+## `keybindings/`
+
+`60-apex.xml` goes to `/usr/share/gnome-control-center/keybindings/`, so Settings >
+Keyboard lists and edits "Open Spotlight" under Launchers.
+
+## `wallpapers/`
+
+The spec renders `apex-facets-{light,dark}.svg` with `rsvg-convert` at 3840×2400, which
+covers the laptop's 2880×1800 panel and a 4K monitor, into `/usr/share/backgrounds/apex/`.
+`apex-facets.xml` pairs them for the background chooser
+(`/usr/share/gnome-background-properties/`); the override points
+`picture-uri` and `picture-uri-dark` at the same PNGs.
+
+## `fontconfig/`
+
+`60-apex-adwaita-sans-ss03.conf` appends `ss03` to Adwaita Sans's font features, installed
+in `/usr/share/fontconfig/conf.avail/` and linked from `/etc/fonts/conf.d/`. The fonts
+themselves, `adwaita-sans-fonts` and `jetbrains-mono-fonts`, are in
+`image/packages/gnome.txt`.
 
 ## `systemd/`
 
