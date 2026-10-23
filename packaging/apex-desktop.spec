@@ -8,7 +8,7 @@
 Name:           apex-desktop
 Version:        0.1.0
 Release:        0.%{commitdate}.git%{shortcommit}%{?dist}
-Summary:        Apex desktop data: the Apex GSettings schema, the shell crash guard and the wallpapers
+Summary:        Apex desktop data: the Apex GSettings schema, vendor defaults, the shell crash guard and the wallpapers
 
 License:        GPL-3.0-or-later
 URL:            https://github.com/apex-linux/apex-desktop
@@ -17,23 +17,31 @@ Source0:        %{name}-%{version}.tar.gz
 BuildArch:      noarch
 
 BuildRequires:  /usr/bin/glib-compile-schemas
+BuildRequires:  /usr/bin/rsvg-convert
 BuildRequires:  systemd-rpm-macros
 
 # apex-shell-safe.service runs gsettings.
 Requires:       /usr/bin/gsettings
+Requires:       fontconfig
+Requires:       gnome-control-center-filesystem
 
 %description
 Data files of the Apex desktop. This build ships the io.github.apex_linux.Apex.Desktop
-GSettings schema: layer-enabled and disabled-features, the switches of the Apex layer
-in the rebuilt gnome-shell. The layer treats a missing schema as safe mode. It also
-ships the crash guard: when GNOME Shell fails within 60 seconds of the layer's enable,
-apex-shell-safe.service sets layer-enabled to false for that user. The light and dark
-Apex Facets wallpapers ship too.
+GSettings schema, with its Keybindings child: the settings of the Apex layer in the
+rebuilt gnome-shell. The layer treats a missing schema as safe mode. It ships Apex's
+vendor defaults for GNOME's own schemas, the Open Spotlight row of Settings > Keyboard,
+and the ss03 feature of Adwaita Sans. It also ships the crash guard: when GNOME Shell
+fails within 60 seconds of the layer's enable, apex-shell-safe.service sets
+layer-enabled to false for that user. The light and dark Apex Facets wallpapers ship
+as PNGs, paired for GNOME's background chooser.
 
 %prep
 %autosetup -n %{name}-%{version}
 
 %build
+# 3840x2400 covers the laptop's 2880x1800 panel and a 4K monitor.
+rsvg-convert -w 3840 -h 2400 -o apex-facets-light.png desktop/wallpapers/apex-facets-light.svg
+rsvg-convert -w 3840 -h 2400 -o apex-facets-dark.png desktop/wallpapers/apex-facets-dark.svg
 
 %install
 install -Dm0644 desktop/schemas/io.github.apex_linux.Apex.Desktop.gschema.xml \
@@ -42,10 +50,19 @@ install -Dm0644 desktop/systemd/user/apex-shell-safe.service \
     %{buildroot}%{_userunitdir}/apex-shell-safe.service
 install -Dm0644 'desktop/systemd/user/org.gnome.Shell@.service.d/50-apex.conf' \
     '%{buildroot}%{_userunitdir}/org.gnome.Shell@.service.d/50-apex.conf'
-install -Dm0644 desktop/wallpapers/apex-facets-light.svg \
-    %{buildroot}%{_datadir}/backgrounds/apex/apex-facets-light.svg
-install -Dm0644 desktop/wallpapers/apex-facets-dark.svg \
-    %{buildroot}%{_datadir}/backgrounds/apex/apex-facets-dark.svg
+install -Dm0644 desktop/schemas/90_apex.gschema.override \
+    %{buildroot}%{_datadir}/glib-2.0/schemas/90_apex.gschema.override
+install -Dm0644 desktop/keybindings/60-apex.xml \
+    %{buildroot}%{_datadir}/gnome-control-center/keybindings/60-apex.xml
+install -Dm0644 desktop/fontconfig/60-apex-adwaita-sans-ss03.conf \
+    %{buildroot}%{_datadir}/fontconfig/conf.avail/60-apex-adwaita-sans-ss03.conf
+install -dm0755 %{buildroot}%{_sysconfdir}/fonts/conf.d
+ln -s ../../..%{_datadir}/fontconfig/conf.avail/60-apex-adwaita-sans-ss03.conf \
+    %{buildroot}%{_sysconfdir}/fonts/conf.d/60-apex-adwaita-sans-ss03.conf
+install -Dm0644 apex-facets-light.png %{buildroot}%{_datadir}/backgrounds/apex/apex-facets-light.png
+install -Dm0644 apex-facets-dark.png %{buildroot}%{_datadir}/backgrounds/apex/apex-facets-dark.png
+install -Dm0644 desktop/wallpapers/apex-facets.xml \
+    %{buildroot}%{_datadir}/gnome-background-properties/apex-facets.xml
 
 %check
 glib-compile-schemas --strict --dry-run %{buildroot}%{_datadir}/glib-2.0/schemas
@@ -53,15 +70,28 @@ glib-compile-schemas --strict --dry-run %{buildroot}%{_datadir}/glib-2.0/schemas
 %files
 %license LICENSE
 %{_datadir}/glib-2.0/schemas/io.github.apex_linux.Apex.Desktop.gschema.xml
+%{_datadir}/glib-2.0/schemas/90_apex.gschema.override
+%{_datadir}/gnome-control-center/keybindings/60-apex.xml
+%{_datadir}/fontconfig/conf.avail/60-apex-adwaita-sans-ss03.conf
+%config(noreplace) %{_sysconfdir}/fonts/conf.d/60-apex-adwaita-sans-ss03.conf
 %{_userunitdir}/apex-shell-safe.service
 # gnome-shell ships no drop-in directory for its unit, so this package owns it.
 %dir %{_userunitdir}/org.gnome.Shell@.service.d
 %{_userunitdir}/org.gnome.Shell@.service.d/50-apex.conf
 %dir %{_datadir}/backgrounds/apex
-%{_datadir}/backgrounds/apex/apex-facets-light.svg
-%{_datadir}/backgrounds/apex/apex-facets-dark.svg
+%{_datadir}/backgrounds/apex/apex-facets-light.png
+%{_datadir}/backgrounds/apex/apex-facets-dark.png
+%dir %{_datadir}/gnome-background-properties
+%{_datadir}/gnome-background-properties/apex-facets.xml
 
 %changelog
+* Fri Oct 23 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
+- The rest of the Apex schema and its Keybindings child (toggle-spotlight)
+- 90_apex.gschema.override moves here from the image, with the S1b vendor defaults
+- 60-apex.xml: Open Spotlight in Settings > Keyboard
+- The wallpapers as 3840x2400 PNGs, with a gnome-background-properties entry
+- fontconfig: ss03 for Adwaita Sans
+
 * Fri Oct 23 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
 - The Apex Facets wallpapers, light and dark, in /usr/share/backgrounds/apex
 
