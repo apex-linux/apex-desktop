@@ -262,6 +262,20 @@ check "apex-folder-icons.sh finds Screenshots under the shell's translation" \
     "$TMP/fi/home/Pictures/Ảnh chụp màn hình metadata::custom-icon-name folder-screenshots" \
     "$(FAKE_SHOTS='Ảnh chụp màn hình' folder_icons 'Pictures/Ảnh chụp màn hình' Pictures/Screenshots)"
 
+# --- check-caches.sh, where gtk-update-icon-cache is installed ---------------------------------
+if command -v gtk-update-icon-cache >/dev/null 2>&1; then
+    mkdir -p "$TMP/cache/T/symbolic"
+    printf '[Icon Theme]\nName=T\nDirectories=symbolic\n[symbolic]\nSize=16\nType=Scalable\nMinSize=8\nMaxSize=512\n' >"$TMP/cache/T/index.theme"
+    printf '<svg xmlns="http://www.w3.org/2000/svg"/>\n' >"$TMP/cache/T/symbolic/a-symbolic.svg"
+    gtk-update-icon-cache --force --quiet "$TMP/cache/T"
+    check_true "check-caches.sh passes a current cache" bash "$APEX_ROOT/desktop/icons/check-caches.sh" "$TMP/cache/T"
+    cp "$TMP/cache/T/symbolic/a-symbolic.svg" "$TMP/cache/T/symbolic/b-symbolic.svg"
+    check_false "check-caches.sh fails on a cache built before a later copy" \
+        bash "$APEX_ROOT/desktop/icons/check-caches.sh" "$TMP/cache/T"
+    printf 'garbage' >"$TMP/cache/T/icon-theme.cache"
+    check_false "check-caches.sh fails on an invalid cache" bash "$APEX_ROOT/desktop/icons/check-caches.sh" "$TMP/cache/T"
+fi
+
 if ((FAILS > 0)); then
     die "selftest: $FAILS failure(s)"
 fi

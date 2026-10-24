@@ -148,9 +148,7 @@ install -Dm0644 -t %{buildroot}%{_datadir}/plymouth/themes/apex-twostep \
 glib-compile-schemas --strict --dry-run %{buildroot}%{_datadir}/glib-2.0/schemas
 bash desktop/icons/check-theme.sh %{buildroot}%{_datadir}/icons/Apex desktop/icons/symbolic
 for t in %{buildroot}%{_datadir}/icons/Apex-*; do bash desktop/icons/check-theme.sh "$t"; done
-for t in %{buildroot}%{_datadir}/icons/Apex %{buildroot}%{_datadir}/icons/Apex-*; do
-    gtk-update-icon-cache --validate "$t"
-done
+bash desktop/icons/check-caches.sh %{buildroot}%{_datadir}/icons/Apex %{buildroot}%{_datadir}/icons/Apex-*
 bash desktop/plymouth/check-theme.sh %{buildroot}%{_datadir}/plymouth/themes
 bash desktop/wallpapers/check-greeter.sh %{buildroot}%{_datadir}/backgrounds/apex
 
