@@ -206,11 +206,13 @@ The `Apex` icon theme, in `/usr/share/icons/Apex/` (DESIGN.md, "Visual principle
 `index.theme` inherits `Adwaita,hicolor`, so every symbolic icon Apex Symbolic does not
 draw yet, and every app icon Colloid lacks, comes from Adwaita and then hicolor, as do
 the places and content types boards 27 to 29 do not draw. Glyphs are drawn on a 16 px grid with a 1 px
-keyline, a 1.75 px stroke, and round caps and joins: the 78 glyphs of board 31, the 69 of
+keyline, a 1.75 px stroke, and round caps and joins: the 78 glyphs of board 31, the 72 of
 board 31b (status families and the shell's gaps) and the 64 of board 31c (everyday
-actions), named by the boards' ids. Nine of them (`go-next-arrow`, `apex-desktop`, `auth-fingerprint`,
-`selection-area`, `pointer`, `window`, `briefcase`, `globe`, `dark-mode`) add icons; the
-rest replace Adwaita's symbolic icon of the same name.
+actions), named by the boards' ids. Twelve of them (`go-next-arrow`, `apex-desktop`, `auth-fingerprint`,
+`selection-area`, `pointer`, `window`, `briefcase`, `globe`, `dark-mode`, and the
+`emblem-documents`, `emblem-shared` and `emblem-synchronizing` that apps request and
+Adwaita 51 does not draw) add icons; the rest replace Adwaita's symbolic icon of the same
+name.
 
 `fill-strokes.sh` scales a glyph 100 times before stroke-to-path, because Inkscape offsets
 curves to a fixed tolerance in user units, and the 16-unit canvas made that tolerance a
@@ -319,10 +321,10 @@ It reports how many names each theme draws; `SYMBOLIC_FLAGS=--fallbacks` lists t
 Apex Symbolic does not draw yet. CI runs both in fedora:45, and warns, without failing,
 when a fresh scan differs from the committed list.
 
-Coverage at be586ff, with boards 31 and 31b: of the 275 names, Apex Symbolic draws 129 and
-Adwaita 135; GTK's and libadwaita's own bundles draw 2, Epiphany's GResource 1 and
-Settings' hicolor icon 1; 7 are known gaps. `make check-icons` prints the same line, and
-`SYMBOLIC_FLAGS=--fallbacks` the 135 names, so refresh these numbers with each board.
+Coverage with boards 31, 31b and 31c: of the 275 names, Apex Symbolic draws 196 and
+Adwaita 71; GTK's and libadwaita's own bundles draw 2, Epiphany's GResource 1 and
+Settings' hicolor icon 1; 4 are known gaps. `make check-icons` prints the same line, and
+`SYMBOLIC_FLAGS=--fallbacks` the 71 names, so refresh these numbers with each board.
 
 ## `plymouth/`
 
