@@ -1,0 +1,4 @@
+# gdm's org.gnome.login-screen.gschema.override sets Fedora's logo, and overrides apply in
+# lexical order, so this name sorts after it.
+[org.gnome.login-screen]
+logo='/usr/share/pixmaps/apex-gdm-logo.svg'

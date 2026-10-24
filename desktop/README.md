@@ -8,7 +8,8 @@ The Apex desktop sources ([ADR 0014](https://github.com/apex-linux/apex/blob/mai
 |---|---|---|
 | `schemas/` | `apex-desktop` ([packaging/apex-desktop.spec](../packaging/apex-desktop.spec)): the Apex schema and the vendor override | GPL-3.0-or-later |
 | `keybindings/` | `apex-desktop`: the Apex rows of Settings > Keyboard | GPL-3.0-or-later |
-| `wallpapers/` | `apex-desktop`: Apex Facets, rendered to PNG at build | GPL-3.0-or-later |
+| `wallpapers/` | `apex-desktop`: Apex Facets and the greeter's blurred Facets, rendered to PNG at build | GPL-3.0-or-later |
+| `gdm/` | `apex-desktop`: the login screen's logo and its override | GPL-3.0-or-later |
 | `fontconfig/` | `apex-desktop`: `ss03` for Adwaita Sans | GPL-3.0-or-later |
 | `dconf/` | `apex-desktop`: defaults no override can express, in dconf's `distro` database | GPL-3.0-or-later |
 | `ptyxis/` | `apex-desktop`: the coloured bash prompt and the shell's exit status for VTE, in `/etc/profile.d/` | GPL-3.0-or-later |
@@ -163,6 +164,27 @@ covers the laptop's 2880×1800 panel and a 4K monitor, into `/usr/share/backgrou
 `apex-facets.xml` pairs them for the background chooser
 (`/usr/share/gnome-background-properties/`); the override points
 `picture-uri` and `picture-uri-dark` at the same PNGs.
+
+`apex-greeter-{light,dark}.svg` wrap the Facets SVGs in board 12's blur: a 30 px Gaussian
+blur, 1.3× saturation and a 34 % dark scrim, over `#0c1122` so the blurred edges darken
+as the board's do. The spec renders them at 2880×1800 to `apex-greeter-{light,dark}.png`
+in the same directory, and `check-greeter.sh` checks both sizes in `%check` and
+`make check-data`. They are not in `apex-facets.xml`: the greeter theme draws them, and
+the background chooser does not offer them.
+
+## `gdm/`
+
+`build-logo.sh` turns `logo.svg` into `/usr/share/pixmaps/apex-gdm-logo.svg`, board 12's
+footer in white on transparent, 48 px tall: the Apex wordmark over "Built on Fedora
+Linux 45 · GNOME". The version is the spec's `%{fedora}`. The script measures both rows
+with Inkscape to centre them and turns the text into paths, so the greeter needs no font.
+
+`zz_apex-login-screen.gschema.override` sets `org.gnome.login-screen logo` to it. gdm's
+own `org.gnome.login-screen.gschema.override` sets Fedora's logo, and overrides apply in
+lexical order, so the name must sort after gdm's: `90_apex` would lose. No gdm dconf
+database sets the key, so this override is the winning layer.
+`.github/scripts/gdm-logo-check.sh` compiles the override with `--strict`, beside gdm's
+schema and override when gdm is installed, and checks that `gsettings` reads the Apex path.
 
 ## `icons/`
 
