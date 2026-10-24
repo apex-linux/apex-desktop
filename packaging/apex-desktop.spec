@@ -154,6 +154,10 @@ bash desktop/plymouth/check-theme.sh %{buildroot}%{_datadir}/plymouth/themes
 
 %changelog
 * Sat Oct 24 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
+- lower-refresh-rate-on-battery in the Apex schema: the panel's refresh rate on battery,
+  which Settings' Power panel writes (board 24)
+
+* Sat Oct 24 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
 - Apex file icons (boards 27 to 29): flat pages in board 27's file colours, labelled
   from 41 px up, for the generic icons and the common content types Files shows
 
