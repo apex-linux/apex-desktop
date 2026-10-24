@@ -9,7 +9,7 @@ BUILD_DIR ?= target
 
 DESKTOP_XML := desktop/schemas/io.github.apex_linux.Apex.Desktop.gschema.xml \
 	desktop/keybindings/60-apex.xml desktop/wallpapers/apex-facets.xml \
-	desktop/fontconfig/60-apex-adwaita-sans-ss03.conf
+	desktop/fontconfig/60-apex-adwaita-sans-ss03.conf $(wildcard desktop/plymouth/art/*.svg)
 CHECK_DIR := $(abspath $(BUILD_DIR))/check-data
 COLLOID_GIT := $(abspath $(BUILD_DIR))/colloid.git
 COLLOID_URL := https://github.com/vinceliuice/Colloid-icon-theme.git
@@ -32,7 +32,8 @@ all: help
 
 help:
 	@echo 'make check-data   xmllint, glib-compile-schemas --strict, dconf compile and the icon theme'
-	@echo '                  check on desktop/'
+	@echo '                  check on desktop/, and the Plymouth themes: built, checked and,'
+	@echo '                  as root in a container, rendered headless into $(CHECK_DIR)/plymouth-frames'
 	@echo '                  (validators that are not installed are skipped)'
 	@echo 'make rpm          the apex-desktop SRPM and RPM from git HEAD, into $(RPM_TOPDIR)'
 	@echo 'make clean        remove $(RPM_TOPDIR), $(CHECK_DIR) and $(COLLOID_GIT)'
@@ -76,6 +77,27 @@ check-data:
 		bash desktop/icons/check-theme.sh '$(CHECK_DIR)/Apex' $$src; \
 	else \
 		echo "skip: xmllint not found, so no icon theme check (Fedora: libxml2)"; \
+	fi
+	@if command -v rsvg-convert >/dev/null 2>&1 && command -v fc-list >/dev/null 2>&1 && \
+		fc-list 'Adwaita Sans' family | grep -q .; then \
+		rm -rf '$(CHECK_DIR)/plymouth' && \
+		echo "bash desktop/plymouth/build.sh $(CHECK_DIR)/plymouth desktop/plymouth/art/*.svg" && \
+		bash desktop/plymouth/build.sh '$(CHECK_DIR)/plymouth' desktop/plymouth/art/*.svg && \
+		echo "bash desktop/plymouth/check-theme.sh $(CHECK_DIR)/plymouth" && \
+		bash desktop/plymouth/check-theme.sh '$(CHECK_DIR)/plymouth' || exit 1; \
+		if [ "$$(id -u)" != 0 ] || { [ ! -e /.dockerenv ] && [ ! -e /run/.containerenv ]; }; then \
+			echo "skip: the Plymouth preview runs as root in a container only"; \
+		elif ! command -v plymouthd >/dev/null 2>&1 || ! ls /usr/lib*/plymouth/renderers/x11.so >/dev/null 2>&1 || \
+			! command -v Xvfb >/dev/null 2>&1 || \
+			! command -v xdotool >/dev/null 2>&1 || ! command -v xwdtopnm >/dev/null 2>&1; then \
+			echo "skip: no Plymouth preview (Fedora: plymouth-plugin-script plymouth-plugin-two-step plymouth-devel xorg-x11-server-Xvfb xwd xdotool netpbm-progs)"; \
+		else \
+			rm -rf '$(CHECK_DIR)/plymouth-frames'; \
+			echo ".github/scripts/plymouth-preview.sh $(CHECK_DIR)/plymouth $(CHECK_DIR)/plymouth-frames"; \
+			.github/scripts/plymouth-preview.sh '$(CHECK_DIR)/plymouth' '$(CHECK_DIR)/plymouth-frames'; \
+		fi; \
+	else \
+		echo "skip: rsvg-convert or Adwaita Sans not found, so no Plymouth check (Fedora: librsvg2-tools adwaita-sans-fonts)"; \
 	fi
 
 rpm:

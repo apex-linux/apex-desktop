@@ -30,14 +30,19 @@ jobs:
       - name: Tools for checkout and the data checks
         run: >-
           dnf5 -y --setopt=install_weak_deps=False --repo=fedora --repo=updates install
-          git-core make libxml2 glib2 dconf inkscape
+          git-core make libxml2 glib2 dconf inkscape librsvg2-tools adwaita-sans-fonts
+          plymouth-plugin-script plymouth-plugin-two-step plymouth-devel
+          xorg-x11-server-Xvfb xwd xdotool netpbm-progs cpio
 
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 
       - name: make check-data
-        run: make check-data
+        # The Plymouth preview must run here, not skip: check-data skips what is not installed.
+        run: |
+          make check-data
+          test -s target/check-data/plymouth-frames/apex-scale1-splash.png
 
       - name: rpms.sh build
         # The builder VM builds the RPM the same way; a spec error fails here, not there.
@@ -45,6 +50,9 @@ jobs:
           .github/scripts/rpms.sh build /tmp/rpms "$(.github/scripts/rpms.sh key)"
           rpm -qlp /tmp/rpms/apex-desktop-*.rpm
           rpm -qp --configfiles /tmp/rpms/apex-desktop-*.rpm
+          mkdir /tmp/payload
+          rpm2cpio /tmp/rpms/apex-desktop-*.rpm | (cd /tmp/payload && cpio -idm --quiet)
+          bash desktop/plymouth/check-theme.sh /tmp/payload/usr/share/plymouth/themes
 
   scripts:
     name: shellcheck, actionlint, selftest
@@ -66,7 +74,7 @@ jobs:
 
       - name: bash -n and shellcheck
         run: |
-          files=(.github/scripts/*.sh desktop/icons/*.sh)
+          files=(.github/scripts/*.sh desktop/icons/*.sh desktop/plymouth/*.sh)
           for f in "${files[@]}"; do bash -n "$f"; done
           shellcheck -x -P .github/scripts --severity=style "${files[@]}"
 

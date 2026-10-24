@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<svg xmlns="http://www.w3.org/2000/svg" width="144" height="41" viewBox="0 0 144 41">
+  <rect x="8.25" y="9" width="23" height="23" rx="3.5" fill="none" stroke="#fff" stroke-width="3" transform="rotate(45 19.75 20.5)"/>
+  <text x="50.75" y="32.85" fill="#fff" font-family="Adwaita Sans" font-size="34" font-weight="800" letter-spacing="-0.5">Apex</text>
+</svg>
