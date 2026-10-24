@@ -1,0 +1,37 @@
+# What scan.sh reads: the shell, the toolkits, and the apps of apex-image's gnome.txt at
+# 4b609dd. Bazaar, the app store, is a Flathub preinstall, not an RPM.
+gnome-shell
+gnome-settings-daemon
+gtk4
+libadwaita
+gnome-bluetooth
+gnome-online-accounts
+xdg-desktop-portal-gnome
+gnome-initial-setup
+gnome-tour
+gnome-extensions-app
+tecla
+nautilus
+sushi
+gnome-control-center
+ptyxis
+gnome-text-editor
+loupe
+papers
+showtime
+decibels
+snapshot
+gnome-system-monitor
+baobab
+gnome-calculator
+gnome-characters
+gnome-clocks
+gnome-calendar
+gnome-contacts
+gnome-weather
+gnome-font-viewer
+gnome-logs
+yelp
+epiphany
+gnome-disk-utility
+gnome-firmware
