@@ -98,7 +98,9 @@ jobs:
         run: |
           cp desktop/icons/expected-symbolic.txt /tmp/names
           printf 'apex-no-such-icon-symbolic\tci\n' >>/tmp/names
-          if python3 .github/scripts/symbolic-check.py /tmp/names target/check-data/icons; then exit 1; fi
+          if python3 .github/scripts/symbolic-check.py --unresolved tools/icons/unresolved.txt \
+            /tmp/names target/check-data/icons >/tmp/out; then exit 1; fi
+          grep -Fx "$(printf '  apex-no-such-icon-symbolic\tci')" /tmp/out
 
       - name: tools/icons/scan.sh matches expected-symbolic.txt
         # A Fedora update moves the list without any change here, so a drift warns instead of failing.
