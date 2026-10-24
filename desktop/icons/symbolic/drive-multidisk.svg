@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <path
+    d="M4 2.5h8a1.5 1.5 0 0 1 1.5 1.5v1A1.5 1.5 0 0 1 12 6.5H4A1.5 1.5 0 0 1 2.5 5V4
+       A1.5 1.5 0 0 1 4 2.5zM4 9.5h8a1.5 1.5 0 0 1 1.5 1.5v1a1.5 1.5 0 0 1-1.5 1.5H4
+       A1.5 1.5 0 0 1 2.5 12v-1A1.5 1.5 0 0 1 4 9.5z"
+    fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+  <path
+    d="M10.3 4.5a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0-1.4 0zM10.3 11.5a0.7 0.7 0 1 0 1.4 0
+       a0.7 0.7 0 1 0-1.4 0z"
+    fill="currentColor" stroke="none" fill-rule="evenodd"/>
+</svg>
