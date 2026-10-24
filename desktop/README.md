@@ -254,7 +254,7 @@ resolves to the right directory of that theme, in its accent. `make check-data` 
 when Python has GTK 4; CI requires it, and runs it again on the RPM's payload.
 
 `folder-remote`, GVfs's icon for a network mount, takes the `network-wired` emblem.
-Each theme also gets its plain folder as `mimetypes/inode-directory`: Nautilus's search
+`inode-directory` is the plain folder too (`inode-directory -`): Nautilus's search
 provider names a folder `["inode-directory", "folder", …]`, so without it Spotlight's
 Files rows would take Adwaita's `inode-directory` in every accent. CI removes
 `Apex-red`'s and expects `places-check.py` to fail.
