@@ -59,6 +59,13 @@ check-data:
 	else \
 		echo "skip: glib-compile-schemas not found (Fedora: glib2)"; \
 	fi
+	@if command -v glib-compile-schemas >/dev/null 2>&1 && command -v gsettings >/dev/null 2>&1 && \
+		command -v xmllint >/dev/null 2>&1; then \
+		echo ".github/scripts/disabled-features-check.sh"; \
+		.github/scripts/disabled-features-check.sh; \
+	else \
+		echo "skip: glib-compile-schemas, gsettings or xmllint not found, so no disabled-features check (Fedora: glib2 libxml2)"; \
+	fi
 	@if command -v dconf >/dev/null 2>&1; then \
 		mkdir -p '$(CHECK_DIR)'; \
 		echo "dconf compile $(CHECK_DIR)/distro desktop/dconf/distro.d"; \

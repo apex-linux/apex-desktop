@@ -186,6 +186,10 @@ bash desktop/wallpapers/check-greeter.sh %{buildroot}%{_datadir}/backgrounds/ape
   gaps check-icons found (password reveal, clear, media, privacy indicators)
 
 * Sat Oct 24 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
+- disabled-features takes only the layer's feature names, as choices, so gsettings refuses
+  a misspelt one
+
+* Sat Oct 24 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
 - apex-folder-icons.service: the Projects and Screenshots folder icons at login
 
 * Sat Oct 24 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0

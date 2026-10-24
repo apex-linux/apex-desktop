@@ -49,6 +49,7 @@ jobs:
           grep -q '^mimetypes-check.py: .* resolve to Apex' /tmp/check-data.log
           grep -q '^check-greeter.sh: ' /tmp/check-data.log
           grep -q '^gdm-logo-check.sh: ' /tmp/check-data.log
+          grep -q '^disabled-features-check.sh: ' /tmp/check-data.log
           grep -q 'build-logo.sh .*apex-gdm-logo.svg' /tmp/check-data.log
 
       - name: The prompt under VTE's shell integration
