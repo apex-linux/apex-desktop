@@ -89,6 +89,8 @@ install -Dm0644 desktop/schemas/90_apex.gschema.override \
 install -Dm0644 desktop/dconf/distro.d/50-apex-ptyxis \
     %{buildroot}%{_sysconfdir}/dconf/db/distro.d/50-apex-ptyxis
 install -Dm0644 desktop/ptyxis/apex-prompt.sh %{buildroot}%{_sysconfdir}/profile.d/apex-prompt.sh
+install -Dm0644 desktop/ptyxis/zz-apex-shell-status.sh \
+    %{buildroot}%{_sysconfdir}/profile.d/zz-apex-shell-status.sh
 install -Dm0644 desktop/tmpfiles/apex-desktop.conf %{buildroot}%{_tmpfilesdir}/apex-desktop.conf
 install -Dm0644 desktop/keybindings/60-apex.xml \
     %{buildroot}%{_datadir}/gnome-control-center/keybindings/60-apex.xml
@@ -132,6 +134,7 @@ bash desktop/plymouth/check-theme.sh %{buildroot}%{_datadir}/plymouth/themes
 %config(noreplace) %{_sysconfdir}/fonts/conf.d/60-apex-adwaita-sans-ss03.conf
 %config(noreplace) %{_sysconfdir}/dconf/db/distro.d/50-apex-ptyxis
 %config(noreplace) %{_sysconfdir}/profile.d/apex-prompt.sh
+%config(noreplace) %{_sysconfdir}/profile.d/zz-apex-shell-status.sh
 %{_userunitdir}/apex-shell-safe.service
 %{_tmpfilesdir}/apex-desktop.conf
 # gnome-shell ships no drop-in directory for its unit, so this package owns it.
@@ -148,6 +151,10 @@ bash desktop/plymouth/check-theme.sh %{buildroot}%{_datadir}/plymouth/themes
 %{_datadir}/plymouth/themes/apex-twostep/
 
 %changelog
+* Sat Oct 24 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
+- zz-apex-shell-status.sh: a failed command reports its status to VTE, once, so the
+  terminal can show it failed
+
 * Sat Oct 24 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
 - search-hint-shown in the Apex schema: the shell shows "Press Super+Space to search"
   once
