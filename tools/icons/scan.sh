@@ -22,11 +22,11 @@ readonly TEMPLATE_RE='[A-Za-z0-9._-]*(%[a-z]|\$\{[^}]{1,40}\})[A-Za-z0-9._%${}-]
 readonly ICON_FILE_RE='/icons/(.*/)?[^/]+-symbolic(\.symbolic)?\.(svg|png)$'
 readonly TEXT_RE='\.(js|ui|css|py|xml)$'
 
-# Names the shell builds from UPower's, NetworkManager's and its own state, by package.
+# The templates the shell fills from UPower's and NetworkManager's state.
 readonly DYNAMIC=(
-    "upower battery-level-{0,10,20,30,40,50,60,70,80,90,100}-symbolic"
-    "upower battery-level-{0,10,20,30,40,50,60,70,80,90}-charging-symbolic"
-    "upower battery-level-100-charged-symbolic battery-missing-symbolic"
+    "gnome-shell battery-level-{0,10,20,30,40,50,60,70,80,90,100}-symbolic"
+    "gnome-shell battery-level-{0,10,20,30,40,50,60,70,80,90}-charging-symbolic"
+    "gnome-shell battery-level-100-charged-symbolic"
     "gnome-shell network-wireless-signal-{none,weak,ok,good,excellent}-symbolic"
     "gnome-shell network-cellular-signal-{none,weak,ok,good,excellent}-symbolic"
 )
@@ -66,6 +66,7 @@ scan_package() {
 
 main() {
     (($# == 1)) || usage
+    command -v gresource >/dev/null || { echo "scan.sh: gresource not found (Fedora: glib2-devel)" >&2; exit 1; }
     local -a pkgs
     mapfile -t pkgs < <(sed 's/#.*//; /^[[:space:]]*$/d; s/[[:space:]]//g' "$1")
     rpm -q "${pkgs[@]}" >/dev/null || { echo "scan.sh: install the packages of $1 first" >&2; exit 1; }

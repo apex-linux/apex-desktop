@@ -189,10 +189,11 @@ case "\$1" in -ql) printf '%s\n' "$TMP/scan/pkg/a.js" "$TMP/scan/pkg/icons/hicol
     -q) [ "\$2" = --qf ] && echo '@fake-1-1' ;; esac
 exit 0
 FAKE
-chmod +x "$TMP/scan/bin/rpm"
+printf '#!/bin/sh\nexit 1\n' >"$TMP/scan/bin/gresource"
+chmod +x "$TMP/scan/bin/rpm" "$TMP/scan/bin/gresource"
 printf 'fake\n' >"$TMP/scan/packages"
 scanned=$(PATH="$TMP/scan/bin:$PATH" bash "$APEX_ROOT/tools/icons/scan.sh" "$TMP/scan/packages" 2>"$TMP/scan/templates" |
-    grep -v -e '^[#@]' -e $'\tupower$' -e $'\tgnome-shell$')
+    grep -v -e '^[#@]' -e $'\tgnome-shell$')
 check "scan.sh lists a literal name, not a name the package ships or a fragment" "$(printf 'x-symbolic\tfake')" "$scanned"
 check_true "scan.sh reports a name built at run time" grep -Fq 'template fake: view-%s-symbolic' "$TMP/scan/templates"
 

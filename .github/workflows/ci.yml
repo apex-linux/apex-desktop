@@ -75,7 +75,8 @@ jobs:
       - name: Tools for checkout and the check
         run: >-
           dnf5 -y --setopt=install_weak_deps=False --repo=fedora --repo=updates install
-          git-core make inkscape libxml2 python3-gobject gtk4 adwaita-icon-theme hicolor-icon-theme glib2 grep
+          git-core make inkscape libxml2 python3-gobject gtk4 adwaita-icon-theme hicolor-icon-theme
+          glib2-devel grep diffutils
 
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -102,6 +103,7 @@ jobs:
           sort -u /tmp/templates.txt
           if ! diff -u desktop/icons/expected-symbolic.txt /tmp/expected-symbolic.txt; then
             echo "::warning::desktop/icons/expected-symbolic.txt differs from a fresh scan; run tools/icons/scan.sh"
+            cat /tmp/expected-symbolic.txt
           fi
 
   scripts:
