@@ -80,6 +80,14 @@ non-default PS1 alone. With `NO_COLOR` set, or `apex_prompt_disable=1` exported 
 own `/etc/profile.d` applies, so a toolbox keeps Fedora's `⬢` prompt. `selftest.sh`
 checks each case in a clean bash.
 
+Ptyxis reads each session's state from VTE's shell integration: `vte.sh` sets
+`PROMPT_COMMAND` and wraps PS1 in the OSC 133 `D;A` and `B` markers, unless PS1 already
+carries them. `apex-prompt.sh` must therefore sort before `vte.sh`. In CI's Fedora job,
+`.github/scripts/prompt-vte-check.sh` installs it among the real `/etc/profile.d`
+scripts and runs `/etc/bashrc` in an interactive bash with `VTE_VERSION` set. It fails
+when the file sorts after `vte.sh`, when PS1 is not our prompt between those markers,
+or when `PROMPT_COMMAND` does not run VTE's prompt command.
+
 ## `keybindings/`
 
 `60-apex.xml` goes to `/usr/share/gnome-control-center/keybindings/`, so Settings >

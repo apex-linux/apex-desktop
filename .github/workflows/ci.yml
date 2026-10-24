@@ -32,7 +32,7 @@ jobs:
           dnf5 -y --setopt=install_weak_deps=False --repo=fedora --repo=updates install
           git-core make libxml2 glib2 dconf inkscape librsvg2-tools adwaita-sans-fonts
           plymouth-plugin-script plymouth-plugin-two-step plymouth-devel
-          xorg-x11-server-Xvfb xwd xdotool netpbm-progs cpio
+          xorg-x11-server-Xvfb xwd xdotool netpbm-progs cpio vte-profile bash-color-prompt
 
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -43,6 +43,9 @@ jobs:
         run: |
           make check-data
           test -s target/check-data/plymouth-frames/apex-scale1-splash.png
+
+      - name: The prompt under VTE's shell integration
+        run: .github/scripts/prompt-vte-check.sh
 
       - name: rpms.sh build
         # The builder VM builds the RPM the same way; a spec error fails here, not there.
