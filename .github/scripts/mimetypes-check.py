@@ -15,6 +15,7 @@ from gi.repository import Gio, Gtk  # noqa: E402
 SAMPLES = {
     "doc": ["Apex Fedora — Spec.odt", "Keyboard Shortcuts.odt", "letter.docx", "old.doc", "note.rtf"],
     "sheet": ["Design Tokens.ods", "budget.xlsx", "old.xls", "export.csv"],
+    "slides": ["S1b Review.odp", "deck.pptx", "old.ppt"],
     "md": ["HIG Notes.md", "README.md", "notes.txt"],
     "pdf": ["Invoice-2026-09.pdf"],
     "iso": ["Fedora-Workstation-Live-45.iso", "disk.img"],

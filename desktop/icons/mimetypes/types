@@ -2,6 +2,7 @@
 # ICON-NAME KIND LABEL: generic icons, which shared-mime-info's generic-icon names, have no label.
 x-office-document doc -
 x-office-spreadsheet sheet -
+x-office-presentation slides -
 text-x-generic md -
 text-x-script code -
 application-x-generic file -
@@ -17,6 +18,9 @@ application-vnd.oasis.opendocument.spreadsheet sheet ODS
 application-vnd.openxmlformats-officedocument.spreadsheetml.sheet sheet XLSX
 application-vnd.ms-excel sheet XLS
 text-csv sheet CSV
+application-vnd.oasis.opendocument.presentation slides ODP
+application-vnd.openxmlformats-officedocument.presentationml.presentation slides PPTX
+application-vnd.ms-powerpoint slides PPT
 text-markdown md MD
 text-plain md TXT
 application-pdf pdf PDF
