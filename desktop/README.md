@@ -35,6 +35,11 @@ gsettings set io.github.apex_linux.Apex.Desktop disabled-features "['glass']"
 gsettings get io.github.apex_linux.Apex.Desktop.Keybindings toggle-spotlight
 ```
 
+`disabled-features` lists its feature names as `<choices>`, so `gsettings` refuses a
+misspelt one rather than turning nothing off. `.github/scripts/disabled-features-check.sh`
+sets each choice and checks that `['dokc']` is refused and that the description names
+exactly the choices.
+
 `90_apex.gschema.override` holds the vendor defaults of GNOME's own schemas (DESIGN.md,
 "Vendor defaults"), with no locks. It is installed next to the schema and compiled by
 the image build, which validates it with `--strict` against every installed schema; G1

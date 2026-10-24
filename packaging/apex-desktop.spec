@@ -166,6 +166,10 @@ bash desktop/wallpapers/check-greeter.sh %{buildroot}%{_datadir}/backgrounds/ape
 
 %changelog
 * Sat Oct 24 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
+- disabled-features takes only the layer's feature names, as choices, so gsettings refuses
+  a misspelt one
+
+* Sat Oct 24 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
 - Board 12's greeter: the pre-blurred Facets backgrounds at 2880x1800, and the gdm logo,
   the footer's wordmark and Fedora credit as paths, with its login-screen override
 
