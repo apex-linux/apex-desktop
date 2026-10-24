@@ -149,6 +149,10 @@ bash desktop/plymouth/check-theme.sh %{buildroot}%{_datadir}/plymouth/themes
 
 %changelog
 * Sat Oct 24 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
+- search-hint-shown in the Apex schema: the shell shows "Press Super+Space to search"
+  once
+
+* Sat Oct 24 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
 - Apex folders (boards 27 to 29): flat, in the accent, with Apex Symbolic emblems
   from 33 px up; the nine Apex-<accent> folder themes, which inherit Apex
 
