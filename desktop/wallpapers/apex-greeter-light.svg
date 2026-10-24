@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<svg xmlns="http://www.w3.org/2000/svg" width="2880" height="1800" viewBox="0 0 1440 900">
+  <filter id="b" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB">
+    <feGaussianBlur stdDeviation="30"/><feColorMatrix type="saturate" values="1.3"/></filter>
+  <rect width="1440" height="900" fill="#0c1122"/>
+  <image href="apex-facets-light.svg" x="-40" y="-40" width="1520" height="980" preserveAspectRatio="xMidYMid slice" filter="url(#b)"/>
+  <rect width="1440" height="900" fill="rgb(8,10,20)" fill-opacity=".34"/>
+</svg>

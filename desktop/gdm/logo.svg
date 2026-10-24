@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<svg xmlns="http://www.w3.org/2000/svg" width="@WIDTH@" height="48" viewBox="0 0 @WIDTH@ 48">
+  <g id="wordmark" transform="translate(@WORDMARK_X@ 0)">
+    <rect x="1" y="4.9" width="12" height="12" rx="2" fill="none" stroke="#fff" stroke-width="2" transform="rotate(45 7 10.9)"/>
+    <text id="name" x="26" y="17.44" fill="#fff" font-family="Adwaita Sans" font-size="18" font-weight="800" letter-spacing="-0.3">Apex</text>
+  </g>
+  <text id="credit" x="@CENTER@" y="45.4" text-anchor="middle" fill="#fff" fill-opacity="0.62" font-family="Adwaita Sans" font-size="12" letter-spacing="0.4">Built on Fedora Linux @VERSION@ · GNOME</text>
+</svg>

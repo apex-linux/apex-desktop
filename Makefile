@@ -105,6 +105,32 @@ check-data:
 	else \
 		echo "skip: xmllint not found, so no icon theme check (Fedora: libxml2)"; \
 	fi
+	@if command -v rsvg-convert >/dev/null 2>&1; then \
+		mkdir -p '$(CHECK_DIR)/greeter'; \
+		for v in light dark; do \
+			echo "rsvg-convert -w 2880 -h 1800 desktop/wallpapers/apex-greeter-$$v.svg"; \
+			rsvg-convert -w 2880 -h 1800 -o "$(CHECK_DIR)/greeter/apex-greeter-$$v.png" \
+				"desktop/wallpapers/apex-greeter-$$v.svg" || exit 1; \
+		done; \
+		bash desktop/wallpapers/check-greeter.sh '$(CHECK_DIR)/greeter' || exit 1; \
+	else \
+		echo "skip: rsvg-convert not found, so no greeter backgrounds (Fedora: librsvg2-tools)"; \
+	fi
+	@fedora=$$(rpm -E %fedora 2>/dev/null); \
+	if command -v inkscape >/dev/null 2>&1 && fc-list 'Adwaita Sans' family 2>/dev/null | grep -q . && \
+		[ "$$fedora" -eq "$$fedora" ] 2>/dev/null; then \
+		echo "bash desktop/gdm/build-logo.sh $(CHECK_DIR)/apex-gdm-logo.svg desktop/gdm/logo.svg $$fedora"; \
+		bash desktop/gdm/build-logo.sh '$(CHECK_DIR)/apex-gdm-logo.svg' desktop/gdm/logo.svg "$$fedora" || exit 1; \
+		xmllint --noout --nonet '$(CHECK_DIR)/apex-gdm-logo.svg' || exit 1; \
+	else \
+		echo "skip: inkscape, Adwaita Sans or rpm's %fedora missing, so no gdm logo (Fedora: inkscape adwaita-sans-fonts)"; \
+	fi
+	@if command -v glib-compile-schemas >/dev/null 2>&1 && command -v gsettings >/dev/null 2>&1; then \
+		echo ".github/scripts/gdm-logo-check.sh"; \
+		.github/scripts/gdm-logo-check.sh; \
+	else \
+		echo "skip: glib-compile-schemas or gsettings not found, so no gdm logo key check (Fedora: glib2)"; \
+	fi
 	@if ! command -v systemd-tmpfiles >/dev/null 2>&1; then \
 		echo "skip: systemd-tmpfiles not found (Fedora: systemd)"; \
 	elif [ "$$(id -u)" != 0 ]; then \
