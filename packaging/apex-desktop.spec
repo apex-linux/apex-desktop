@@ -181,6 +181,10 @@ bash desktop/wallpapers/check-greeter.sh %{buildroot}%{_datadir}/backgrounds/ape
 
 %changelog
 * Sat Oct 24 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
+- Board 31c's 64 glyphs (the shell, OSDs, toolkit, Files and Settings fallbacks) and a
+  filled starred beside board 31's outline, now non-starred
+
+* Sat Oct 24 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
 - Board 31b's 69 glyphs: every Wi-Fi, battery, volume, microphone, Bluetooth,
   power-profile and VPN state the shell switches between, and the most visible
   gaps check-icons found (password reveal, clear, media, privacy indicators)
