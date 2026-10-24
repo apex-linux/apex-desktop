@@ -94,7 +94,8 @@
       <description>
         Features of the Apex layer to leave off without a rebuild, by name: glass,
         dock, spotlight, lock, motion, notifications, overview, panel, quick-settings,
-        shadows, indicators, polkit and end-session; any other name is refused. A
+        shadows, indicators, polkit and end-session; any other name is refused, and a
+        list with one is refused whole, so the key keeps its previous value. A
         disabled feature's hooks give their stock values. It takes effect at the next
         login.
       </description>

@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # SPDX-License-Identifier: GPL-3.0-or-later
 #
-# Compiles the Apex schema and checks that disabled-features takes each of its choices, refuses
-# a misspelt name, and that its description names exactly those choices.
+# Checks that disabled-features takes each of its choices, refuses a list with a misspelt name
+# whole, keeping its value, and that its description names exactly those choices.
 
 set -euo pipefail
 . "$(dirname "${BASH_SOURCE[0]}")/lib.sh"
@@ -21,7 +21,7 @@ tmp=$(mktemp -d)
 trap 'rm -rf "$tmp"' EXIT
 cp "$xml" "$tmp/"
 glib-compile-schemas --strict "$tmp"
-export GSETTINGS_SCHEMA_DIR=$tmp GSETTINGS_BACKEND=memory
+export GSETTINGS_SCHEMA_DIR=$tmp GSETTINGS_BACKEND=keyfile XDG_CONFIG_HOME=$tmp
 schema=io.github.apex_linux.Apex.Desktop
 for c in "${choices[@]}"; do
     gsettings set "$schema" disabled-features "['$c']" || die "disabled-features refuses ['$c']"
@@ -30,4 +30,9 @@ gsettings set "$schema" disabled-features "['dock', 'glass']" || die "disabled-f
 if gsettings set "$schema" disabled-features "['dokc']" 2>/dev/null; then
     die "disabled-features takes ['dokc']"
 fi
-log "disabled-features-check.sh: disabled-features takes its ${#choices[@]} choices and refuses ['dokc']"
+if gsettings set "$schema" disabled-features "['glass', 'dokc']" 2>/dev/null; then
+    die "disabled-features takes ['glass', 'dokc']"
+fi
+got=$(gsettings get "$schema" disabled-features)
+[[ $got == "['dock', 'glass']" ]] || die "a refused list left disabled-features at $got, not ['dock', 'glass']"
+log "disabled-features-check.sh: disabled-features takes its ${#choices[@]} choices and refuses ['dokc'] and ['glass', 'dokc'] whole"
