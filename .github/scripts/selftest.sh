@@ -227,6 +227,39 @@ if python3 -c 'import gi; gi.require_version("Gtk", "4.0"); from gi.repository i
     printf 'stock-only-symbolic\tstale\n' >>"$TMP/sym/gaps"
     check_false "symbolic-check.py fails on a listed gap that resolves" sym_check
 fi
+# --- apex-folder-icons.sh, against a temporary HOME -------------------------------------------
+mkdir -p "$TMP/fi/bin"
+cat >"$TMP/fi/bin/gio" <<'FAKE'
+#!/bin/sh
+case "$1" in
+    info) [ -e "$4/.fake-icon" ] && echo '  metadata::custom-icon-name: user-set'; exit 0 ;;
+    set) echo "$4 $5 $6" >>"$HOME/gio.log" ;;
+esac
+FAKE
+# shellcheck disable=SC2016 # the fakes expand these when they run
+{
+    printf '#!/bin/sh\necho "$HOME/Pictures"\n' >"$TMP/fi/bin/xdg-user-dir"
+    printf '#!/bin/sh\necho "${FAKE_SHOTS:-Screenshots}"\n' >"$TMP/fi/bin/gettext"
+}
+chmod +x "$TMP/fi/bin/"*
+folder_icons() {
+    rm -rf "$TMP/fi/home" && mkdir -p "$TMP/fi/home"
+    for d in "$@"; do mkdir -p "$TMP/fi/home/$d"; done
+    HOME="$TMP/fi/home" PATH="$TMP/fi/bin:$PATH" sh "$APEX_ROOT/desktop/icons/apex-folder-icons.sh"
+    cat "$TMP/fi/home/gio.log" 2>/dev/null || true
+}
+check "apex-folder-icons.sh sets both icons when both folders exist" \
+    "$TMP/fi/home/Projects metadata::custom-icon-name folder-projects
+$TMP/fi/home/Pictures/Screenshots metadata::custom-icon-name folder-screenshots" \
+    "$(folder_icons Projects Pictures/Screenshots)"
+check "apex-folder-icons.sh sets nothing when the folders are absent" "" "$(folder_icons Pictures)"
+check_false "apex-folder-icons.sh creates no folder" test -e "$TMP/fi/home/Projects"
+check "apex-folder-icons.sh keeps an icon the user set" \
+    "$TMP/fi/home/Pictures/Screenshots metadata::custom-icon-name folder-screenshots" \
+    "$(folder_icons Projects/.fake-icon Pictures/Screenshots)"
+check "apex-folder-icons.sh finds Screenshots under the shell's translation" \
+    "$TMP/fi/home/Pictures/Ảnh chụp màn hình metadata::custom-icon-name folder-screenshots" \
+    "$(FAKE_SHOTS='Ảnh chụp màn hình' folder_icons 'Pictures/Ảnh chụp màn hình' Pictures/Screenshots)"
 
 if ((FAILS > 0)); then
     die "selftest: $FAILS failure(s)"
