@@ -82,7 +82,8 @@ for f in desktop/icons/symbolic/*.svg; do
     bash desktop/icons/fill-strokes.sh "$f" "symbolic/${n%.svg}-symbolic.svg"
 done
 bash desktop/icons/build-places.sh themes desktop/icons/places/folder.svg \
-    desktop/icons/places/emblems desktop/icons/accents
+    desktop/icons/places/emblems desktop/icons/accents \
+    desktop/icons/places/user-trash.svg desktop/icons/places/user-trash-full.svg
 bash desktop/icons/build-mimetypes.sh themes desktop/icons/mimetypes/file.svg \
     desktop/icons/mimetypes/kinds desktop/icons/mimetypes/types
 bash desktop/plymouth/build.sh plymouth desktop/plymouth/art/*.svg
@@ -187,6 +188,9 @@ bash desktop/wallpapers/check-greeter.sh %{buildroot}%{_datadir}/backgrounds/ape
 %{_datadir}/plymouth/themes/apex-twostep/
 
 %changelog
+* Sat Oct 24 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
+- user-trash and user-trash-full as the dock's light bin, flat, the same in every theme
+
 * Sat Oct 24 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
 - Board 31d's 72 Apex Symbolic glyphs (everywhere else): the last names Adwaita drew, and
   the shell's accessibility menu icon, so Apex Symbolic draws 268 of the 275 names
