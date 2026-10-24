@@ -32,7 +32,7 @@ jobs:
           dnf5 -y --setopt=install_weak_deps=False --repo=fedora --repo=updates install
           git-core make libxml2 glib2 dconf inkscape librsvg2-tools adwaita-sans-fonts
           plymouth-plugin-script plymouth-plugin-two-step plymouth-devel
-          xorg-x11-server-Xvfb xwd xdotool netpbm-progs cpio
+          xorg-x11-server-Xvfb xwd xdotool netpbm-progs cpio systemd
 
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -41,8 +41,9 @@ jobs:
       - name: make check-data
         # The Plymouth preview must run here, not skip: check-data skips what is not installed.
         run: |
-          make check-data
+          make check-data 2>&1 | tee /tmp/check-data.log
           test -s target/check-data/plymouth-frames/apex-scale1-splash.png
+          grep -q '^tmpfiles-check.sh: ' /tmp/check-data.log
 
       - name: rpms.sh build
         # The builder VM builds the RPM the same way; a spec error fails here, not there.

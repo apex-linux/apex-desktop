@@ -53,7 +53,8 @@ Apex Facets wallpapers ship as PNGs, paired for GNOME's background chooser. The 
 icon theme carries Colloid's full-colour app icons and the Apex Symbolic glyphs, with
 their strokes turned into fills, and inherits Adwaita and hicolor. The Plymouth script
 theme apex draws the boot splash and the disk passphrase field at 1x and @2x;
-apex-twostep is its two-step fallback.
+apex-twostep is its two-step fallback. A tmpfiles entry creates the global Flatpak
+override, when there is none, so that Flatpak apps read the window radius in apex.css.
 
 %prep
 %autosetup -n %{name}-%{version}
@@ -83,6 +84,7 @@ install -Dm0644 desktop/schemas/90_apex.gschema.override \
     %{buildroot}%{_datadir}/glib-2.0/schemas/90_apex.gschema.override
 install -Dm0644 desktop/dconf/distro.d/50-apex-ptyxis \
     %{buildroot}%{_sysconfdir}/dconf/db/distro.d/50-apex-ptyxis
+install -Dm0644 desktop/tmpfiles/apex-desktop.conf %{buildroot}%{_tmpfilesdir}/apex-desktop.conf
 install -Dm0644 desktop/keybindings/60-apex.xml \
     %{buildroot}%{_datadir}/gnome-control-center/keybindings/60-apex.xml
 install -Dm0644 desktop/fontconfig/60-apex-adwaita-sans-ss03.conf \
@@ -122,6 +124,7 @@ bash desktop/plymouth/check-theme.sh %{buildroot}%{_datadir}/plymouth/themes
 %config(noreplace) %{_sysconfdir}/fonts/conf.d/60-apex-adwaita-sans-ss03.conf
 %config(noreplace) %{_sysconfdir}/dconf/db/distro.d/50-apex-ptyxis
 %{_userunitdir}/apex-shell-safe.service
+%{_tmpfilesdir}/apex-desktop.conf
 # gnome-shell ships no drop-in directory for its unit, so this package owns it.
 %dir %{_userunitdir}/org.gnome.Shell@.service.d
 %{_userunitdir}/org.gnome.Shell@.service.d/50-apex.conf
@@ -135,6 +138,11 @@ bash desktop/plymouth/check-theme.sh %{buildroot}%{_datadir}/plymouth/themes
 %{_datadir}/plymouth/themes/apex-twostep/
 
 %changelog
+* Sat Oct 24 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
+- palette='apex' in the Apex Ptyxis profile, for apex-session-agent's accent palette
+- tmpfiles: the global Flatpak override grants xdg-config/gtk-4.0:ro, so Flatpak
+  apps read apex.css; created only when missing
+
 * Sat Oct 24 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
 - The Plymouth script theme apex (boards 01 and 30): the wordmark, the 160x3 bar with
   round ends, the disk passphrase field, at 1x and @2x; apex-twostep as the fallback
