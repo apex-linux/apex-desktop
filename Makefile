@@ -13,7 +13,8 @@ DESKTOP_XML := desktop/schemas/io.github.apex_linux.Apex.Desktop.gschema.xml \
 	desktop/keybindings/60-apex.xml desktop/wallpapers/apex-facets.xml \
 	desktop/fontconfig/60-apex-adwaita-sans-ss03.conf $(wildcard desktop/plymouth/art/*.svg)
 CHECK_DIR := $(abspath $(BUILD_DIR))/check-data
-PLACES_INPUTS := desktop/icons/places/folder.svg desktop/icons/places/emblems desktop/icons/accents
+PLACES_INPUTS := desktop/icons/places/folder.svg desktop/icons/places/emblems desktop/icons/accents \
+	desktop/icons/places/user-trash.svg desktop/icons/places/user-trash-full.svg
 MIMETYPES_INPUTS := desktop/icons/mimetypes/file.svg desktop/icons/mimetypes/kinds \
 	desktop/icons/mimetypes/types
 COLLOID_GIT := $(abspath $(BUILD_DIR))/colloid.git

@@ -18,8 +18,8 @@ DRAWN = ["folder", "user-home", "user-desktop", "folder-documents", "folder-down
          "folder-templates", "folder-videos"]
 SET_BY_APEX_FOLDER_ICONS_SH = ["folder-screenshots"]
 DRAWN += SET_BY_APEX_FOLDER_ICONS_SH + ["folder-remote"]
-# Files shows these too, but boards 27 to 29 do not draw them: they stay Adwaita's.
-UNDRAWN = ["user-trash", "user-trash-full"]
+# The dock's bin, in no accent: every theme finds Apex's through Inherits=.
+NEUTRAL = ["user-trash", "user-trash-full"]
 LIST = [(16, 1), (24, 1), (32, 1), (16, 2), (24, 2), (32, 2)]
 GRID = [(48, 1), (64, 1), (96, 1), (256, 1), (48, 2), (64, 2), (96, 2)]
 EMBLEMLESS_DIRS = ["32x32", "32x32@2x"]
@@ -52,14 +52,19 @@ def main():
                     fails.append(f"{got} does not use {colour}")
                 elif subdirs != ["scalable"] and 'scale(1.245)"/>' not in open(got).read():
                     fails.append(f"{got} has an emblem at a list size")
-    for name in UNDRAWN:
-        print(f"places-check.py: {name} resolves to {lookup('Apex-red', name, 64, 1) or 'nothing'}")
+        for name in NEUTRAL:
+            for (size, scale), subdir in [(s, "32x32") for s in LIST] + [(s, "scalable") for s in GRID]:
+                got = lookup(theme, name, size, scale)
+                if os.path.dirname(os.path.dirname(got)) not in [os.path.join(themes, "Apex", d) for d in
+                                                                 (subdir, subdir + "@2x")]:
+                    fails.append(f"{theme} {name} at {size}@{scale}: {got or 'nothing'}, not Apex's")
 
     for fail in fails:
         print("FAIL:", fail, file=sys.stderr)
     if fails:
         sys.exit(1)
-    print(f"places-check.py: {len(DRAWN)} folder names resolve to Apex in all {len(accents) + 1} themes")
+    print(f"places-check.py: {len(DRAWN)} folder names and {len(NEUTRAL)} neutral ones resolve to Apex in all "
+          f"{len(accents) + 1} themes")
 
 
 main()

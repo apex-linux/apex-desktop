@@ -6,9 +6,10 @@
 
 set -euo pipefail
 
-(($# == 4)) || { echo "usage: build-places.sh OUTDIR TEMPLATE EMBLEMS ACCENTS" >&2; exit 2; }
+(($# >= 4)) || { echo "usage: build-places.sh OUTDIR TEMPLATE EMBLEMS ACCENTS [NEUTRAL...]" >&2; exit 2; }
 src=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 out=$1 template=$2 emblems=$3 accents=$4
+shift 4
 
 # Board 27's tab is color-mix(in srgb, accent 68%, #000).
 darken() {
@@ -93,3 +94,9 @@ while read -r accent color; do
 done <"$accents"
 [[ -n $blue ]] || { echo "build-places.sh: accents has no blue, the default" >&2; exit 1; }
 places "$out/Apex" "$blue"
+# A NEUTRAL icon is the same in every theme, so it goes into Apex alone, which they inherit.
+for icon in "$@"; do
+    for dir in 32x32 32x32@2x scalable; do
+        install -m0644 "$icon" "$out/Apex/$dir/places/${icon##*/}"
+    done
+done

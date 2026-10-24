@@ -254,7 +254,11 @@ resolves to the right directory of that theme, in its accent. `make check-data` 
 when Python has GTK 4; CI requires it, and runs it again on the RPM's payload.
 
 `folder-remote`, GVfs's icon for a network mount, takes the `network-wired` emblem.
-Not drawn on the boards, so still Adwaita's: `user-trash` and `user-trash-full`.
+`user-trash` and `user-trash-full` are the dock's light bin (boards 37 and 39), flat: a
+`#f5f5f5` body with a 1-unit edge of black at 8 % and a `#b8b8b8` opening, scaled to 85 %
+on its base so `-full`'s crumpled sheets fit above the rim. They take no accent, so
+`build-places.sh` installs them, as drawn, into `Apex` alone, and every `Apex-<accent>`
+finds them through `Inherits=`; `places-check.py` checks that in all ten themes.
 apex-session-agent points `icon-theme` at `Apex-<accent>` (S7).
 
 GLib names no icon for two of board 27's folders, so `places/emblems` also draws
