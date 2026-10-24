@@ -19,7 +19,6 @@ family=$(fc-match -f '%{family}' 'Adwaita Sans:weight=205')
 tmp=$(mktemp -d)
 trap 'rm -rf "$tmp"' EXIT
 
-# id x y width height, from Inkscape's ink boxes.
 query() {
     inkscape --query-all "$1" 2>/dev/null | awk -F, -v id="$2" '$1 == id { print $2 + $4, $4 }'
 }
