@@ -12,6 +12,8 @@ DESKTOP_XML := desktop/schemas/io.github.apex_linux.Apex.Desktop.gschema.xml \
 	desktop/fontconfig/60-apex-adwaita-sans-ss03.conf $(wildcard desktop/plymouth/art/*.svg)
 CHECK_DIR := $(abspath $(BUILD_DIR))/check-data
 PLACES_INPUTS := desktop/icons/places/folder.svg desktop/icons/places/emblems desktop/icons/accents
+MIMETYPES_INPUTS := desktop/icons/mimetypes/file.svg desktop/icons/mimetypes/kinds \
+	desktop/icons/mimetypes/types
 COLLOID_GIT := $(abspath $(BUILD_DIR))/colloid.git
 COLLOID_URL := https://github.com/vinceliuice/Colloid-icon-theme.git
 # Only the full-colour app icons and the licence; the spec's colloid_sha256 covers this list.
@@ -76,6 +78,14 @@ check-data:
 		fi; \
 		echo "bash desktop/icons/build-places.sh $(CHECK_DIR) $(PLACES_INPUTS)"; \
 		bash desktop/icons/build-places.sh '$(CHECK_DIR)' $(PLACES_INPUTS) || exit 1; \
+		mime=; \
+		if command -v inkscape >/dev/null 2>&1 && fc-list 'Adwaita Sans' family 2>/dev/null | grep -q .; then \
+			mime=1; \
+			echo "bash desktop/icons/build-mimetypes.sh $(CHECK_DIR) $(MIMETYPES_INPUTS)"; \
+			bash desktop/icons/build-mimetypes.sh '$(CHECK_DIR)' $(MIMETYPES_INPUTS) || exit 1; \
+		else \
+			echo "skip: inkscape or Adwaita Sans not found, so no file icons (Fedora: inkscape adwaita-sans-fonts)"; \
+		fi; \
 		echo "bash desktop/icons/check-theme.sh $(CHECK_DIR)/Apex $$src"; \
 		bash desktop/icons/check-theme.sh '$(CHECK_DIR)/Apex' $$src || exit 1; \
 		for t in '$(CHECK_DIR)'/Apex-*; do \
@@ -85,6 +95,10 @@ check-data:
 		if python3 -c 'import gi; gi.require_version("Gtk", "4.0"); from gi.repository import Gtk' 2>/dev/null; then \
 			echo ".github/scripts/places-check.py $(CHECK_DIR)"; \
 			python3 .github/scripts/places-check.py '$(CHECK_DIR)' || exit 1; \
+			if [ -n "$$mime" ]; then \
+				echo ".github/scripts/mimetypes-check.py $(CHECK_DIR)"; \
+				python3 .github/scripts/mimetypes-check.py '$(CHECK_DIR)' || exit 1; \
+			fi; \
 		else \
 			echo "skip: no GTK 4 for Python, so no folder lookup check (Fedora: python3-gobject gtk4)"; \
 		fi; \

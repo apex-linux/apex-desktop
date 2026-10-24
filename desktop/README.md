@@ -172,11 +172,12 @@ The `Apex` icon theme, in `/usr/share/icons/Apex/` (DESIGN.md, "Visual principle
 |---|---|
 | `scalable/apps/` | Colloid's full-colour app icons and its alias links, less the one alias with a `-symbolic` name, from the commit `colloid_commit` in the spec pins. `make rpm` fetches that commit with git and archives only `COLLOID_PATHS`; `%prep` checks the archive against `colloid_sha256` |
 | `32x32/places/`, `32x32@2x/places/`, `scalable/places/` | the Apex folders in blue, built by `build-places.sh` (below) |
+| `32x32/mimetypes/`, `32x32@2x/mimetypes/`, `scalable/mimetypes/` | the Apex file icons, built by `build-mimetypes.sh` (below) |
 | `symbolic/` | Apex Symbolic: each `icons/symbolic/NAME.svg` becomes `NAME-symbolic.svg`, its strokes turned into fills by `fill-strokes.sh` (Inkscape's stroke-to-path), because GTK and St recolour fills only |
 
 `index.theme` inherits `Adwaita,hicolor`, so every symbolic icon Apex Symbolic does not
-draw yet, and every app icon Colloid lacks, comes from Adwaita and then hicolor.
-Mimetypes, and the places boards 27 to 29 do not draw, stay Adwaita's. Glyphs are drawn on a 16 px grid with a 1 px
+draw yet, and every app icon Colloid lacks, comes from Adwaita and then hicolor, as do
+the places and content types boards 27 to 29 do not draw. Glyphs are drawn on a 16 px grid with a 1 px
 keyline, a 1.75 px stroke, and round caps and joins: the 78 glyphs of board 31, named by
 the board's ids. Nine of them (`go-next-arrow`, `apex-desktop`, `auth-fingerprint`,
 `selection-area`, `pointer`, `window`, `briefcase`, `globe`, `dark-mode`) add icons; the
@@ -221,6 +222,30 @@ when Python has GTK 4; CI requires it, and runs it again on the RPM's payload.
 
 Not drawn on the boards, so still Adwaita's: `folder-remote`, `user-trash` and
 `user-trash-full`. apex-session-agent points `icon-theme` at `Apex-<accent>` (S7).
+
+### File icons
+
+Boards 27 to 29 draw a file as a flat page on the same 64-unit grid, in its kind's
+colour, with a 40 % white corner fold and, in the grid, its extension in white Adwaita
+Sans ExtraBold at 9 units; the list view draws the page without the label.
+`build-mimetypes.sh OUTDIR mimetypes/file.svg mimetypes/kinds mimetypes/types` renders:
+
+- `mimetypes/kinds`: board 27's colour for each kind, and slate for a file it names no
+  kind for;
+- `mimetypes/types`: each icon name with its kind and label. The generic icons that
+  shared-mime-info's `generic-icon` names (`x-office-document`, `text-x-generic`,
+  `package-x-generic`, `audio-x-generic` and the rest) have no label, because an icon
+  theme cannot know a file's extension; the content types Files shows most get their
+  own, labelled icon. Markdown, PDF, ISO images and code need one: their generic icons
+  are the document, `application-x-generic` and plain text, in other colours.
+
+Labels become paths in one Inkscape run, so no font is needed where the icons draw;
+the build fails when fontconfig does not resolve Adwaita Sans ExtraBold, or when a label
+kept its text. List sizes take the unlabelled page, through the same directory pair as
+the folders. `.github/scripts/mimetypes-check.py THEMES` fails when a name in `types` is
+not one GIO gives any registered content type, or when one of 54 files (board 27's and
+common ones), its type guessed by GIO as Files does, does not resolve with GTK 4 to an
+Apex file icon in its kind's colour, at list and grid sizes and at scale 1 and 2.
 
 To move the Colloid pin, set `colloid_commit` and run `make rpm`: `%prep` fails, and
 `sha256sum target/rpm/SOURCES/Colloid-icon-theme-*.tar` gives the new `colloid_sha256`.

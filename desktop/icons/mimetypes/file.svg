@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <path d="M16 5h20l14 14v36a4 4 0 0 1-4 4H16a4 4 0 0 1-4-4V9a4 4 0 0 1 4-4z" fill="@COLOR@"/>
+  <path d="M36 5v10a4 4 0 0 0 4 4h10z" fill="#fff" fill-opacity=".4"/>
+  <text id="label" x="31" y="48" text-anchor="middle" font-family="Adwaita Sans" font-size="9" font-weight="800" fill="#fff">@LABEL@</text>
+</svg>
