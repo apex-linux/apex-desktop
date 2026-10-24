@@ -29,7 +29,7 @@ main() {
         fi
         rm -rf "${tmp:?}/theme" && cp -a "$theme" "$tmp/theme"
         gtk-update-icon-cache --force --quiet "$tmp/theme"
-        if ! cmp -s "$theme/icon-theme.cache" "$tmp/theme/icon-theme.cache"; then
+        if [[ $(sha256sum <"$theme/icon-theme.cache") != $(sha256sum <"$tmp/theme/icon-theme.cache") ]]; then
             printf 'check-caches: %s/icon-theme.cache does not match the theme: build it after the last change\n' "$theme" >&2
             failed=1
         fi
