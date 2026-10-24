@@ -33,6 +33,7 @@ jobs:
           git-core make libxml2 glib2 dconf inkscape librsvg2-tools adwaita-sans-fonts
           plymouth-plugin-script plymouth-plugin-two-step plymouth-devel
           xorg-x11-server-Xvfb xwd xdotool netpbm-progs cpio systemd vte-profile bash-color-prompt
+          python3-gobject gtk4 adwaita-icon-theme
 
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -44,6 +45,7 @@ jobs:
           make check-data 2>&1 | tee /tmp/check-data.log
           test -s target/check-data/plymouth-frames/apex-scale1-splash.png
           grep -q '^tmpfiles-check.sh: ' /tmp/check-data.log
+          grep -q '^places-check.py: .* resolve to Apex' /tmp/check-data.log
 
       - name: The prompt under VTE's shell integration
         run: .github/scripts/prompt-vte-check.sh
@@ -57,6 +59,7 @@ jobs:
           mkdir /tmp/payload
           rpm2cpio /tmp/rpms/apex-desktop-*.rpm | (cd /tmp/payload && cpio -idm --quiet)
           bash desktop/plymouth/check-theme.sh /tmp/payload/usr/share/plymouth/themes
+          python3 .github/scripts/places-check.py /tmp/payload/usr/share/icons
 
   scripts:
     name: shellcheck, actionlint, selftest

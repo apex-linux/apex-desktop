@@ -11,6 +11,7 @@ DESKTOP_XML := desktop/schemas/io.github.apex_linux.Apex.Desktop.gschema.xml \
 	desktop/keybindings/60-apex.xml desktop/wallpapers/apex-facets.xml \
 	desktop/fontconfig/60-apex-adwaita-sans-ss03.conf $(wildcard desktop/plymouth/art/*.svg)
 CHECK_DIR := $(abspath $(BUILD_DIR))/check-data
+PLACES_INPUTS := desktop/icons/places/folder.svg desktop/icons/places/emblems desktop/icons/accents
 COLLOID_GIT := $(abspath $(BUILD_DIR))/colloid.git
 COLLOID_URL := https://github.com/vinceliuice/Colloid-icon-theme.git
 # Only the full-colour app icons and the licence; the spec's colloid_sha256 covers this list.
@@ -59,7 +60,7 @@ check-data:
 		echo "skip: dconf not found (Fedora: dconf)"; \
 	fi
 	@if command -v xmllint >/dev/null 2>&1; then \
-		rm -rf '$(CHECK_DIR)/Apex' && mkdir -p '$(CHECK_DIR)/Apex/symbolic'; \
+		rm -rf '$(CHECK_DIR)/Apex' '$(CHECK_DIR)'/Apex-* && mkdir -p '$(CHECK_DIR)/Apex/symbolic'; \
 		cp desktop/icons/index.theme '$(CHECK_DIR)/Apex/'; \
 		echo "xmllint --noout --nonet desktop/icons/symbolic/*.svg"; \
 		xmllint --noout --nonet desktop/icons/symbolic/*.svg; \
@@ -73,8 +74,20 @@ check-data:
 		else \
 			echo "skip: inkscape not found (Fedora: inkscape); the theme has no symbolic icons"; \
 		fi; \
+		echo "bash desktop/icons/build-places.sh $(CHECK_DIR) $(PLACES_INPUTS)"; \
+		bash desktop/icons/build-places.sh '$(CHECK_DIR)' $(PLACES_INPUTS) || exit 1; \
 		echo "bash desktop/icons/check-theme.sh $(CHECK_DIR)/Apex $$src"; \
-		bash desktop/icons/check-theme.sh '$(CHECK_DIR)/Apex' $$src; \
+		bash desktop/icons/check-theme.sh '$(CHECK_DIR)/Apex' $$src || exit 1; \
+		for t in '$(CHECK_DIR)'/Apex-*; do \
+			bash desktop/icons/check-theme.sh "$$t" >/dev/null || exit 1; \
+		done; \
+		echo "check-theme: the nine Apex-<accent> themes pass"; \
+		if python3 -c 'import gi; gi.require_version("Gtk", "4.0"); from gi.repository import Gtk' 2>/dev/null; then \
+			echo ".github/scripts/places-check.py $(CHECK_DIR)"; \
+			python3 .github/scripts/places-check.py '$(CHECK_DIR)' || exit 1; \
+		else \
+			echo "skip: no GTK 4 for Python, so no folder lookup check (Fedora: python3-gobject gtk4)"; \
+		fi; \
 	else \
 		echo "skip: xmllint not found, so no icon theme check (Fedora: libxml2)"; \
 	fi

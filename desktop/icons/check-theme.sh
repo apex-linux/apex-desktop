@@ -43,7 +43,10 @@ fail() {
 
 check_index() {
     local index=$1
-    awk -v index_file="$index" '
+    local inherits=Adwaita,hicolor
+    # An accent theme holds its folders alone and takes the rest from Apex.
+    [[ $(basename "$(dirname "$index")") == Apex-* ]] && inherits=Apex
+    awk -v index_file="$index" -v inherits="$inherits" '
         function err(m) { printf "check-theme: %s: %s\n", index_file, m > "/dev/stderr"; bad = 1 }
         /^[[:space:]]*(#|$)/ { next }
         /^\[.*\]$/ { group = substr($0, 2, length($0) - 2); groups[group] = 1; if (!first) first = group; next }
@@ -59,7 +62,7 @@ check_index() {
             split("Name Comment Directories", required, " ")
             for (i in required) if (!(("Icon Theme", required[i]) in kv)) err("[Icon Theme] has no " required[i])
             # Apex Symbolic is partial: every other symbolic icon comes from Adwaita.
-            if (kv["Icon Theme", "Inherits"] != "Adwaita,hicolor") err("Inherits is not Adwaita,hicolor")
+            if (kv["Icon Theme", "Inherits"] != inherits) err("Inherits is not " inherits)
             n = split(kv["Icon Theme", "Directories"], dirs, ",")
             for (i = 1; i <= n; i++) {
                 d = dirs[i]

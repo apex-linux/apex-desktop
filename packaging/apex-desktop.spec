@@ -51,11 +51,12 @@ prompt. It also ships the crash guard: when GNOME Shell fails within 60 seconds 
 layer's enable, apex-shell-safe.service sets layer-enabled to false for that user. The
 light and dark Apex Facets wallpapers ship as PNGs, paired for GNOME's background
 chooser. The Apex icon theme carries Colloid's full-colour app icons and the Apex
-Symbolic glyphs, with their strokes turned into fills, and inherits Adwaita and hicolor.
-The Plymouth script theme apex draws the boot splash and the disk passphrase field at 1x
-and @2x; apex-twostep is its two-step fallback. A tmpfiles entry creates the global
-Flatpak override, when there is none, so that Flatpak apps read the window radius in
-apex.css.
+Symbolic glyphs, with their strokes turned into fills, and the flat Apex folders in
+blue, and inherits Adwaita and hicolor. Nine Apex-<accent> themes carry the folders in
+each libadwaita accent and inherit Apex. The Plymouth script theme apex draws the boot
+splash and the disk passphrase field at 1x and @2x; apex-twostep is its two-step
+fallback. A tmpfiles entry creates the global Flatpak override, when there is none, so
+that Flatpak apps read the window radius in apex.css.
 
 %prep
 %autosetup -n %{name}-%{version}
@@ -72,6 +73,8 @@ for f in desktop/icons/symbolic/*.svg; do
     n=${f##*/}
     bash desktop/icons/fill-strokes.sh "$f" "symbolic/${n%.svg}-symbolic.svg"
 done
+bash desktop/icons/build-places.sh themes desktop/icons/places/folder.svg \
+    desktop/icons/places/emblems desktop/icons/accents
 bash desktop/plymouth/build.sh plymouth desktop/plymouth/art/*.svg
 
 %install
@@ -100,6 +103,8 @@ install -Dm0644 desktop/wallpapers/apex-facets.xml \
     %{buildroot}%{_datadir}/gnome-background-properties/apex-facets.xml
 install -Dm0644 desktop/icons/index.theme %{buildroot}%{_datadir}/icons/Apex/index.theme
 install -Dm0644 -t %{buildroot}%{_datadir}/icons/Apex/symbolic symbolic/*-symbolic.svg
+cp -a themes/Apex/. %{buildroot}%{_datadir}/icons/Apex/
+cp -a themes/Apex-* %{buildroot}%{_datadir}/icons/
 install -dm0755 %{buildroot}%{_datadir}/icons/Apex/scalable/apps
 cp -a Colloid-icon-theme-%{colloid_commit}/src/apps/scalable/. \
     Colloid-icon-theme-%{colloid_commit}/links/apps/scalable/. \
@@ -114,6 +119,7 @@ install -Dm0644 -t %{buildroot}%{_datadir}/plymouth/themes/apex-twostep \
 %check
 glib-compile-schemas --strict --dry-run %{buildroot}%{_datadir}/glib-2.0/schemas
 bash desktop/icons/check-theme.sh %{buildroot}%{_datadir}/icons/Apex desktop/icons/symbolic
+for t in %{buildroot}%{_datadir}/icons/Apex-*; do bash desktop/icons/check-theme.sh "$t"; done
 bash desktop/plymouth/check-theme.sh %{buildroot}%{_datadir}/plymouth/themes
 
 %files
@@ -137,10 +143,15 @@ bash desktop/plymouth/check-theme.sh %{buildroot}%{_datadir}/plymouth/themes
 %dir %{_datadir}/gnome-background-properties
 %{_datadir}/gnome-background-properties/apex-facets.xml
 %{_datadir}/icons/Apex/
+%{_datadir}/icons/Apex-*/
 %{_datadir}/plymouth/themes/apex/
 %{_datadir}/plymouth/themes/apex-twostep/
 
 %changelog
+* Sat Oct 24 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
+- Apex folders (boards 27 to 29): flat, in the accent, with Apex Symbolic emblems
+  from 33 px up; the nine Apex-<accent> folder themes, which inherit Apex
+
 * Sat Oct 24 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
 - palette='apex' in the Apex Ptyxis profile, for apex-session-agent's accent palette
 - tmpfiles: the global Flatpak override grants xdg-config/gtk-4.0:ro, so Flatpak
