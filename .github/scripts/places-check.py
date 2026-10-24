@@ -17,9 +17,9 @@ DRAWN = ["folder", "user-home", "user-desktop", "folder-documents", "folder-down
          "folder-music", "folder-pictures", "folder-projects", "folder-publicshare",
          "folder-templates", "folder-videos"]
 SET_BY_APEX_FOLDER_ICONS_SH = ["folder-screenshots"]
-DRAWN += SET_BY_APEX_FOLDER_ICONS_SH
+DRAWN += SET_BY_APEX_FOLDER_ICONS_SH + ["folder-remote"]
 # Files shows these too, but boards 27 to 29 do not draw them: they stay Adwaita's.
-UNDRAWN = ["folder-remote", "user-trash", "user-trash-full"]
+UNDRAWN = ["user-trash", "user-trash-full"]
 LIST = [(16, 1), (24, 1), (32, 1), (16, 2), (24, 2), (32, 2)]
 GRID = [(48, 1), (64, 1), (96, 1), (256, 1), (48, 2), (64, 2), (96, 2)]
 EMBLEMLESS_DIRS = ["32x32", "32x32@2x"]

@@ -188,6 +188,9 @@ bash desktop/wallpapers/check-greeter.sh %{buildroot}%{_datadir}/backgrounds/ape
 
 %changelog
 * Sat Oct 24 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
+- folder-remote, a network mount's folder, in the accent with the network-wired emblem
+
+* Sat Oct 24 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
 - A slides kind in GNOME Brown 3 for presentations, as boards 27 to 29 draw it: the generic
   x-office-presentation, and ODP, PPTX and PPT labelled
 
