@@ -48,12 +48,14 @@ rebuilt gnome-shell. The layer treats a missing schema as safe mode. It ships Ap
 vendor defaults for GNOME's own schemas, the Open Spotlight row of Settings > Keyboard,
 the ss03 feature of Adwaita Sans, the default Ptyxis profile and the coloured bash
 prompt. It also ships the crash guard: when GNOME Shell fails within 60 seconds of the
-layer's enable, apex-shell-safe.service sets layer-enabled to false for that user.
-The light and dark Apex Facets wallpapers ship as PNGs, paired for GNOME's background chooser. The Apex
-icon theme carries Colloid's full-colour app icons and the Apex Symbolic glyphs, with
-their strokes turned into fills, and inherits Adwaita and hicolor. The Plymouth script
-theme apex draws the boot splash and the disk passphrase field at 1x and @2x;
-apex-twostep is its two-step fallback.
+layer's enable, apex-shell-safe.service sets layer-enabled to false for that user. The
+light and dark Apex Facets wallpapers ship as PNGs, paired for GNOME's background
+chooser. The Apex icon theme carries Colloid's full-colour app icons and the Apex
+Symbolic glyphs, with their strokes turned into fills, and inherits Adwaita and hicolor.
+The Plymouth script theme apex draws the boot splash and the disk passphrase field at 1x
+and @2x; apex-twostep is its two-step fallback. A tmpfiles entry creates the global
+Flatpak override, when there is none, so that Flatpak apps read the window radius in
+apex.css.
 
 %prep
 %autosetup -n %{name}-%{version}
@@ -84,6 +86,7 @@ install -Dm0644 desktop/schemas/90_apex.gschema.override \
 install -Dm0644 desktop/dconf/distro.d/50-apex-ptyxis \
     %{buildroot}%{_sysconfdir}/dconf/db/distro.d/50-apex-ptyxis
 install -Dm0644 desktop/ptyxis/apex-prompt.sh %{buildroot}%{_sysconfdir}/profile.d/apex-prompt.sh
+install -Dm0644 desktop/tmpfiles/apex-desktop.conf %{buildroot}%{_tmpfilesdir}/apex-desktop.conf
 install -Dm0644 desktop/keybindings/60-apex.xml \
     %{buildroot}%{_datadir}/gnome-control-center/keybindings/60-apex.xml
 install -Dm0644 desktop/fontconfig/60-apex-adwaita-sans-ss03.conf \
@@ -124,6 +127,7 @@ bash desktop/plymouth/check-theme.sh %{buildroot}%{_datadir}/plymouth/themes
 %config(noreplace) %{_sysconfdir}/dconf/db/distro.d/50-apex-ptyxis
 %config(noreplace) %{_sysconfdir}/profile.d/apex-prompt.sh
 %{_userunitdir}/apex-shell-safe.service
+%{_tmpfilesdir}/apex-desktop.conf
 # gnome-shell ships no drop-in directory for its unit, so this package owns it.
 %dir %{_userunitdir}/org.gnome.Shell@.service.d
 %{_userunitdir}/org.gnome.Shell@.service.d/50-apex.conf
@@ -137,6 +141,11 @@ bash desktop/plymouth/check-theme.sh %{buildroot}%{_datadir}/plymouth/themes
 %{_datadir}/plymouth/themes/apex-twostep/
 
 %changelog
+* Sat Oct 24 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
+- palette='apex' in the Apex Ptyxis profile, for apex-session-agent's accent palette
+- tmpfiles: the global Flatpak override grants xdg-config/gtk-4.0:ro, so Flatpak
+  apps read apex.css; created only when missing
+
 * Sat Oct 24 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
 - /etc/profile.d/apex-prompt.sh: board 32's prompt, a blue directory and a dim $
 

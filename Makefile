@@ -32,7 +32,7 @@ all: help
 
 help:
 	@echo 'make check-data   xmllint, glib-compile-schemas --strict, dconf compile and the icon theme'
-	@echo '                  check on desktop/, and the Plymouth themes: built, checked and,'
+	@echo '                  check on desktop/, the tmpfiles entry, and the Plymouth themes: built, checked and,'
 	@echo '                  as root in a container, rendered headless into $(CHECK_DIR)/plymouth-frames'
 	@echo '                  (validators that are not installed are skipped)'
 	@echo 'make rpm          the apex-desktop SRPM and RPM from git HEAD, into $(RPM_TOPDIR)'
@@ -77,6 +77,14 @@ check-data:
 		bash desktop/icons/check-theme.sh '$(CHECK_DIR)/Apex' $$src; \
 	else \
 		echo "skip: xmllint not found, so no icon theme check (Fedora: libxml2)"; \
+	fi
+	@if ! command -v systemd-tmpfiles >/dev/null 2>&1; then \
+		echo "skip: systemd-tmpfiles not found (Fedora: systemd)"; \
+	elif [ "$$(id -u)" != 0 ]; then \
+		echo "skip: the tmpfiles check runs as root only (it applies root-owned entries)"; \
+	else \
+		echo ".github/scripts/tmpfiles-check.sh"; \
+		.github/scripts/tmpfiles-check.sh; \
 	fi
 	@if command -v rsvg-convert >/dev/null 2>&1 && command -v fc-list >/dev/null 2>&1 && \
 		fc-list 'Adwaita Sans' family | grep -q .; then \

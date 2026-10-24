@@ -12,6 +12,7 @@ The Apex desktop sources ([ADR 0014](https://github.com/apex-linux/apex/blob/mai
 | `fontconfig/` | `apex-desktop`: `ss03` for Adwaita Sans | GPL-3.0-or-later |
 | `dconf/` | `apex-desktop`: defaults no override can express, in dconf's `distro` database | GPL-3.0-or-later |
 | `ptyxis/` | `apex-desktop`: the coloured bash prompt, in `/etc/profile.d/` | GPL-3.0-or-later |
+| `tmpfiles/` | `apex-desktop`: the global Flatpak override, created at boot when missing | GPL-3.0-or-later |
 | `systemd/` | `apex-desktop`: the shell's crash guard, as user units | GPL-3.0-or-later |
 | `icons/` | `apex-desktop`: the `Apex` icon theme, with Colloid's app icons fetched at build | GPL-3.0-or-later; Colloid GPL-3.0-only |
 | `plymouth/` | `apex-desktop`: the boot splash, the `apex` script theme and its `apex-twostep` fallback | GPL-3.0-or-later |
@@ -52,8 +53,14 @@ Vendor defaults have two homes, and only two:
   schema, which an override cannot reach. Today that is the Ptyxis profile. It never
   holds a lock (ADR 0011).
 
-`distro.d/50-apex-ptyxis` sets the Apex profile's `label='Apex'` and
-`cell-height-scale=1.21`, DESIGN.md's line height of 1.6. The override makes its fixed
+`distro.d/50-apex-ptyxis` sets the Apex profile's `label='Apex'`,
+`cell-height-scale=1.21` (DESIGN.md's line height of 1.6) and `palette='apex'`.
+`palette='apex'` names `~/.local/share/org.gnome.Ptyxis/palettes/apex.palette`, which
+apex-session-agent writes with the accent as the caret. Until the agent's first write
+there is no such palette. Ptyxis 50.1 then draws its `gnome` palette and its stock
+window colours: `ptyxis_terminal_update_colors` falls back to `gnome` when the lookup
+returns NULL. A profile looks its palette up again only when the `palette` key changes,
+so a window opened before the first write keeps `gnome` until it is reopened. The override makes its fixed
 UUID Ptyxis's `profile-uuids` and `default-profile-uuid`. The font is not set here:
 Ptyxis uses the system monospace font, `monospace-font-name`.
 
@@ -87,6 +94,32 @@ carries them. `apex-prompt.sh` must therefore sort before `vte.sh`. In CI's Fedo
 scripts and runs `/etc/bashrc` in an interactive bash with `VTE_VERSION` set. It fails
 when the file sorts after `vte.sh`, when PS1 is not our prompt between those markers,
 or when `PROMPT_COMMAND` does not run VTE's prompt command.
+
+## `tmpfiles/`
+
+Flatpak apps run sandboxed, so GTK 4 in Bazaar sees `~/.config/gtk-4.0/apex.css`, the
+window radius apex-session-agent writes, only when an override grants
+`xdg-config/gtk-4.0:ro`. `/var` is not image content on bootc, so
+`apex-desktop.conf`, installed in `/usr/lib/tmpfiles.d/`, creates the system-wide
+override at boot:
+
+```ini
+# /var/lib/flatpak/overrides/global
+[Context]
+filesystems=xdg-config/gtk-4.0:ro;
+```
+
+Its `f` line never touches an existing file. When `global` already exists without
+the grant, an admin's own override for example, Flatpak apps keep stock corners
+until the admin adds it:
+
+```bash
+sudo flatpak override --system --filesystem=xdg-config/gtk-4.0:ro
+```
+
+`.github/scripts/tmpfiles-check.sh` applies the entry to an empty root and to one that
+already has a `global`. It fails unless the first gets exactly the file above, at 0644,
+and the second is left as it was. `make check-data` runs it as root.
 
 ## `keybindings/`
 

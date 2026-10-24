@@ -15,6 +15,7 @@ RPM, which carries no code:
   glyphs with their strokes turned into fills;
 - the boot splash: the Plymouth script theme `apex`, with its disk passphrase field, and
   the `apex-twostep` fallback;
+- a tmpfiles entry for the global Flatpak override, so Flatpak apps read `apex.css`;
 - the shell's crash guard, as user units.
 
 [desktop/README.md](desktop/README.md) describes each directory. The layer itself lives
