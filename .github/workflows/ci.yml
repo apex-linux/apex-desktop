@@ -33,7 +33,7 @@ jobs:
           git-core make libxml2 glib2 dconf inkscape librsvg2-tools adwaita-sans-fonts
           plymouth-plugin-script plymouth-plugin-two-step plymouth-devel
           xorg-x11-server-Xvfb xwd xdotool netpbm-progs cpio systemd vte-profile bash-color-prompt util-linux-script
-          python3-gobject gtk4 adwaita-icon-theme
+          python3-gobject gtk4 adwaita-icon-theme gtk-update-icon-cache
 
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -46,6 +46,7 @@ jobs:
           test -s target/check-data/plymouth-frames/apex-scale1-splash.png
           grep -q '^tmpfiles-check.sh: ' /tmp/check-data.log
           grep -q '^places-check.py: .* resolve to Apex' /tmp/check-data.log
+          grep -q '^gtk-update-icon-cache: the ten Apex icon caches' /tmp/check-data.log
           grep -q '^mimetypes-check.py: .* resolve to Apex' /tmp/check-data.log
           grep -q '^check-greeter.sh: ' /tmp/check-data.log
           grep -q '^gdm-logo-check.sh: ' /tmp/check-data.log

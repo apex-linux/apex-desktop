@@ -224,8 +224,10 @@ cores and opacities pass through, and a `stroke-opacity` becomes a `fill-opacity
 not parse, when a link is absolute or dangling, when a symbolic icon has a stroke that is
 not `none` or sits outside `symbolic/`, and, given the sources, when a glyph's
 `stroke-opacity` did not survive as a fill or opacity. The spec's `%check` runs it on the installed theme; `make
-check-data` runs it on a theme built from `icons/`. GTK's icon cache is left to the image
-build and to gtk-update-icon-cache's file trigger.
+check-data` runs it on a theme built from `icons/`. The spec's `%install` builds each of
+the ten themes' `icon-theme.cache` with `gtk-update-icon-cache`, and `%check` validates
+them: Fedora's cache file triggers cover only the theme of their own package, so no
+trigger would build Apex's. `make check-data` builds and validates them too.
 
 ### Folders and the accent themes
 
