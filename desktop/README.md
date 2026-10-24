@@ -254,6 +254,10 @@ resolves to the right directory of that theme, in its accent. `make check-data` 
 when Python has GTK 4; CI requires it, and runs it again on the RPM's payload.
 
 Not drawn on the boards, so still Adwaita's: `folder-remote`.
+Each theme also gets its plain folder as `mimetypes/inode-directory`: Nautilus's search
+provider names a folder `["inode-directory", "folder", …]`, so without it Spotlight's
+Files rows would take Adwaita's `inode-directory` in every accent. CI removes
+`Apex-red`'s and expects `places-check.py` to fail.
 `user-trash` and `user-trash-full` are the dock's light bin (boards 37 and 39), flat: a
 `#f5f5f5` body with a 1-unit edge of black at 8 % and a `#b8b8b8` opening, scaled to 85 %
 on its base so `-full`'s crumpled sheets fit above the rim. They take no accent, so

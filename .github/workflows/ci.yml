@@ -68,6 +68,14 @@ jobs:
           python3 .github/scripts/places-check.py /tmp/payload/usr/share/icons
           python3 .github/scripts/mimetypes-check.py /tmp/payload/usr/share/icons
 
+      - name: An accent theme without inode-directory fails places-check
+        # Without it, St falls to Adwaita's inode-directory before it tries the accent folder.
+        run: |
+          cp -a /tmp/payload/usr/share/icons /tmp/no-inode
+          rm /tmp/no-inode/*/icon-theme.cache /tmp/no-inode/Apex-red/*/mimetypes/inode-directory.svg
+          if python3 .github/scripts/places-check.py /tmp/no-inode 2>/tmp/out; then exit 1; fi
+          grep -F 'FAIL: Apex-red inode-directory at 64@1: ' /tmp/out
+
   icons:
     name: make check-icons, the symbolic icon scan (Fedora 45)
     runs-on: ubuntu-24.04

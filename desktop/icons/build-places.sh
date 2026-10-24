@@ -53,6 +53,11 @@ places() {
     done <"$emblems"
     folder "$front" - >"$theme/32x32/places/folder.svg"
     cp "$theme/32x32/places/folder.svg" "$theme/32x32@2x/places/folder.svg"
+    # Nautilus's search provider names inode-directory first, so it must not reach Adwaita's.
+    for dir in 32x32 32x32@2x scalable; do
+        mkdir -p "$theme/$dir/mimetypes"
+        cp "$theme/$dir/places/folder.svg" "$theme/$dir/mimetypes/inode-directory.svg"
+    done
 }
 
 index() {
@@ -61,7 +66,7 @@ index() {
 Name=$1
 Comment=$2
 Inherits=$3
-Directories=32x32/places,32x32@2x/places,scalable/places
+Directories=32x32/places,32x32@2x/places,scalable/places,32x32/mimetypes,32x32@2x/mimetypes,scalable/mimetypes
 
 [32x32/places]
 Context=Places
@@ -78,6 +83,26 @@ Type=Threshold
 
 [scalable/places]
 Context=Places
+Size=64
+MinSize=33
+MaxSize=512
+Type=Scalable
+
+[32x32/mimetypes]
+Context=MimeTypes
+Size=32
+Threshold=8
+Type=Threshold
+
+[32x32@2x/mimetypes]
+Context=MimeTypes
+Size=32
+Scale=2
+Threshold=8
+Type=Threshold
+
+[scalable/mimetypes]
+Context=MimeTypes
 Size=64
 MinSize=33
 MaxSize=512

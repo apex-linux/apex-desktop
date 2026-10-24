@@ -18,6 +18,8 @@ DRAWN = ["folder", "user-home", "user-desktop", "folder-documents", "folder-down
          "folder-templates", "folder-videos"]
 SET_BY_APEX_FOLDER_ICONS_SH = ["folder-screenshots"]
 DRAWN += SET_BY_APEX_FOLDER_ICONS_SH
+# Nautilus's search provider names a folder ["inode-directory", "folder", ...], so St tries this first.
+MIMETYPES = ["inode-directory"]
 # The dock's bin, in no accent: every theme finds Apex's through Inherits=.
 NEUTRAL = ["user-trash", "user-trash-full"]
 LIST = [(16, 1), (24, 1), (32, 1), (16, 2), (24, 2), (32, 2)]
@@ -41,16 +43,16 @@ def main():
         return icon.get_file().get_path() if icon.get_file() else ""
 
     for theme, colour in [("Apex", accents["blue"])] + [("Apex-" + a, c) for a, c in accents.items()]:
-        for name in DRAWN:
+        for name, context in [(n, "places") for n in DRAWN] + [(n, "mimetypes") for n in MIMETYPES]:
             for (size, scale), subdirs in [(s, EMBLEMLESS_DIRS) for s in LIST] + \
                                           [(s, ["scalable"]) for s in GRID]:
-                wants = [os.path.join(themes, theme, d, "places", name + ".svg") for d in subdirs]
+                wants = [os.path.join(themes, theme, d, context, name + ".svg") for d in subdirs]
                 got = lookup(theme, name, size, scale)
                 if got not in wants:
                     fails.append(f"{theme} {name} at {size}@{scale}: {got or 'nothing'}, not {' or '.join(wants)}")
                 elif colour not in open(got).read():
                     fails.append(f"{got} does not use {colour}")
-                elif subdirs != ["scalable"] and 'scale(1.245)"/>' not in open(got).read():
+                elif (subdirs != ["scalable"] or context == "mimetypes") and 'scale(1.245)"/>' not in open(got).read():
                     fails.append(f"{got} has an emblem at a list size")
         for name in NEUTRAL:
             for (size, scale), subdir in [(s, "32x32") for s in LIST] + [(s, "scalable") for s in GRID]:
@@ -63,8 +65,8 @@ def main():
         print("FAIL:", fail, file=sys.stderr)
     if fails:
         sys.exit(1)
-    print(f"places-check.py: {len(DRAWN)} folder names and {len(NEUTRAL)} neutral ones resolve to Apex in all "
-          f"{len(accents) + 1} themes")
+    print(f"places-check.py: {len(DRAWN)} folder names, {len(MIMETYPES)} folder content type and {len(NEUTRAL)} "
+          f"neutral names resolve to Apex in all {len(accents) + 1} themes")
 
 
 main()
