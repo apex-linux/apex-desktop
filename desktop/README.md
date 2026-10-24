@@ -311,9 +311,15 @@ resolves it, and Apex can still draw it.
 `Gtk.IconTheme` in `Apex` (`.github/scripts/symbolic-check.py`). Through `Inherits=`, an
 Apex glyph wins and a stock Adwaita one is fine; a name nothing draws fails, and the check
 prints it, unless `tools/icons/unresolved.txt` lists it with why: names stock Fedora 45
-draws nowhere either. A listed name that resolves now fails too, so the list stays true. It reports how many names each theme draws; `SYMBOLIC_FLAGS=--fallbacks` lists
-the names Apex Symbolic does not draw yet. CI runs both in fedora:45, and warns, without
-failing, when a fresh scan differs from the committed list.
+draws nowhere either. A listed name that resolves now fails too, so the list stays true.
+It reports how many names each theme draws; `SYMBOLIC_FLAGS=--fallbacks` lists the names
+Apex Symbolic does not draw yet. CI runs both in fedora:45, and warns, without failing,
+when a fresh scan differs from the committed list.
+
+Coverage at be586ff, with boards 31 and 31b: of the 275 names, Apex Symbolic draws 129 and
+Adwaita 135; GTK's and libadwaita's own bundles draw 2, Epiphany's GResource 1 and
+Settings' hicolor icon 1; 7 are known gaps. `make check-icons` prints the same line, and
+`SYMBOLIC_FLAGS=--fallbacks` the 135 names, so refresh these numbers with each board.
 
 ## `plymouth/`
 
