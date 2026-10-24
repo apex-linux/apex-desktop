@@ -12,12 +12,11 @@ import gi
 gi.require_version("Gtk", "4.0")
 from gi.repository import Gtk  # noqa: E402
 
-# gio/glocalfileinfo.c get_icon_name(), and "folder", inode/directory's generic icon.
+# gio/glocalfileinfo.c get_icon_name(), "folder", and inode-directory, which Nautilus's search names first.
 DRAWN = ["folder", "user-home", "user-desktop", "folder-documents", "folder-download",
          "folder-music", "folder-pictures", "folder-projects", "folder-publicshare",
          "folder-templates", "folder-videos"]
 SET_BY_APEX_FOLDER_ICONS_SH = ["folder-screenshots"]
-# Nautilus's search provider names a folder ["inode-directory", "folder", ...], so St tries this first.
 DRAWN += SET_BY_APEX_FOLDER_ICONS_SH + ["folder-remote", "inode-directory"]
 # The dock's bin, in no accent: every theme finds Apex's through Inherits=.
 NEUTRAL = ["user-trash", "user-trash-full"]
