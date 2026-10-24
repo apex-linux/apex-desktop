@@ -51,12 +51,12 @@ prompt. It also ships the crash guard: when GNOME Shell fails within 60 seconds 
 layer's enable, apex-shell-safe.service sets layer-enabled to false for that user. The
 light and dark Apex Facets wallpapers ship as PNGs, paired for GNOME's background
 chooser. The Apex icon theme carries Colloid's full-colour app icons and the Apex
-Symbolic glyphs, with their strokes turned into fills, and the flat Apex folders in
-blue, and inherits Adwaita and hicolor. Nine Apex-<accent> themes carry the folders in
-each libadwaita accent and inherit Apex. The Plymouth script theme apex draws the boot
-splash and the disk passphrase field at 1x and @2x; apex-twostep is its two-step
-fallback. A tmpfiles entry creates the global Flatpak override, when there is none, so
-that Flatpak apps read the window radius in apex.css.
+Symbolic glyphs, with their strokes turned into fills, and the flat Apex folders in blue
+and its file icons, and inherits Adwaita and hicolor. Nine Apex-<accent> themes carry
+the folders in each libadwaita accent and inherit Apex. The Plymouth script theme apex
+draws the boot splash and the disk passphrase field at 1x and @2x; apex-twostep is its
+two-step fallback. A tmpfiles entry creates the global Flatpak override, when there is
+none, so that Flatpak apps read the window radius in apex.css.
 
 %prep
 %autosetup -n %{name}-%{version}
@@ -75,6 +75,8 @@ for f in desktop/icons/symbolic/*.svg; do
 done
 bash desktop/icons/build-places.sh themes desktop/icons/places/folder.svg \
     desktop/icons/places/emblems desktop/icons/accents
+bash desktop/icons/build-mimetypes.sh themes desktop/icons/mimetypes/file.svg \
+    desktop/icons/mimetypes/kinds desktop/icons/mimetypes/types
 bash desktop/plymouth/build.sh plymouth desktop/plymouth/art/*.svg
 
 %install
@@ -148,6 +150,10 @@ bash desktop/plymouth/check-theme.sh %{buildroot}%{_datadir}/plymouth/themes
 %{_datadir}/plymouth/themes/apex-twostep/
 
 %changelog
+* Sat Oct 24 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
+- Apex file icons (boards 27 to 29): flat pages in board 27's file colours, labelled
+  from 41 px up, for the generic icons and the common content types Files shows
+
 * Sat Oct 24 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
 - Apex folders (boards 27 to 29): flat, in the accent, with Apex Symbolic emblems
   from 33 px up; the nine Apex-<accent> folder themes, which inherit Apex

@@ -46,6 +46,7 @@ jobs:
           test -s target/check-data/plymouth-frames/apex-scale1-splash.png
           grep -q '^tmpfiles-check.sh: ' /tmp/check-data.log
           grep -q '^places-check.py: .* resolve to Apex' /tmp/check-data.log
+          grep -q '^mimetypes-check.py: .* resolve to Apex' /tmp/check-data.log
 
       - name: The prompt under VTE's shell integration
         run: .github/scripts/prompt-vte-check.sh
@@ -60,6 +61,7 @@ jobs:
           rpm2cpio /tmp/rpms/apex-desktop-*.rpm | (cd /tmp/payload && cpio -idm --quiet)
           bash desktop/plymouth/check-theme.sh /tmp/payload/usr/share/plymouth/themes
           python3 .github/scripts/places-check.py /tmp/payload/usr/share/icons
+          python3 .github/scripts/mimetypes-check.py /tmp/payload/usr/share/icons
 
   scripts:
     name: shellcheck, actionlint, selftest
