@@ -1,10 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
   <path
-    d="M2.13 6.31A8.6 8.6 0 0 1 13.87 6.31"
+    d="M2.13 6.31A8.6 8.6 0 0 1 13.87 6.31M4.73 9.09A4.8 4.8 0 0 1 11.27 9.09"
     fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" stroke-opacity=".35"/>
-  <path
-    d="M4.73 9.09A4.8 4.8 0 0 1 11.27 9.09"
-    fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
   <path
     d="M6.4 12.6a1.6 1.6 0 1 0 3.2 0a1.6 1.6 0 1 0-3.2 0z"
     fill="currentColor" stroke="none" fill-rule="evenodd"/>
