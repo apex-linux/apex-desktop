@@ -66,8 +66,15 @@ for n in watermark entry bullet lock; do
 done
 file="$themes/apex-twostep/apex-twostep.plymouth"
 [[ $(value "$file" boot-up UseProgressBar) == true ]] || fail "$file: the boot has no progress bar"
-[[ $(value "$file" two-step ProgressBarWidth)x$(value "$file" two-step ProgressBarHeight) == 160x3 ]] ||
-    fail "$file: the bar is not 160x3"
+# Both themes are drawn for DeviceScale=1: device-size images, bar and text.
+[[ $(value "$file" two-step ProgressBarWidth)x$(value "$file" two-step ProgressBarHeight) == 320x6 ]] ||
+    fail "$file: the bar is not board 01's 160x3 at @2x"
+[[ $(png_size "$themes/apex-twostep/watermark.png") == "$(png_size "$themes/apex/wordmark@2x.png")" ]] ||
+    fail "apex-twostep/watermark.png is not the @2x wordmark"
+for f in "$themes/apex/apex.plymouth:script" "$file:two-step"; do
+    [[ $(value "${f%:*}" "${f##*:}" MonospaceFont) == "monospace 20" ]] ||
+        fail "${f%:*}: MonospaceFont is not 'monospace 20', the Esc view's DeviceScale=2 size"
+done
 
 ((fails == 0)) || exit 1
 echo "check-theme.sh: apex (${#assets[@]} images at 1x and @2x) and apex-twostep pass"

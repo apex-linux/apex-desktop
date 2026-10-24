@@ -48,8 +48,8 @@ rebuilt gnome-shell. The layer treats a missing schema as safe mode. It ships Ap
 vendor defaults for GNOME's own schemas, the Open Spotlight row of Settings > Keyboard,
 the ss03 feature of Adwaita Sans, the default Ptyxis profile and the coloured bash
 prompt. It also ships the crash guard: when GNOME Shell fails within 60 seconds of the
-layer's enable, apex-shell-safe.service sets layer-enabled to false for that user. The light and dark
-Apex Facets wallpapers ship as PNGs, paired for GNOME's background chooser. The Apex
+layer's enable, apex-shell-safe.service sets layer-enabled to false for that user.
+The light and dark Apex Facets wallpapers ship as PNGs, paired for GNOME's background chooser. The Apex
 icon theme carries Colloid's full-colour app icons and the Apex Symbolic glyphs, with
 their strokes turned into fills, and inherits Adwaita and hicolor. The Plymouth script
 theme apex draws the boot splash and the disk passphrase field at 1x and @2x;
@@ -139,6 +139,10 @@ bash desktop/plymouth/check-theme.sh %{buildroot}%{_datadir}/plymouth/themes
 %changelog
 * Sat Oct 24 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
 - /etc/profile.d/apex-prompt.sh: board 32's prompt, a blue directory and a dim $
+
+* Sat Oct 24 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
+- Both Plymouth themes drawn for DeviceScale=1: apex-twostep at @2x with a 320x6 bar,
+  and MonospaceFont=monospace 20 so the Esc view keeps its DeviceScale=2 size
 
 * Sat Oct 24 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
 - The Plymouth script theme apex (boards 01 and 30): the wordmark, the 160x3 bar with

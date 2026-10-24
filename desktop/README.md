@@ -157,30 +157,42 @@ needs no font and no label plugin; `build.sh` fails when fontconfig does not res
 Adwaita Sans ExtraBold. Neither theme sets itself as the default: the image runs
 `plymouth-set-default-theme apex` before dracut.
 
+Both themes are drawn for `DeviceScale=1`, which the image sets in `plymouthd.conf`.
 Plymouth 26 draws a script image at one image pixel per logical pixel and has no call
-to change that. `apex.script` lays the boards out in logical pixels from the screen's
+to change that, so a sharp splash on the 2880×1800 panel needs the panel's pixels to be
+logical ones. `apex.script` lays the boards out in logical pixels from the screen's
 centre and loads the `@2x` images when the screen is at least 1600 logical pixels high:
 
-- at `DeviceScale=1`, the laptop's 2880×1800 is logical, so the `@2x` images draw 1:1
-  and sharp;
-- at `DeviceScale=2`, it is 1440×900 logical, so the 1x images draw at the right size,
-  upscaled and soft.
+- at `DeviceScale=1`, the `@2x` images draw 1:1 and sharp;
+- at `DeviceScale=2`, the panel is 1440×900 logical, so the 1x images draw at the right
+  size, upscaled and soft. A 1080p monitor gets the 1x images 1:1.
 
-`apex-twostep` has one size, the 1x images and a 160×3 bar, right at `DeviceScale=2`.
+`apex-twostep` has one size: the `@2x` images, a 320×6 bar and 20 pt text.
+
+Esc in either theme shows Plymouth's console viewer, the text view that always shows
+the passphrase prompt. Its text is drawn by `label-freetype` (the only label plugin
+in the initramfs) at points × 96 dpi × `DeviceScale`, so both keyfiles set
+`MonospaceFont=monospace 20`. At `DeviceScale=1` that matches Plymouth's default
+`monospace 10` at `DeviceScale=2`: a 28 px passphrase line with 21 px glyphs, against
+15 and 11 px without it. The font is the image's `fc-match monospace`, which
+plymouth-populate-initrd already copies into the initramfs.
 
 `check-theme.sh THEMES` fails when a keyfile lacks its `Name`, `ModuleName`, `ImageDir`
 or `ScriptFile` at `/usr/share/plymouth/themes/`, when an image `apex.script` loads is
 missing at 1x or `@2x`, when an `@2x` image is not exactly twice its 1x size, when the bar
-is not 160×3, or when a two-step image is missing. The spec's `%check` runs it on the
+is not 160×3 (320×6 for two-step's), when a two-step image is missing or not at `@2x`, or
+when a keyfile's `MonospaceFont` is not `monospace 20`. The spec's `%check` runs it on the
 installed themes, CI on the built RPM's payload, and `make check-data` on `build.sh`'s
 output.
 
 `.github/scripts/plymouth-preview.sh THEMES OUTDIR` boots both themes headless:
-plymouthd on its X11 renderer (`plymouth-devel`) in Xvfb, a 2880×1800 screen at
-`DeviceScale` 2 and 1. It shows the
-splash at 58 %, asks for a passphrase, types one, answers it and asks again, saves each
-frame as PNG, and checks pixels: the black background, the wordmark, the bar's fill and
-track, the field, the placeholder, the hint, the first bullet and the error ring. It runs
+plymouthd on its X11 renderer (`plymouth-devel`) in Xvfb, on a 2880×1800 screen at
+`DeviceScale` 1, then `apex` again at 2. It shows the splash at 58 %, asks for a
+passphrase, types one, answers it, asks again and presses Esc. It saves each frame as
+PNG and checks pixels: the black background, the wordmark, the bar's fill and track, the
+field, the placeholder, the hint, the first bullet, the error ring and the Esc view.
+At `DeviceScale=1` it also checks that the Esc view's passphrase line is 24 to 36 px
+high. It hides `label-pango` while it runs, so text is sized as in the initramfs. It runs
 as root in a container only, because the themes go to `/run/plymouth/themes`; `make
 check-data` runs it there, and CI fails if it skipped.
 
