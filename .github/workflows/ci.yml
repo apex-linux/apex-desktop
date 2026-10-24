@@ -66,6 +66,54 @@ jobs:
           python3 .github/scripts/places-check.py /tmp/payload/usr/share/icons
           python3 .github/scripts/mimetypes-check.py /tmp/payload/usr/share/icons
 
+  icons:
+    name: make check-icons, the symbolic icon scan (Fedora 45)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    container:
+      image: registry.fedoraproject.org/fedora:45@sha256:1e13e11f63e147a40a935c9046c79d53a30b861a3cf05ebb023bb53c562382cb
+    steps:
+      - name: Tools for checkout and the check
+        run: >-
+          dnf5 -y --setopt=install_weak_deps=False --repo=fedora --repo=updates install
+          git-core make inkscape libxml2 python3-gobject gtk4 adwaita-icon-theme hicolor-icon-theme
+          glib2-devel grep diffutils
+
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: The scanned packages
+        run: >-
+          sed 's/#.*//' tools/icons/packages.txt | xargs
+          dnf5 -y --setopt=install_weak_deps=False --repo=fedora --repo=updates install
+
+      - name: make check-icons
+        # After the apps: the icons they install in hicolor resolve, as in the image.
+        run: make check-icons SYMBOLIC_FLAGS=--fallbacks
+
+      - name: A name nothing draws fails the check
+        run: |
+          cp desktop/icons/expected-symbolic.txt /tmp/names
+          printf 'apex-no-such-icon-symbolic\tci\n' >>/tmp/names
+          if python3 .github/scripts/symbolic-check.py --unresolved tools/icons/unresolved.txt \
+            /tmp/names target/check-data/icons >/tmp/out; then exit 1; fi
+          grep -Fx "$(printf '  apex-no-such-icon-symbolic\tci')" /tmp/out
+
+      - name: tools/icons/scan.sh matches expected-symbolic.txt
+        # A Fedora update moves the list without any change here, so a drift warns instead of failing.
+        run: |
+          tools/icons/scan.sh tools/icons/packages.txt >/tmp/expected-symbolic.txt 2>/tmp/templates.txt
+          sort -u /tmp/templates.txt
+          if ! diff -u desktop/icons/expected-symbolic.txt /tmp/expected-symbolic.txt; then
+            echo "::warning::desktop/icons/expected-symbolic.txt differs from a fresh scan; run tools/icons/scan.sh"
+            cat /tmp/expected-symbolic.txt
+            python3 .github/scripts/symbolic-check.py --fallbacks --unresolved tools/icons/unresolved.txt \
+              /tmp/expected-symbolic.txt target/check-data/icons || true
+          fi
+
   scripts:
     name: shellcheck, actionlint, selftest
     runs-on: ubuntu-24.04
@@ -87,7 +135,7 @@ jobs:
       - name: bash -n and shellcheck
         run: |
           files=(.github/scripts/*.sh desktop/icons/*.sh desktop/plymouth/*.sh desktop/ptyxis/*.sh
-            desktop/gdm/*.sh desktop/wallpapers/*.sh)
+            desktop/gdm/*.sh desktop/wallpapers/*.sh tools/icons/*.sh)
           for f in "${files[@]}"; do bash -n "$f"; done
           shellcheck -x -P .github/scripts --severity=style "${files[@]}"
 
