@@ -56,7 +56,9 @@ if ((EUID != 0)); then
 fi
 
 # --- apex-desktop.spec installs every file of desktop/ ---------------------------------------
-unpackaged=$(cd "$APEX_ROOT" && git ls-files --cached --others --exclude-standard -- desktop ':(exclude)desktop/README.md' |
+# expected-symbolic.txt is make check-icons' input, not a file the RPM ships.
+unpackaged=$(cd "$APEX_ROOT" && git ls-files --cached --others --exclude-standard -- desktop ':(exclude)desktop/README.md' \
+    ':(exclude)desktop/icons/expected-symbolic.txt' |
     while IFS= read -r f; do
         grep -Fq -e "$f" -e "${f%/*}/*.${f##*.}" packaging/apex-desktop.spec || printf '%s ' "$f"
     done)
@@ -175,6 +177,90 @@ for f in a.pgm B.PGM x/print.Variant rec.ioctl x/y/rec.UMOCKDEV cap.pcap cap.Pca
 done
 check_false ".gitignore keeps the dconf keyfiles" \
     git -C "$APEX_ROOT" check-ignore -q --no-index desktop/dconf/distro.d/50-apex-ptyxis
+
+# --- tools/icons/scan.sh, over a fake rpm -----------------------------------------------------
+mkdir -p "$TMP/scan/bin" "$TMP/scan/pkg/icons/hicolor/symbolic/apps"
+# shellcheck disable=SC2016 # the shell template is the input, not an expansion
+printf '%s\n' "label='x-symbolic' y@2-symbolic view-%s-symbolic" '`net-${s}-symbolic` z-symbolic' \
+    'Clipboardexternal-link-symbolic image.dialog-error-symbolic org.gnome.Fake-symbolic force-symbolic' \
+    "'w-symbolic' /org/fake/icons/scalable/actions/w-symbolic.svg" \
+    "'readonly-symbolic' /org/fake/icons/scalable/actions/emblem-readonly-symbolic.svg" >"$TMP/scan/pkg/a.js"
+: >"$TMP/scan/pkg/icons/hicolor/symbolic/apps/z-symbolic.svg"
+cat >"$TMP/scan/bin/rpm" <<FAKE
+#!/bin/sh
+case "\$1" in -ql) printf '%s\n' "$TMP/scan/pkg/a.js" "$TMP/scan/pkg/icons/hicolor/symbolic/apps/z-symbolic.svg" ;;
+    -qa) echo 'fake fake-1-1.src.rpm' ;;
+    -q) case "\$3" in *SOURCERPM*) printf 'fake-1-1.src.rpm' ;; *NAME*) echo '@fake-1-1' ;; esac ;; esac
+exit 0
+FAKE
+printf '#!/bin/sh\nexit 1\n' >"$TMP/scan/bin/gresource"
+chmod +x "$TMP/scan/bin/rpm" "$TMP/scan/bin/gresource"
+printf 'fake\n' >"$TMP/scan/packages"
+scanned=$(PATH="$TMP/scan/bin:$PATH" bash "$APEX_ROOT/tools/icons/scan.sh" "$TMP/scan/packages" 2>"$TMP/scan/templates" |
+    grep -v -e '^[#@]' -e $'\tgnome-shell$')
+check "scan.sh lists literal names and app ids, not a name the package ships, a fragment or a run-together string" \
+    "$(printf 'org.gnome.Fake-symbolic\tfake\nx-symbolic\tfake')" "$scanned"
+check_true "scan.sh reports a name built at run time" grep -Fq 'template fake: view-%s-symbolic' "$TMP/scan/templates"
+
+# --- symbolic-check.py, where GTK 4 for Python is installed ------------------------------------
+if python3 -c 'import gi; gi.require_version("Gtk", "4.0"); from gi.repository import Gtk' 2>/dev/null; then
+    mkdir -p "$TMP/sym/themes/Apex/symbolic" "$TMP/sym/share/Adwaita/symbolic/actions" "$TMP/sym/share/hicolor"
+    cp "$APEX_ROOT/desktop/icons/index.theme" "$TMP/sym/themes/Apex/"
+    printf '[Icon Theme]\nName=Adwaita\nInherits=hicolor\nDirectories=symbolic/actions\n[symbolic/actions]\nSize=16\nMinSize=8\nMaxSize=512\nType=Scalable\n' \
+        >"$TMP/sym/share/Adwaita/index.theme"
+    printf '[Icon Theme]\nName=Hicolor\nDirectories=\n' >"$TMP/sym/share/hicolor/index.theme"
+    svg='<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><path d="M0 0h16v16z"/></svg>'
+    printf '%s\n' "$svg" >"$TMP/sym/themes/Apex/symbolic/apex-only-symbolic.svg"
+    printf '%s\n' "$svg" >"$TMP/sym/share/Adwaita/symbolic/actions/stock-only-symbolic.svg"
+    printf '# list\n@fake-1-1\napex-only-symbolic\tfake\nstock-only-symbolic\tfake\n' >"$TMP/sym/names"
+    sym_check() { python3 "$APEX_ROOT/.github/scripts/symbolic-check.py" "$TMP/sym/names" "$TMP/sym/themes" --search "$TMP/sym/share" \
+        ${sym_gaps:+--unresolved "$sym_gaps"}; }
+    sym_gaps=
+    check "symbolic-check.py counts an Apex glyph and an Adwaita fallback" \
+        "symbolic-check.py: 2 names: 1 from Apex, 1 from Adwaita" "$(sym_check 2>&1)"
+    printf 'toolkit-only-symbolic\tfake\ttoolkit\n' >>"$TMP/sym/names"
+    check_true "symbolic-check.py counts a name its toolkit bundles" sym_check
+    printf 'apex-no-such-icon-symbolic\tfake\n' >>"$TMP/sym/names"
+    check_false "symbolic-check.py fails on a name nothing draws" sym_check
+    printf 'apex-no-such-icon-symbolic\tstock draws none\n' >"$TMP/sym/gaps"
+    sym_gaps=$TMP/sym/gaps
+    check_true "symbolic-check.py passes a listed gap" sym_check
+    printf 'stock-only-symbolic\tstale\n' >>"$TMP/sym/gaps"
+    check_false "symbolic-check.py fails on a listed gap that resolves" sym_check
+fi
+# --- apex-folder-icons.sh, against a temporary HOME -------------------------------------------
+mkdir -p "$TMP/fi/bin"
+cat >"$TMP/fi/bin/gio" <<'FAKE'
+#!/bin/sh
+case "$1" in
+    info) [ -e "$4/.fake-icon" ] && echo '  metadata::custom-icon-name: user-set'; exit 0 ;;
+    set) echo "$4 $5 $6" >>"$HOME/gio.log" ;;
+esac
+FAKE
+# shellcheck disable=SC2016 # the fakes expand these when they run
+{
+    printf '#!/bin/sh\necho "$HOME/Pictures"\n' >"$TMP/fi/bin/xdg-user-dir"
+    printf '#!/bin/sh\necho "${FAKE_SHOTS:-Screenshots}"\n' >"$TMP/fi/bin/gettext"
+}
+chmod +x "$TMP/fi/bin/"*
+folder_icons() {
+    rm -rf "$TMP/fi/home" && mkdir -p "$TMP/fi/home"
+    for d in "$@"; do mkdir -p "$TMP/fi/home/$d"; done
+    HOME="$TMP/fi/home" PATH="$TMP/fi/bin:$PATH" sh "$APEX_ROOT/desktop/icons/apex-folder-icons.sh"
+    cat "$TMP/fi/home/gio.log" 2>/dev/null || true
+}
+check "apex-folder-icons.sh sets both icons when both folders exist" \
+    "$TMP/fi/home/Projects metadata::custom-icon-name folder-projects
+$TMP/fi/home/Pictures/Screenshots metadata::custom-icon-name folder-screenshots" \
+    "$(folder_icons Projects Pictures/Screenshots)"
+check "apex-folder-icons.sh sets nothing when the folders are absent" "" "$(folder_icons Pictures)"
+check_false "apex-folder-icons.sh creates no folder" test -e "$TMP/fi/home/Projects"
+check "apex-folder-icons.sh keeps an icon the user set" \
+    "$TMP/fi/home/Pictures/Screenshots metadata::custom-icon-name folder-screenshots" \
+    "$(folder_icons Projects/.fake-icon Pictures/Screenshots)"
+check "apex-folder-icons.sh finds Screenshots under the shell's translation" \
+    "$TMP/fi/home/Pictures/Ảnh chụp màn hình metadata::custom-icon-name folder-screenshots" \
+    "$(FAKE_SHOTS='Ảnh chụp màn hình' folder_icons 'Pictures/Ảnh chụp màn hình' Pictures/Screenshots)"
 
 if ((FAILS > 0)); then
     die "selftest: $FAILS failure(s)"

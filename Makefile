@@ -3,6 +3,8 @@
 # GNU make. packaging/apex-desktop.spec installs the files; this file checks them and
 # builds the RPM from git HEAD.
 
+PYTHON ?= python3
+SYMBOLIC_FLAGS ?=
 RPMBUILD ?= rpmbuild
 # rpms.sh reads the RPMs from target/rpm.
 BUILD_DIR ?= target
@@ -28,7 +30,7 @@ SHORTCOMMIT  = $(shell git rev-parse --short=12 HEAD 2>/dev/null)
 COLLOID_COMMIT = $(shell sed -n 's/^%global colloid_commit[[:space:]]*//p' $(SPEC))
 RPMBUILD_FLAGS ?=
 
-.PHONY: all check-data rpm clean help
+.PHONY: all check-data check-icons rpm clean help
 .DELETE_ON_ERROR:
 
 all: help
@@ -38,6 +40,9 @@ help:
 	@echo '                  check on desktop/, the tmpfiles entry, and the Plymouth themes: built, checked and,'
 	@echo '                  as root in a container, rendered headless into $(CHECK_DIR)/plymouth-frames'
 	@echo '                  (validators that are not installed are skipped)'
+	@echo 'make check-icons  every name of desktop/icons/expected-symbolic.txt resolves through Apex'
+	@echo '                  (needs inkscape and GTK 4 for Python; SYMBOLIC_FLAGS=--fallbacks lists'
+	@echo '                  the names Apex does not draw)'
 	@echo 'make rpm          the apex-desktop SRPM and RPM from git HEAD, into $(RPM_TOPDIR)'
 	@echo 'make clean        remove $(RPM_TOPDIR), $(CHECK_DIR) and $(COLLOID_GIT)'
 
@@ -167,6 +172,25 @@ check-data:
 	else \
 		echo "skip: rsvg-convert or Adwaita Sans not found, so no Plymouth check (Fedora: librsvg2-tools adwaita-sans-fonts)"; \
 	fi
+	@names=$$(sed -n 's/^set_icon .* \([a-z-]*\)$$/\1/p' desktop/icons/apex-folder-icons.sh); \
+	[ -n "$$names" ] || { echo "error: apex-folder-icons.sh sets no icon" >&2; exit 1; }; \
+	for n in $$names; do \
+		grep -q "^$$n " desktop/icons/places/emblems || \
+			{ echo "error: apex-folder-icons.sh sets $$n, which desktop/icons/places/emblems does not draw" >&2; exit 1; }; \
+	done; \
+	echo "apex-folder-icons.sh: $$(echo $$names) are in desktop/icons/places/emblems"
+
+check-icons:
+	@command -v inkscape >/dev/null 2>&1 || { echo "error: check-icons needs inkscape (Fedora: inkscape)" >&2; exit 1; }
+	rm -rf '$(CHECK_DIR)/icons' && mkdir -p '$(CHECK_DIR)/icons/Apex/symbolic'
+	cp desktop/icons/index.theme '$(CHECK_DIR)/icons/Apex/'
+	@echo "bash desktop/icons/fill-strokes.sh desktop/icons/symbolic/*.svg into $(CHECK_DIR)/icons/Apex/symbolic"
+	@for f in desktop/icons/symbolic/*.svg; do \
+		n=$${f##*/}; \
+		bash desktop/icons/fill-strokes.sh "$$f" "$(CHECK_DIR)/icons/Apex/symbolic/$${n%.svg}-symbolic.svg" || exit 1; \
+	done 2>/dev/null
+	$(PYTHON) .github/scripts/symbolic-check.py $(SYMBOLIC_FLAGS) --unresolved tools/icons/unresolved.txt \
+		desktop/icons/expected-symbolic.txt '$(CHECK_DIR)/icons'
 
 rpm:
 	@if [ -z '$(SHORTCOMMIT)' ]; then \

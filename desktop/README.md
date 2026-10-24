@@ -251,6 +251,19 @@ when Python has GTK 4; CI requires it, and runs it again on the RPM's payload.
 Not drawn on the boards, so still Adwaita's: `folder-remote`, `user-trash` and
 `user-trash-full`. apex-session-agent points `icon-theme` at `Apex-<accent>` (S7).
 
+GLib names no icon for two of board 27's folders, so `places/emblems` also draws
+`folder-screenshots` (camera-photo), and `apex-folder-icons.sh`, installed as
+`/usr/libexec/apex-folder-icons`, gives both folders their name as
+`metadata::custom-icon-name` through `gio set`: `~/Projects` gets `folder-projects`, and
+the Pictures folder's `Screenshots`, under the name GNOME Shell's own translation gives
+it (`gettext -d gnome-shell`), gets `folder-screenshots`. `apex-folder-icons.service`
+runs it at each login: a `graphical-session.target.wants` link in `/usr/lib/systemd/user`
+enables it for every user, with no preset to apply. It only sets the key on a folder that
+exists and has no custom icon yet, so it never creates a folder or replaces the user's
+choice; a Screenshots folder made during a session gets its icon at the next login.
+`make check-data` checks that every name it sets is in `places/emblems`, and the self-test
+runs it against a temporary HOME with fake `gio`, `xdg-user-dir` and `gettext`.
+
 ### File icons
 
 Boards 27 to 29 draw a file as a flat page on the same 64-unit grid, in its kind's
@@ -277,6 +290,30 @@ Apex file icon in its kind's colour, at list and grid sizes and at scale 1 and 2
 
 To move the Colloid pin, set `colloid_commit` and run `make rpm`: `%prep` fails, and
 `sha256sum target/rpm/SOURCES/Colloid-icon-theme-*.tar` gives the new `colloid_sha256`.
+
+### Symbolic icon coverage
+
+`expected-symbolic.txt` lists every `*-symbolic` name that the Fedora 45 shell, GTK 4,
+libadwaita and the apps of apex-image's `gnome.txt` request and do not ship themselves,
+with the packages that request it. `tools/icons/scan.sh tools/icons/packages.txt` writes it
+in fedora:45 with those packages installed: it reads each package's ELF files, GResources
+(through `gresource extract`, so compressed ones too), JavaScript, GtkBuilder, CSS and
+Python files. Its `@` lines name the versions it read, so a Fedora update shows up as a
+diff. Names built at run time, such as UPower's battery levels and the shell's signal
+strengths, are not literals: the scan prints them as templates, and `DYNAMIC` in
+`scan.sh` lists the families Apex knows of.
+
+A name stays unless the source package that asks for it ships it, under that name or as a
+longer one ending in it. A name GTK or libadwaita bundles is marked `toolkit`: every app
+resolves it, and Apex can still draw it.
+
+`make check-icons` builds Apex Symbolic, then looks every name up with GTK 4's own
+`Gtk.IconTheme` in `Apex` (`.github/scripts/symbolic-check.py`). Through `Inherits=`, an
+Apex glyph wins and a stock Adwaita one is fine; a name nothing draws fails, and the check
+prints it, unless `tools/icons/unresolved.txt` lists it with why: names stock Fedora 45
+draws nowhere either. A listed name that resolves now fails too, so the list stays true. It reports how many names each theme draws; `SYMBOLIC_FLAGS=--fallbacks` lists
+the names Apex Symbolic does not draw yet. CI runs both in fedora:45, and warns, without
+failing, when a fresh scan differs from the committed list.
 
 ## `plymouth/`
 

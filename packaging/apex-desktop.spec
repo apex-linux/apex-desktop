@@ -32,6 +32,10 @@ BuildRequires:  systemd-rpm-macros
 
 # apex-shell-safe.service runs gsettings.
 Requires:       /usr/bin/gsettings
+# apex-folder-icons sets folder metadata with gio, in the shell's translation of Screenshots.
+Requires:       /usr/bin/gio
+Requires:       /usr/bin/gettext
+Requires:       /usr/bin/xdg-user-dir
 # The Apex theme inherits both, and icon-theme='Apex' relies on it.
 Requires:       adwaita-icon-theme
 Requires:       hicolor-icon-theme
@@ -89,6 +93,13 @@ install -Dm0644 desktop/systemd/user/apex-shell-safe.service \
     %{buildroot}%{_userunitdir}/apex-shell-safe.service
 install -Dm0644 'desktop/systemd/user/org.gnome.Shell@.service.d/50-apex.conf' \
     '%{buildroot}%{_userunitdir}/org.gnome.Shell@.service.d/50-apex.conf'
+install -Dm0644 desktop/systemd/user/apex-folder-icons.service \
+    %{buildroot}%{_userunitdir}/apex-folder-icons.service
+install -Dm0755 desktop/icons/apex-folder-icons.sh %{buildroot}%{_libexecdir}/apex-folder-icons
+# Enabled for every user by this link, not by a preset: the spec runs no scriptlets.
+install -dm0755 %{buildroot}%{_userunitdir}/graphical-session.target.wants
+ln -s ../apex-folder-icons.service \
+    %{buildroot}%{_userunitdir}/graphical-session.target.wants/apex-folder-icons.service
 install -Dm0644 desktop/schemas/90_apex.gschema.override \
     %{buildroot}%{_datadir}/glib-2.0/schemas/90_apex.gschema.override
 install -Dm0644 desktop/dconf/distro.d/50-apex-ptyxis \
@@ -151,6 +162,10 @@ bash desktop/wallpapers/check-greeter.sh %{buildroot}%{_datadir}/backgrounds/ape
 # gnome-shell ships no drop-in directory for its unit, so this package owns it.
 %dir %{_userunitdir}/org.gnome.Shell@.service.d
 %{_userunitdir}/org.gnome.Shell@.service.d/50-apex.conf
+%{_userunitdir}/apex-folder-icons.service
+%dir %{_userunitdir}/graphical-session.target.wants
+%{_userunitdir}/graphical-session.target.wants/apex-folder-icons.service
+%{_libexecdir}/apex-folder-icons
 %dir %{_datadir}/backgrounds/apex
 %{_datadir}/backgrounds/apex/apex-facets-light.png
 %{_datadir}/backgrounds/apex/apex-facets-dark.png
@@ -168,6 +183,9 @@ bash desktop/wallpapers/check-greeter.sh %{buildroot}%{_datadir}/backgrounds/ape
 * Sat Oct 24 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
 - disabled-features takes only the layer's feature names, as choices, so gsettings refuses
   a misspelt one
+
+* Sat Oct 24 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
+- apex-folder-icons.service: the Projects and Screenshots folder icons at login
 
 * Sat Oct 24 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
 - Board 12's greeter: the pre-blurred Facets backgrounds at 2880x1800, and the gdm logo,
