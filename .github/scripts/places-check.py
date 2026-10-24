@@ -17,7 +17,7 @@ DRAWN = ["folder", "user-home", "user-desktop", "folder-documents", "folder-down
          "folder-music", "folder-pictures", "folder-projects", "folder-publicshare",
          "folder-templates", "folder-videos"]
 SET_BY_APEX_FOLDER_ICONS_SH = ["folder-screenshots"]
-DRAWN += SET_BY_APEX_FOLDER_ICONS_SH
+DRAWN += SET_BY_APEX_FOLDER_ICONS_SH + ["folder-remote"]
 # The dock's bin, in no accent: every theme finds Apex's through Inherits=.
 NEUTRAL = ["user-trash", "user-trash-full"]
 LIST = [(16, 1), (24, 1), (32, 1), (16, 2), (24, 2), (32, 2)]
