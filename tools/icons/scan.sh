@@ -44,24 +44,28 @@ contents() {
     fi
 }
 
-# "name<TAB>package" for every name PACKAGE requests, and "-name<TAB>package" for every icon it ships.
+# "name<TAB>PKG" for every name the installed packages built from PKG's source request, and
+# "-name<TAB>PKG" for every icon they ship: an app's icons often live in a -libs subpackage.
 scan_package() {
-    local pkg=$1 f
+    local pkg=$1 srpm f files=0 bundles=0
+    srpm=$(rpm -q --qf '%{SOURCERPM}' "$pkg")
     while IFS= read -r f; do
         [[ -f $f && ! -L $f ]] || continue
         if [[ $f =~ $ICON_FILE_RE ]]; then
             f=${f##*/}
             printf -- '-%s\t%s\n' "${f%%.*}" "$pkg"
         elif [[ $f =~ $TEXT_RE || $f == *.gresource ]] || is_elf "$f"; then
-            if is_elf "$f" || [[ $f == *.gresource ]]; then
-                { gresource list "$f" 2>/dev/null || true; } | { grep -E "$ICON_FILE_RE" || true; } |
-                    sed "s|.*/||; s|\..*||; s|^|-|; s|\$|\t$pkg|"
+            files=$((files + 1))
+            if { gresource list "$f" >"$TMP/resources"; } 2>/dev/null; then
+                bundles=$((bundles + 1))
+                { grep -E "$ICON_FILE_RE" "$TMP/resources" || true; } | sed "s|.*/||; s|\..*||; s|^|-|; s|\$|\t$pkg|"
             fi
             contents "$f" >"$TMP/contents"
             { grep -aoP "$TEMPLATE_RE" "$TMP/contents" || true; } | sed "s|^|template $pkg: |" >&2
             { grep -aoP "$NAME_RE" "$TMP/contents" || true; } | sed "s|\$|\t$pkg|"
         fi
-    done < <(rpm -ql "$pkg")
+    done < <(rpm -qa --qf '%{NAME} %{SOURCERPM}\n' | awk -v s="$srpm" '$2 == s { print $1 }' | xargs rpm -ql)
+    printf 'read %s: %s files, %s with GResources (%s)\n' "$pkg" "$files" "$bundles" "$srpm" >&2
 }
 
 main() {
@@ -83,10 +87,16 @@ main() {
             eval "printf '%s\t${entry%% *}\n' ${entry#* }"
         done
     } | awk -F '\t' '
-        /^-/ { shipped[substr($1, 2)] = 1; next }
-        { if (!(($1, $2) in seen)) { seen[$1, $2] = 1; by[$1] = by[$1] (by[$1] == "" ? "" : " ") $2 } }
-        END { for (n in by) if (!(n in shipped)) print n "\t" by[n] }
-    ' | LC_ALL=C sort
+        /^-/ { shipped[substr($1, 2), $2] = 1; next }
+        # Run-together strings and property paths: an icon name starts lower case, and only an app id has dots.
+        $1 ~ /^[A-Z]/ || ($1 ~ /\./ && $1 !~ /^[a-z]+\.[A-Za-z0-9]+\.[A-Za-z0-9]/) || $1 ~ /symb.*symb/ { next }
+        { want[$1 "\t" $2] = 1 }
+        END { for (k in want) { split(k, nk, "\t"); if (!((nk[1], nk[2]) in shipped)) print k } }
+    ' | LC_ALL=C sort -u | awk -F '\t' '
+        $1 != name { if (name != "") print name "\t" pkgs; name = $1; pkgs = $2; next }
+        { pkgs = pkgs " " $2 }
+        END { if (name != "") print name "\t" pkgs }
+    '
 }
 
 main "$@"

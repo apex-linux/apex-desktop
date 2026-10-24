@@ -181,12 +181,14 @@ check_false ".gitignore keeps the dconf keyfiles" \
 # --- tools/icons/scan.sh, over a fake rpm -----------------------------------------------------
 mkdir -p "$TMP/scan/bin" "$TMP/scan/pkg/icons/hicolor/symbolic/apps"
 # shellcheck disable=SC2016 # the shell template is the input, not an expansion
-printf '%s\n' "label='x-symbolic' y@2-symbolic view-%s-symbolic" '`net-${s}-symbolic` z-symbolic' >"$TMP/scan/pkg/a.js"
+printf '%s\n' "label='x-symbolic' y@2-symbolic view-%s-symbolic" '`net-${s}-symbolic` z-symbolic' \
+    'Clipboardexternal-link-symbolic image.dialog-error-symbolic org.gnome.Fake-symbolic' >"$TMP/scan/pkg/a.js"
 : >"$TMP/scan/pkg/icons/hicolor/symbolic/apps/z-symbolic.svg"
 cat >"$TMP/scan/bin/rpm" <<FAKE
 #!/bin/sh
 case "\$1" in -ql) printf '%s\n' "$TMP/scan/pkg/a.js" "$TMP/scan/pkg/icons/hicolor/symbolic/apps/z-symbolic.svg" ;;
-    -q) [ "\$2" = --qf ] && echo '@fake-1-1' ;; esac
+    -qa) echo 'fake fake-1-1.src.rpm' ;;
+    -q) case "\$3" in *SOURCERPM*) printf 'fake-1-1.src.rpm' ;; *NAME*) echo '@fake-1-1' ;; esac ;; esac
 exit 0
 FAKE
 printf '#!/bin/sh\nexit 1\n' >"$TMP/scan/bin/gresource"
@@ -194,7 +196,8 @@ chmod +x "$TMP/scan/bin/rpm" "$TMP/scan/bin/gresource"
 printf 'fake\n' >"$TMP/scan/packages"
 scanned=$(PATH="$TMP/scan/bin:$PATH" bash "$APEX_ROOT/tools/icons/scan.sh" "$TMP/scan/packages" 2>"$TMP/scan/templates" |
     grep -v -e '^[#@]' -e $'\tgnome-shell$')
-check "scan.sh lists a literal name, not a name the package ships or a fragment" "$(printf 'x-symbolic\tfake')" "$scanned"
+check "scan.sh lists literal names and app ids, not a name the package ships, a fragment or a run-together string" \
+    "$(printf 'org.gnome.Fake-symbolic\tfake\nx-symbolic\tfake')" "$scanned"
 check_true "scan.sh reports a name built at run time" grep -Fq 'template fake: view-%s-symbolic' "$TMP/scan/templates"
 
 # --- symbolic-check.py, where GTK 4 for Python is installed ------------------------------------
