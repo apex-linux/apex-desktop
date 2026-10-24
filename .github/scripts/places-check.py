@@ -16,6 +16,8 @@ from gi.repository import Gtk  # noqa: E402
 DRAWN = ["folder", "user-home", "user-desktop", "folder-documents", "folder-download",
          "folder-music", "folder-pictures", "folder-projects", "folder-publicshare",
          "folder-templates", "folder-videos"]
+SET_BY_APEX_FOLDER_ICONS_SH = ["folder-screenshots"]
+DRAWN += SET_BY_APEX_FOLDER_ICONS_SH
 # Files shows these too, but boards 27 to 29 do not draw them: they stay Adwaita's.
 UNDRAWN = ["folder-remote", "user-trash", "user-trash-full"]
 LIST = [(16, 1), (24, 1), (32, 1), (16, 2), (24, 2), (32, 2)]
