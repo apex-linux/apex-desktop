@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <path d="M6 15a4 4 0 0 1 4-4h13l5 5h26a4 4 0 0 1 4 4v6H6z" fill="@BACK@"/>
+  <rect x="6" y="21" width="52" height="35" rx="4" fill="@FRONT@"/>
+  <g id="emblem" transform="translate(22 28.5) scale(1.245)"/>
+</svg>

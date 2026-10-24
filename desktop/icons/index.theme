@@ -1,13 +1,33 @@
 [Icon Theme]
 Name=Apex
-Comment=Colloid app icons and the Apex Symbolic glyphs
+Comment=Colloid app icons, the Apex Symbolic glyphs and the Apex folders
 Inherits=Adwaita,hicolor
-Directories=scalable/apps,symbolic
+Directories=scalable/apps,32x32/places,32x32@2x/places,scalable/places,symbolic
 
 [scalable/apps]
 Context=Applications
 Size=48
 MinSize=16
+MaxSize=512
+Type=Scalable
+
+[32x32/places]
+Context=Places
+Size=32
+Threshold=8
+Type=Threshold
+
+[32x32@2x/places]
+Context=Places
+Size=32
+Scale=2
+Threshold=8
+Type=Threshold
+
+[scalable/places]
+Context=Places
+Size=64
+MinSize=33
 MaxSize=512
 Type=Scalable
 

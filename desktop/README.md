@@ -146,11 +146,12 @@ The `Apex` icon theme, in `/usr/share/icons/Apex/` (DESIGN.md, "Visual principle
 | Directory | What it holds |
 |---|---|
 | `scalable/apps/` | Colloid's full-colour app icons and its alias links, less the one alias with a `-symbolic` name, from the commit `colloid_commit` in the spec pins. `make rpm` fetches that commit with git and archives only `COLLOID_PATHS`; `%prep` checks the archive against `colloid_sha256` |
+| `32x32/places/`, `32x32@2x/places/`, `scalable/places/` | the Apex folders in blue, built by `build-places.sh` (below) |
 | `symbolic/` | Apex Symbolic: each `icons/symbolic/NAME.svg` becomes `NAME-symbolic.svg`, its strokes turned into fills by `fill-strokes.sh` (Inkscape's stroke-to-path), because GTK and St recolour fills only |
 
 `index.theme` inherits `Adwaita,hicolor`, so every symbolic icon Apex Symbolic does not
-draw yet, and every app icon Colloid lacks, comes from Adwaita and then hicolor. Folders,
-places and mimetypes are Adwaita's until S7. Glyphs are drawn on a 16 px grid with a 1 px
+draw yet, and every app icon Colloid lacks, comes from Adwaita and then hicolor.
+Mimetypes, and the places boards 27 to 29 do not draw, stay Adwaita's. Glyphs are drawn on a 16 px grid with a 1 px
 keyline, a 1.75 px stroke, and round caps and joins: the 78 glyphs of board 31, named by
 the board's ids. Nine of them (`go-next-arrow`, `apex-desktop`, `auth-fingerprint`,
 `selection-area`, `pointer`, `window`, `briefcase`, `globe`, `dark-mode`) add icons; the
@@ -164,12 +165,37 @@ glyph's own groups; a deeper stroke is left for `check-theme.sh` to catch. Fills
 cores and opacities pass through, and a `stroke-opacity` becomes a `fill-opacity`.
 
 `check-theme.sh` fails when `index.theme` lacks a key, a group or
-`Inherits=Adwaita,hicolor`, when a directory with icons is not listed, when an SVG does
+`Inherits=Adwaita,hicolor` (`Inherits=Apex` for an `Apex-<accent>` theme), when a directory with icons is not listed, when an SVG does
 not parse, when a link is absolute or dangling, when a symbolic icon has a stroke that is
 not `none` or sits outside `symbolic/`, and, given the sources, when a glyph's
 `stroke-opacity` did not survive as a fill or opacity. The spec's `%check` runs it on the installed theme; `make
 check-data` runs it on a theme built from `icons/`. GTK's icon cache is left to the image
 build and to gtk-update-icon-cache's file trigger.
+
+### Folders and the accent themes
+
+Boards 27 to 29 draw the folders flat, on a 64-unit grid: a back tab in the accent at
+68 % toward black, a 52×35 front with a 4-unit radius in the accent, and a white emblem,
+the Apex Symbolic glyph at a 1.5 stroke, at `translate(22 28.5) scale(1.245)`.
+`build-places.sh OUTDIR places/folder.svg places/emblems accents` renders the template:
+
+- for each name in `places/emblems` with its glyph. These are the folders GLib 2.90's
+  `glocalfileinfo.c` names (home, desktop, the XDG directories with `folder-projects`)
+  and plain `folder`, the generic icon of `inode/directory`;
+- for each of libadwaita's nine accents in `accents`, into `OUTDIR/Apex-<accent>`, whose
+  `index.theme` inherits `Apex`. The blue set also goes into `OUTDIR/Apex` itself.
+
+List sizes draw the folder without its emblem, as board 28's list view does at 30 px.
+`32x32/places` and its `Scale=2` twin are Threshold directories from 24 to 40 px, and
+`scalable/places` takes 33 px and up. GTK 4 prefers a directory of the request's scale,
+then a non-scalable one, so the emblem shows from 41 px up at either scale.
+`.github/scripts/places-check.py THEMES` checks that with GTK 4's own lookup: each name, in
+`Apex` and every `Apex-<accent>`, at 16 to 32 px and 48 to 256 px, at scale 1 and 2,
+resolves to the right directory of that theme, in its accent. `make check-data` runs it
+when Python has GTK 4; CI requires it, and runs it again on the RPM's payload.
+
+Not drawn on the boards, so still Adwaita's: `folder-remote`, `user-trash` and
+`user-trash-full`. apex-session-agent points `icon-theme` at `Apex-<accent>` (S7).
 
 To move the Colloid pin, set `colloid_commit` and run `make rpm`: `%prep` fails, and
 `sha256sum target/rpm/SOURCES/Colloid-icon-theme-*.tar` gives the new `colloid_sha256`.
