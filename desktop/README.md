@@ -11,6 +11,7 @@ The Apex desktop sources ([ADR 0014](https://github.com/apex-linux/apex/blob/mai
 | `wallpapers/` | `apex-desktop`: Apex Facets, rendered to PNG at build | GPL-3.0-or-later |
 | `fontconfig/` | `apex-desktop`: `ss03` for Adwaita Sans | GPL-3.0-or-later |
 | `dconf/` | `apex-desktop`: defaults no override can express, in dconf's `distro` database | GPL-3.0-or-later |
+| `ptyxis/` | `apex-desktop`: the coloured bash prompt, in `/etc/profile.d/` | GPL-3.0-or-later |
 | `systemd/` | `apex-desktop`: the shell's crash guard, as user units | GPL-3.0-or-later |
 | `icons/` | `apex-desktop`: the `Apex` icon theme, with Colloid's app icons fetched at build | GPL-3.0-or-later; Colloid GPL-3.0-only |
 
@@ -64,6 +65,21 @@ G1 (`image/checks/desktop.sh`) fails when:
 - a lock ships;
 - a keyfile sets a fixed-path key, or a profile that is not the default;
 - a value is not a valid `org.gnome.Ptyxis.Profile` setting.
+
+## `ptyxis/`
+
+`apex-prompt.sh` goes to `/etc/profile.d/` (ARCHITECTURE 7.4), so Fedora's `/etc/bashrc`
+sources it in every interactive bash, Ptyxis's included. It draws board 32's prompt in
+the terminal palette's ANSI colours: the working directory in blue (34) and a dim (2)
+` $`. Over SSH, `user@host` in green (32) and a dim `:` come first. The palette's
+colours themselves, and the accent caret, are apex-session-agent's `apex.palette` (S1b).
+
+It replaces PS1 only while PS1 is still Fedora's or bash's default, so a user's own
+prompt in `~/.bashrc` wins. `bash-color-prompt.sh` sorts after it and leaves a
+non-default PS1 alone. With `NO_COLOR` set, or `apex_prompt_disable=1` exported (from
+`~/.bash_profile`, for example), Fedora's prompt stays. Inside a toolbox the container's
+own `/etc/profile.d` applies, so a toolbox keeps Fedora's `⬢` prompt. `selftest.sh`
+checks each case in a clean bash.
 
 ## `keybindings/`
 

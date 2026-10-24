@@ -42,8 +42,8 @@ Data files of the Apex desktop. This build ships the io.github.apex_linux.Apex.D
 GSettings schema, with its Keybindings child: the settings of the Apex layer in the
 rebuilt gnome-shell. The layer treats a missing schema as safe mode. It ships Apex's
 vendor defaults for GNOME's own schemas, the Open Spotlight row of Settings > Keyboard,
-the ss03 feature of Adwaita Sans, and the default Ptyxis profile. It also ships the
-crash guard: when GNOME Shell fails within 60 seconds of the layer's enable,
+the ss03 feature of Adwaita Sans, the default Ptyxis profile and the coloured bash
+prompt. It also ships the crash guard: when GNOME Shell fails within 60 seconds of the layer's enable,
 apex-shell-safe.service sets layer-enabled to false for that user. The light and dark
 Apex Facets wallpapers ship as PNGs, paired for GNOME's background chooser. The Apex
 icon theme carries Colloid's full-colour app icons and the Apex Symbolic glyphs, with
@@ -76,6 +76,7 @@ install -Dm0644 desktop/schemas/90_apex.gschema.override \
     %{buildroot}%{_datadir}/glib-2.0/schemas/90_apex.gschema.override
 install -Dm0644 desktop/dconf/distro.d/50-apex-ptyxis \
     %{buildroot}%{_sysconfdir}/dconf/db/distro.d/50-apex-ptyxis
+install -Dm0644 desktop/ptyxis/apex-prompt.sh %{buildroot}%{_sysconfdir}/profile.d/apex-prompt.sh
 install -Dm0644 desktop/keybindings/60-apex.xml \
     %{buildroot}%{_datadir}/gnome-control-center/keybindings/60-apex.xml
 install -Dm0644 desktop/fontconfig/60-apex-adwaita-sans-ss03.conf \
@@ -109,6 +110,7 @@ bash desktop/icons/check-theme.sh %{buildroot}%{_datadir}/icons/Apex desktop/ico
 %{_datadir}/fontconfig/conf.avail/60-apex-adwaita-sans-ss03.conf
 %config(noreplace) %{_sysconfdir}/fonts/conf.d/60-apex-adwaita-sans-ss03.conf
 %config(noreplace) %{_sysconfdir}/dconf/db/distro.d/50-apex-ptyxis
+%config(noreplace) %{_sysconfdir}/profile.d/apex-prompt.sh
 %{_userunitdir}/apex-shell-safe.service
 # gnome-shell ships no drop-in directory for its unit, so this package owns it.
 %dir %{_userunitdir}/org.gnome.Shell@.service.d
@@ -121,6 +123,9 @@ bash desktop/icons/check-theme.sh %{buildroot}%{_datadir}/icons/Apex desktop/ico
 %{_datadir}/icons/Apex/
 
 %changelog
+* Sat Oct 24 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
+- /etc/profile.d/apex-prompt.sh: board 32's prompt, a blue directory and a dim $
+
 * Fri Oct 23 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
 - The 78 Apex Symbolic glyphs of board 31, filled by fill-strokes.sh at 100x scale
 

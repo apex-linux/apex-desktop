@@ -6,8 +6,9 @@ RPM, which carries no code:
 
 - the `io.github.apex_linux.Apex.Desktop` GSettings schema, the settings of the Apex
   layer in gnome-shell, and its Keybindings child;
-- the vendor defaults: `90_apex.gschema.override` for GNOME's schemas, and dconf's
-  `distro` database for the Ptyxis profile;
+- the vendor defaults: `90_apex.gschema.override` for GNOME's schemas, dconf's
+  `distro` database for the Ptyxis profile, and the coloured bash prompt in
+  `/etc/profile.d/`;
 - the Open Spotlight row of Settings > Keyboard, the `ss03` feature of Adwaita Sans and
   the Apex Facets wallpapers;
 - the `Apex` icon theme: Colloid's app icons from a pinned commit, and the Apex Symbolic
