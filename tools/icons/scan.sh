@@ -20,7 +20,12 @@ readonly NAME_RE='(?<![A-Za-z0-9._%$/{}@-])[A-Za-z0-9][A-Za-z0-9._-]*-symbolic(?
 # shellcheck disable=SC2016 # a regular expression, not an expansion
 readonly TEMPLATE_RE='[A-Za-z0-9._-]*(%[a-z]|\$\{[^}]{1,40}\})[A-Za-z0-9._%${}-]*-symbolic(?![A-Za-z0-9_])'
 readonly ICON_FILE_RE='/icons/(.*/)?[^/]+-symbolic(\.symbolic)?\.(svg|png)$'
+# A bundled icon's file name, in a GResource path or in a GVDB key Rust embeds as plain data.
+readonly SHIPPED_RE='[A-Za-z0-9][A-Za-z0-9._-]*-symbolic(?=(\.symbolic)?\.(svg|png))'
 readonly TEXT_RE='\.(js|ui|css|py|xml)$'
+
+# GTK and GNOME Shell property and flag names that end in -symbolic, not icons.
+readonly NOT_ICONS='^(force|is|on|traditional)-symbolic$'
 
 # The templates the shell fills from UPower's and NetworkManager's state.
 readonly DYNAMIC=(
@@ -47,25 +52,22 @@ contents() {
 # "name<TAB>PKG" for every name the installed packages built from PKG's source request, and
 # "-name<TAB>PKG" for every icon they ship: an app's icons often live in a -libs subpackage.
 scan_package() {
-    local pkg=$1 srpm f files=0 bundles=0
+    local pkg=$1 srpm f files=0
     srpm=$(rpm -q --qf '%{SOURCERPM}' "$pkg")
     while IFS= read -r f; do
         [[ -f $f && ! -L $f ]] || continue
         if [[ $f =~ $ICON_FILE_RE ]]; then
             f=${f##*/}
-            printf -- '-%s\t%s\n' "${f%%.*}" "$pkg"
+            printf -- '-%s\t%s\n' "$(sed -E 's/(\.symbolic)?\.(svg|png)$//' <<<"$f")" "$pkg"
         elif [[ $f =~ $TEXT_RE || $f == *.gresource ]] || is_elf "$f"; then
             files=$((files + 1))
-            if { gresource list "$f" >"$TMP/resources"; } 2>/dev/null; then
-                bundles=$((bundles + 1))
-                { grep -E "$ICON_FILE_RE" "$TMP/resources" || true; } | sed "s|.*/||; s|\..*||; s|^|-|; s|\$|\t$pkg|"
-            fi
             contents "$f" >"$TMP/contents"
+            { grep -aoP "$SHIPPED_RE" "$TMP/contents" || true; } | sed "s|^|-|; s|\$|\t$pkg|"
             { grep -aoP "$TEMPLATE_RE" "$TMP/contents" || true; } | sed "s|^|template $pkg: |" >&2
             { grep -aoP "$NAME_RE" "$TMP/contents" || true; } | sed "s|\$|\t$pkg|"
         fi
     done < <(rpm -qa --qf '%{NAME} %{SOURCERPM}\n' | awk -v s="$srpm" '$2 == s { print $1 }' | xargs rpm -ql)
-    printf 'read %s: %s files, %s with GResources (%s)\n' "$pkg" "$files" "$bundles" "$srpm" >&2
+    printf 'read %s: %s files (%s)\n' "$pkg" "$files" "$srpm" >&2
 }
 
 main() {
@@ -86,10 +88,10 @@ main() {
         for entry in "${DYNAMIC[@]}"; do
             eval "printf '%s\t${entry%% *}\n' ${entry#* }"
         done
-    } | awk -F '\t' '
+    } | awk -F '\t' -v not="$NOT_ICONS" '
         /^-/ { shipped[substr($1, 2), $2] = 1; next }
         # Run-together strings and property paths: an icon name starts lower case, and only an app id has dots.
-        $1 ~ /^[A-Z]/ || ($1 ~ /\./ && $1 !~ /^[a-z]+\.[A-Za-z0-9]+\.[A-Za-z0-9]/) || $1 ~ /symb.*symb/ { next }
+        $1 ~ /^[A-Z]/ || ($1 ~ /\./ && $1 !~ /^[a-z]+\.[A-Za-z0-9]+\.[A-Za-z0-9]/) || $1 ~ /symb.*symb/ || $1 ~ not { next }
         { want[$1 "\t" $2] = 1 }
         END { for (k in want) { split(k, nk, "\t"); if (!((nk[1], nk[2]) in shipped)) print k } }
     ' | LC_ALL=C sort -u | awk -F '\t' '

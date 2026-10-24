@@ -85,7 +85,13 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: The scanned packages
+        run: >-
+          sed 's/#.*//' tools/icons/packages.txt | xargs
+          dnf5 -y --setopt=install_weak_deps=False --repo=fedora --repo=updates install
+
       - name: make check-icons
+        # After the apps: the icons they install in hicolor resolve, as in the image.
         run: make check-icons SYMBOLIC_FLAGS=--fallbacks
 
       - name: A name nothing draws fails the check
@@ -93,11 +99,6 @@ jobs:
           cp desktop/icons/expected-symbolic.txt /tmp/names
           printf 'apex-no-such-icon-symbolic\tci\n' >>/tmp/names
           if python3 .github/scripts/symbolic-check.py /tmp/names target/check-data/icons; then exit 1; fi
-
-      - name: The scanned packages
-        run: >-
-          sed 's/#.*//' tools/icons/packages.txt | xargs
-          dnf5 -y --setopt=install_weak_deps=False --repo=fedora --repo=updates install
 
       - name: tools/icons/scan.sh matches expected-symbolic.txt
         # A Fedora update moves the list without any change here, so a drift warns instead of failing.
@@ -107,6 +108,7 @@ jobs:
           if ! diff -u desktop/icons/expected-symbolic.txt /tmp/expected-symbolic.txt; then
             echo "::warning::desktop/icons/expected-symbolic.txt differs from a fresh scan; run tools/icons/scan.sh"
             cat /tmp/expected-symbolic.txt
+            python3 .github/scripts/symbolic-check.py --fallbacks /tmp/expected-symbolic.txt target/check-data/icons || true
           fi
 
   scripts:

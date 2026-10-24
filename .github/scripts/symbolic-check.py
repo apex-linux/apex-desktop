@@ -13,6 +13,13 @@ import gi
 gi.require_version("Gtk", "4.0")
 from gi.repository import Gtk  # noqa: E402
 
+try:
+    gi.require_version("Adw", "1")
+    from gi.repository import Adw  # noqa: E402,F401
+    ADWAITA_ICONS = ["/org/gnome/Adwaita/icons"]
+except (ImportError, ValueError):
+    ADWAITA_ICONS = []
+
 
 def main():
     parser = argparse.ArgumentParser()
@@ -28,6 +35,8 @@ def main():
     icon_theme = Gtk.IconTheme()
     icon_theme.set_search_path(search)
     icon_theme.set_theme_name("Apex")
+    for path in ADWAITA_ICONS:
+        icon_theme.add_resource_path(path)
 
     entries = [line.rstrip("\n").split("\t") for line in open(args.names)
                if line.strip() and not line.startswith(("#", "@"))]
