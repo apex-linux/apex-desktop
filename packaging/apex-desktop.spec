@@ -136,6 +136,10 @@ bash desktop/plymouth/check-theme.sh %{buildroot}%{_datadir}/plymouth/themes
 
 %changelog
 * Sat Oct 24 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
+- Both Plymouth themes drawn for DeviceScale=1: apex-twostep at @2x with a 320x6 bar,
+  and MonospaceFont=monospace 20 so the Esc view keeps its DeviceScale=2 size
+
+* Sat Oct 24 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
 - The Plymouth script theme apex (boards 01 and 30): the wordmark, the 160x3 bar with
   round ends, the disk passphrase field, at 1x and @2x; apex-twostep as the fallback
 
