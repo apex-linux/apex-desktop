@@ -1,8 +1,5 @@
 # Names the shell or an app requests that stock Fedora 45 draws nowhere either, with why;
 # make check-icons fails on any other unresolved name, and on an entry that resolves now.
-emblem-documents-symbolic	gtk4 asks for it; Adwaita 51 draws none
-emblem-shared-symbolic	gnome-firmware asks for it; Adwaita 51 draws none
-emblem-synchronizing-symbolic	epiphany and nautilus ask for it; Adwaita 51 draws none
 ephy-site-menu-button-symbolic	epiphany asks for it and ships none; Adwaita 51 draws none
 icon-redraw-symbolic	gtk4 asks for it; Adwaita 51 draws none
 org.freedesktop.MalcontentControl-symbolic	gnome-initial-setup asks for malcontent's app icon; malcontent is not in the image
