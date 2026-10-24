@@ -206,8 +206,9 @@ The `Apex` icon theme, in `/usr/share/icons/Apex/` (DESIGN.md, "Visual principle
 `index.theme` inherits `Adwaita,hicolor`, so every symbolic icon Apex Symbolic does not
 draw yet, and every app icon Colloid lacks, comes from Adwaita and then hicolor, as do
 the places and content types boards 27 to 29 do not draw. Glyphs are drawn on a 16 px grid with a 1 px
-keyline, a 1.75 px stroke, and round caps and joins: the 78 glyphs of board 31 and the 69
-glyphs of board 31b (status families and the shell's gaps), named by the boards' ids. Nine of them (`go-next-arrow`, `apex-desktop`, `auth-fingerprint`,
+keyline, a 1.75 px stroke, and round caps and joins: the 79 glyphs of board 31, the 69 of
+board 31b (status families and the shell's gaps) and the 64 of board 31c (everyday
+actions), named by the boards' ids. Nine of them (`go-next-arrow`, `apex-desktop`, `auth-fingerprint`,
 `selection-area`, `pointer`, `window`, `briefcase`, `globe`, `dark-mode`) add icons; the
 rest replace Adwaita's symbolic icon of the same name.
 
