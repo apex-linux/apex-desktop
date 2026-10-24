@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 #
 # Runs plymouthd on its X11 renderer in Xvfb, a 2880x1800 screen like the laptop's, at
-# DeviceScale 2 and 1, and checks pixels of the frames it saves to OUTDIR.
+# DeviceScale 1 (the image's) and 2, and checks the frames it saves to OUTDIR.
 
 set -euo pipefail
 
@@ -23,6 +23,13 @@ themes=$(cd "$1" && pwd)
 mkdir -p "$2"
 out=$(cd "$2" && pwd)
 [[ $EUID -eq 0 && ( -e /.dockerenv || -e /run/.containerenv ) ]] || usage
+
+# The initramfs carries label-freetype alone, and plymouthd tries label-pango first.
+pango=$(compgen -G '/usr/lib*/plymouth/label-pango.so' || true)
+if [[ -n $pango ]]; then
+    mv "$pango" "$pango.preview-off"
+    trap 'mv "$pango.preview-off" "$pango"' EXIT
+fi
 
 fails=0
 fail() {
@@ -83,6 +90,12 @@ run() {
     plymouth ask-for-password --prompt="Please enter passphrase for disk apex-root" >/dev/null &
     shot "$tag-wrong"
     xdotool type --delay 30 x
+    xdotool key Escape
+    # Software drawing of the Esc view at 2880x1800 takes seconds; wait until the wordmark is gone.
+    for _ in $(seq 30); do
+        shot "$tag-esc"
+        (($(brightest "$tag-esc" 1296 816 288 82) < 64)) && break
+    done
     xdotool key Return
     wait $!
     plymouth quit
@@ -93,7 +106,22 @@ run() {
     return 0
 }
 
-for scale in 2 1; do
+# The Esc view's passphrase line, as label-freetype sized it in device pixels.
+esc_height() {
+    sed -n "s/.*Text 'Please enter passphrase.*' has dimensions [0-9]*x\([0-9]*\)$/\1/p" \
+        "$out/$1-plymouthd.log" | tail -n 1
+}
+
+check_esc() {
+    local t=$1 h
+    h=$(esc_height "$t")
+    # monospace 10 at DeviceScale=2, Plymouth's default, gives a 28 px line in most fonts.
+    ((${h:-0} >= 24 && ${h:-0} <= 36)) || fail "$t-esc: the passphrase line is '${h:-missing}' px high, not 24 to 36"
+    (($(brightest "$t-esc" 0 0 1400 120) > 128)) || fail "$t-esc: no text at the top"
+    (($(brightest "$t-esc" 1296 816 288 82) < 64)) || fail "$t-esc: the splash still shows"
+}
+
+for scale in 1 2; do
     run apex "$scale" updates
     t="apex-scale$scale"
     expect "$t-splash" 20 20 black 'r + g + b == 0'
@@ -106,12 +134,15 @@ for scale in 2 1; do
     expect "$t-typed" 1228 1016 "the first bullet" 'r > 200'
     expect "$t-wrong" 1440 980 "the error ring" 'r > 200 && g < 170 && b < 170'
 done
+check_esc apex-scale1
 
-run apex-twostep 2 boot
-t=apex-twostep-scale2
+run apex-twostep 1 boot
+t=apex-twostep-scale1
 expect "$t-splash" 20 20 black 'r + g + b == 0'
 (($(brightest "$t-splash" 1296 816 288 82) > 240)) || fail "$t-splash: no wordmark"
-(($(brightest "$t-ask" 1190 1000 500 40) > 38)) || fail "$t-ask: no field"
+expect "$t-splash" 1580 981 "the bar's track" 'r > 25 && r < 45 && g > 25 && g < 45'
+expect "$t-ask" 1640 1012 "the field" 'r > 38 && r < 54 && g > 38 && g < 54'
+check_esc "$t"
 
 ((fails == 0)) || exit 1
 echo "plymouth-preview.sh: frames in $out"
