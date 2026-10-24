@@ -1,0 +1,210 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# Boards 01 and 30 at 1440x900 logical; offsets are from the screen's centre.
+# Plymouth draws a script image at one pixel per logical pixel, so @2x is for DeviceScale=1.
+
+Window.SetBackgroundTopColor(0, 0, 0);
+Window.SetBackgroundBottomColor(0, 0, 0);
+
+if (Window.GetHeight() >= 1600)
+{
+    s = 2;
+    suffix = "@2x.png";
+}
+else
+{
+    s = 1;
+    suffix = ".png";
+}
+
+fun asset(name)
+{
+    return Image(name + suffix);
+}
+
+cx = Window.GetX() + Math.Int(Window.GetWidth() / 2);
+cy = Window.GetY() + Math.Int(Window.GetHeight() / 2);
+
+wordmark.image = asset("wordmark");
+wordmark.sprite = Sprite(wordmark.image);
+wordmark.sprite.SetPosition(cx - Math.Int(wordmark.image.GetWidth() / 2), cy - 42 * s, 1);
+
+bar.x = cx - 80 * s;
+bar.y = cy + 39 * s;
+bar.track = Sprite(asset("bar-track"));
+bar.track.SetPosition(bar.x, bar.y, 1);
+bar.fill = asset("bar-fill");
+bar.w = bar.fill.GetWidth();
+bar.h = bar.fill.GetHeight();
+bar.cap = Math.Int((bar.h + 1) / 2);
+bar.body = Sprite();
+bar.end = Sprite();
+bar.body.SetPosition(bar.x, bar.y, 2);
+bar.end.SetZ(2);
+bar.drawn = -1;
+bar.progress = 0;
+bar.updating = 0;
+bar.visible = Plymouth.GetMode() == "boot" || Plymouth.GetMode() == "updates" ||
+    Plymouth.GetMode() == "system-upgrade" || Plymouth.GetMode() == "firmware-upgrade";
+
+# The fill is the full bar cut short, and its last cap pixels moved to the cut, so both ends stay round.
+fun draw_bar()
+{
+    local.w = 0;
+    if (bar.visible && !prompt.shown && bar.progress > 0)
+        local.w = Math.Max(Math.Int(bar.w * Math.Min(bar.progress, 1)), 2 * bar.cap);
+    if (local.w == bar.drawn)
+        return;
+    bar.drawn = local.w;
+    if (local.w == 0)
+    {
+        bar.body.SetOpacity(0);
+        bar.end.SetOpacity(0);
+    }
+    else
+    {
+        bar.body.SetImage(bar.fill.Crop(0, 0, local.w - bar.cap, bar.h));
+        bar.end.SetImage(bar.fill.Crop(bar.w - bar.cap, 0, bar.cap, bar.h));
+        bar.end.SetPosition(bar.x + local.w - bar.cap, bar.y, 2);
+        bar.body.SetOpacity(1);
+        bar.end.SetOpacity(1);
+    }
+}
+
+fun show_bar()
+{
+    if (bar.visible && !prompt.shown)
+        bar.track.SetOpacity(1);
+    else
+        bar.track.SetOpacity(0);
+    draw_bar();
+}
+
+# An offline update reports its own percentage, which the boot's time estimate must not overwrite.
+fun boot_progress(duration, progress)
+{
+    if (bar.updating)
+        return;
+    bar.progress = progress;
+    draw_bar();
+}
+
+fun system_update(progress)
+{
+    bar.updating = 1;
+    bar.progress = progress / 100;
+    draw_bar();
+}
+
+prompt.x = cx - 125 * s;
+prompt.y = cy + 39 * s;
+prompt.field = asset("field");
+prompt.field_error = asset("field-error");
+prompt.box = Sprite();
+prompt.box.SetPosition(prompt.x, prompt.y, 3);
+prompt.placeholder = Sprite(asset("placeholder"));
+prompt.placeholder.SetPosition(prompt.x, prompt.y, 4);
+prompt.hint_image = asset("hint");
+prompt.wrong_image = asset("hint-wrong");
+prompt.hint = Sprite();
+prompt.hint.SetPosition(cx - 150 * s, cy + 91 * s, 4);
+prompt.answer = Sprite();
+prompt.answer.SetZ(4);
+prompt.bullet = asset("bullet");
+prompt.max_bullets = 19;
+for (i = 0; i < prompt.max_bullets; i++)
+{
+    prompt.bullets[i] = Sprite(prompt.bullet);
+    prompt.bullets[i].SetPosition(prompt.x + (16 + 11 * i) * s, prompt.y + 16 * s, 4);
+}
+prompt.shown = 0;
+prompt.typed = 0;
+prompt.submitted = 0;
+prompt.last = "";
+
+fun hide_prompt()
+{
+    prompt.box.SetOpacity(0);
+    prompt.placeholder.SetOpacity(0);
+    prompt.hint.SetOpacity(0);
+    prompt.answer.SetOpacity(0);
+    for (i = 0; i < prompt.max_bullets; i++)
+        prompt.bullets[i].SetOpacity(0);
+}
+
+# systemd-cryptsetup asks again with the same prompt after a wrong passphrase.
+fun open_prompt(text)
+{
+    if (prompt.shown)
+        return;
+    local.wrong = prompt.submitted && text == prompt.last;
+    prompt.shown = 1;
+    prompt.typed = 0;
+    prompt.last = text;
+    if (local.wrong)
+    {
+        prompt.box.SetImage(prompt.field_error);
+        prompt.hint.SetImage(prompt.wrong_image);
+        prompt.hint.SetOpacity(1);
+    }
+    else
+    {
+        prompt.box.SetImage(prompt.field);
+        prompt.hint.SetImage(prompt.hint_image);
+        prompt.hint.SetOpacity(0.7);
+    }
+    prompt.box.SetOpacity(1);
+    show_bar();
+}
+
+fun display_password(text, bullets)
+{
+    open_prompt(text);
+    prompt.typed = bullets;
+    if (bullets > 0)
+        prompt.placeholder.SetOpacity(0);
+    else
+        prompt.placeholder.SetOpacity(0.62);
+    for (i = 0; i < prompt.max_bullets; i++)
+    {
+        if (i < bullets)
+            prompt.bullets[i].SetOpacity(1);
+        else
+            prompt.bullets[i].SetOpacity(0);
+    }
+}
+
+fun display_question(text, entry)
+{
+    open_prompt(text);
+    prompt.typed = String(entry).Length();
+    prompt.placeholder.SetOpacity(0);
+    prompt.answer.SetImage(Image.Text(entry, 1, 1, 1, 1, "Adwaita Sans Medium " + 14 * s));
+    prompt.answer.SetPosition(prompt.x + 16 * s, prompt.y + 10 * s, 4);
+    prompt.answer.SetOpacity(1);
+}
+
+fun display_normal()
+{
+    if (prompt.shown)
+        prompt.submitted = prompt.typed > 0;
+    prompt.shown = 0;
+    hide_prompt();
+    show_bar();
+}
+
+fun quit()
+{
+    bar.progress = 1;
+    draw_bar();
+}
+
+hide_prompt();
+show_bar();
+
+Plymouth.SetBootProgressFunction(boot_progress);
+Plymouth.SetSystemUpdateFunction(system_update);
+Plymouth.SetDisplayPasswordFunction(display_password);
+Plymouth.SetDisplayQuestionFunction(display_question);
+Plymouth.SetDisplayNormalFunction(display_normal);
+Plymouth.SetQuitFunction(quit);
