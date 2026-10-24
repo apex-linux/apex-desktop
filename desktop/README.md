@@ -289,7 +289,7 @@ Labels become paths in one Inkscape run, so no font is needed where the icons dr
 the build fails when fontconfig does not resolve Adwaita Sans ExtraBold, or when a label
 kept its text. List sizes take the unlabelled page, through the same directory pair as
 the folders. `.github/scripts/mimetypes-check.py THEMES` fails when a name in `types` is
-not one GIO gives any registered content type, or when one of 54 files (board 27's and
+not one GIO gives any registered content type, or when one of 57 files (board 27's and
 common ones), its type guessed by GIO as Files does, does not resolve with GTK 4 to an
 Apex file icon in its kind's colour, at list and grid sizes and at scale 1 and 2.
 
