@@ -24,7 +24,7 @@ done <"$kinds"
 tmp=$(mktemp -d)
 trap 'rm -rf "$tmp"' EXIT
 mkdir -p "$out/32x32/mimetypes" "$out/32x32@2x/mimetypes" "$out/scalable/mimetypes"
-actions=
+batched_actions=
 while read -r name kind label; do
     [[ -n $name && $name != \#* ]] || continue
     [[ -n ${colour[$kind]:-} ]] || { echo "build-mimetypes.sh: $name: no colour for kind '$kind'" >&2; exit 1; }
@@ -34,12 +34,11 @@ while read -r name kind label; do
         cp "$out/32x32/mimetypes/$name.svg" "$out/scalable/mimetypes/$name.svg"
     else
         sed -e "s/@COLOR@/${colour[$kind]}/" -e "s/@LABEL@/$label/" "$template" >"$tmp/$name.svg"
-        actions+="file-open:$tmp/$name.svg;export-text-to-path;export-plain-svg;"
-        actions+="export-filename:$out/scalable/mimetypes/$name.svg;export-do;file-close;"
+        batched_actions+="file-open:$tmp/$name.svg;export-text-to-path;export-plain-svg;"
+        batched_actions+="export-filename:$out/scalable/mimetypes/$name.svg;export-do;file-close;"
     fi
 done <"$types"
-# One Inkscape process for every label: starting it once per icon takes minutes.
-[[ -z $actions ]] || inkscape --actions="$actions" >/dev/null 2>"$tmp/inkscape.log" || {
+[[ -z $batched_actions ]] || inkscape --actions="$batched_actions" >/dev/null 2>"$tmp/inkscape.log" || {
     cat "$tmp/inkscape.log" >&2
     exit 1
 }
