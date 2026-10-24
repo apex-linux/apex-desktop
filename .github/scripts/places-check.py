@@ -20,6 +20,7 @@ DRAWN = ["folder", "user-home", "user-desktop", "folder-documents", "folder-down
 UNDRAWN = ["folder-remote", "user-trash", "user-trash-full"]
 LIST = [(16, 1), (24, 1), (32, 1), (16, 2), (24, 2), (32, 2)]
 GRID = [(48, 1), (64, 1), (96, 1), (256, 1), (48, 2), (64, 2), (96, 2)]
+EMBLEMLESS_DIRS = ["32x32", "32x32@2x"]
 
 
 def main():
@@ -39,8 +40,7 @@ def main():
 
     for theme, colour in [("Apex", accents["blue"])] + [("Apex-" + a, c) for a, c in accents.items()]:
         for name in DRAWN:
-            # Either list directory will do: both hold the folder without its emblem.
-            for (size, scale), subdirs in [(s, ["32x32", "32x32@2x"]) for s in LIST] + \
+            for (size, scale), subdirs in [(s, EMBLEMLESS_DIRS) for s in LIST] + \
                                           [(s, ["scalable"]) for s in GRID]:
                 wants = [os.path.join(themes, theme, d, "places", name + ".svg") for d in subdirs]
                 got = lookup(theme, name, size, scale)
