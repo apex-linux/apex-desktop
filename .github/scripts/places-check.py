@@ -17,7 +17,7 @@ DRAWN = ["folder", "user-home", "user-desktop", "folder-documents", "folder-down
          "folder-music", "folder-pictures", "folder-projects", "folder-publicshare",
          "folder-templates", "folder-videos"]
 SET_BY_APEX_FOLDER_ICONS_SH = ["folder-screenshots"]
-DRAWN += SET_BY_APEX_FOLDER_ICONS_SH
+DRAWN += SET_BY_APEX_FOLDER_ICONS_SH + ["folder-remote"]
 # Nautilus's search provider names a folder ["inode-directory", "folder", ...], so St tries this first.
 MIMETYPES = ["inode-directory"]
 # The dock's bin, in no accent: every theme finds Apex's through Inherits=.
