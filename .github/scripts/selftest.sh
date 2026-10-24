@@ -141,6 +141,34 @@ if command -v inkscape >/dev/null 2>&1; then
         grep -Eq '(^|[^-[:alnum:]])stroke[[:space:]]*(=[[:space:]]*"|:)[[:space:]]*#' "$TMP/g-symbolic.svg"
 fi
 
+# --- apex-prompt.sh replaces only Fedora's default PS1, in interactive bash ------------------
+# bash unsets PS1 when it starts non-interactive, so each run sets it after startup.
+cat >"$TMP/prompt.sh" <<'EOF'
+PS1=$2
+. "$1"
+printf '%s' "$PS1"
+EOF
+prompt_in() {
+    local flags=$1 ps1=$2
+    shift 2
+    env -i HOME="$TMP" "$@" bash --norc --noprofile "$flags" "$TMP/prompt.sh" \
+        "$APEX_ROOT/desktop/ptyxis/apex-prompt.sh" "$ps1" 2>/dev/null
+}
+prompt_of() { prompt_in -i "$@"; }
+readonly FEDORA_PS1='[\u@\h \W]\$ '
+check "the prompt is a blue directory and a dim \$" '\[\e[34m\]\w\[\e[0;2m\] \$\[\e[0m\] ' \
+    "$(prompt_of "$FEDORA_PS1")"
+check "bash's own default PS1 gets the same prompt" "$(prompt_of "$FEDORA_PS1")" "$(prompt_of '\s-\v\$ ')"
+check "over SSH, user@host in green comes first" \
+    '\[\e[32m\]\u@\h\[\e[0;2m\]:\[\e[0;34m\]\w\[\e[0;2m\]\$\[\e[0m\] ' \
+    "$(prompt_of "$FEDORA_PS1" SSH_CONNECTION='10.0.0.2 5 10.0.0.1 22')"
+check "a PS1 that is not a default stays" '> ' "$(prompt_of '> ')"
+check "apex_prompt_disable keeps Fedora's prompt" "$FEDORA_PS1" "$(prompt_of "$FEDORA_PS1" apex_prompt_disable=1)"
+check "NO_COLOR keeps Fedora's prompt" "$FEDORA_PS1" "$(prompt_of "$FEDORA_PS1" NO_COLOR=1)"
+check "a non-interactive bash keeps its PS1" "$FEDORA_PS1" \
+    "$(prompt_in +i "$FEDORA_PS1")"
+check_true "a POSIX sh parses apex-prompt.sh" sh "$APEX_ROOT/desktop/ptyxis/apex-prompt.sh"
+
 # --- .gitignore: biometric data never gets tracked --------------------------------------
 for f in a.pgm B.PGM x/print.Variant rec.ioctl x/y/rec.UMOCKDEV cap.pcap cap.PcapNG var/lib/fprint/u/1; do
     check_true ".gitignore ignores $f" git -C "$APEX_ROOT" check-ignore -q --no-index "$f"
