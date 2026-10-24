@@ -104,6 +104,14 @@ check-data:
 			bash desktop/icons/check-theme.sh "$$t" >/dev/null || exit 1; \
 		done; \
 		echo "check-theme: the nine Apex-<accent> themes pass"; \
+		if command -v gtk-update-icon-cache >/dev/null 2>&1; then \
+			for t in '$(CHECK_DIR)'/Apex '$(CHECK_DIR)'/Apex-*; do \
+				gtk-update-icon-cache --force --quiet "$$t" && gtk-update-icon-cache --validate "$$t" || exit 1; \
+			done; \
+			echo "gtk-update-icon-cache: the ten Apex icon caches build and validate"; \
+		else \
+			echo "skip: gtk-update-icon-cache not found, so no icon caches (Fedora: gtk-update-icon-cache)"; \
+		fi; \
 		if python3 -c 'import gi; gi.require_version("Gtk", "4.0"); from gi.repository import Gtk' 2>/dev/null; then \
 			echo ".github/scripts/places-check.py $(CHECK_DIR)"; \
 			python3 .github/scripts/places-check.py '$(CHECK_DIR)' || exit 1; \

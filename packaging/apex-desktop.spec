@@ -24,6 +24,7 @@ BuildArch:      noarch
 
 BuildRequires:  /usr/bin/fc-match
 BuildRequires:  /usr/bin/glib-compile-schemas
+BuildRequires:  /usr/bin/gtk-update-icon-cache
 BuildRequires:  /usr/bin/inkscape
 BuildRequires:  /usr/bin/rsvg-convert
 BuildRequires:  /usr/bin/xmllint
@@ -133,6 +134,11 @@ cp -a Colloid-icon-theme-%{colloid_commit}/src/apps/scalable/. \
     %{buildroot}%{_datadir}/icons/Apex/scalable/apps/
 # Colloid links a few names to icons it does not ship, and one symbolic name to a colour icon.
 find %{buildroot}%{_datadir}/icons/Apex/scalable/apps \( -xtype l -o -name '*-symbolic.svg' \) -print -delete
+# Fedora's cache triggers cover only their own themes. GTK drops a cache older than its
+# directory, and ostree commits both at mtime 0.
+for t in %{buildroot}%{_datadir}/icons/Apex %{buildroot}%{_datadir}/icons/Apex-*; do
+    gtk-update-icon-cache --force --quiet "$t"
+done
 install -Dm0644 -t %{buildroot}%{_datadir}/plymouth/themes/apex \
     desktop/plymouth/apex/apex.plymouth desktop/plymouth/apex/apex.script plymouth/apex/*.png
 install -Dm0644 -t %{buildroot}%{_datadir}/plymouth/themes/apex-twostep \
@@ -142,6 +148,9 @@ install -Dm0644 -t %{buildroot}%{_datadir}/plymouth/themes/apex-twostep \
 glib-compile-schemas --strict --dry-run %{buildroot}%{_datadir}/glib-2.0/schemas
 bash desktop/icons/check-theme.sh %{buildroot}%{_datadir}/icons/Apex desktop/icons/symbolic
 for t in %{buildroot}%{_datadir}/icons/Apex-*; do bash desktop/icons/check-theme.sh "$t"; done
+for t in %{buildroot}%{_datadir}/icons/Apex %{buildroot}%{_datadir}/icons/Apex-*; do
+    gtk-update-icon-cache --validate "$t"
+done
 bash desktop/plymouth/check-theme.sh %{buildroot}%{_datadir}/plymouth/themes
 bash desktop/wallpapers/check-greeter.sh %{buildroot}%{_datadir}/backgrounds/apex
 
@@ -180,6 +189,9 @@ bash desktop/wallpapers/check-greeter.sh %{buildroot}%{_datadir}/backgrounds/ape
 %{_datadir}/plymouth/themes/apex-twostep/
 
 %changelog
+* Sat Oct 24 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
+- icon-theme.cache for Apex and the nine Apex-<accent> themes, built and validated here
+
 * Sat Oct 24 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
 - Board 31c's 64 glyphs (the shell, OSDs, toolkit, Files and Settings fallbacks) and a
   filled starred beside board 31's outline, now non-starred
