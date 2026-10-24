@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
-# shellcheck shell=sh
 #
 # Board 32's prompt: the directory in blue and a dim $, after user@host in green over SSH.
 # Only Fedora's default PS1 is replaced, and bash-color-prompt.sh, sourced later, keeps ours.
 
+# shellcheck shell=sh
 if [ -n "${BASH_VERSION-}" ] && [ -z "${apex_prompt_disable-}" ] && [ -z "${NO_COLOR-}" ]; then
     case $- in
         *i*)
