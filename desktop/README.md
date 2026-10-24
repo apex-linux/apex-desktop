@@ -253,8 +253,9 @@ then a non-scalable one, so the emblem shows from 41 px up at either scale.
 resolves to the right directory of that theme, in its accent. `make check-data` runs it
 when Python has GTK 4; CI requires it, and runs it again on the RPM's payload.
 
-Not drawn on the boards, so still Adwaita's: `folder-remote`, `user-trash` and
-`user-trash-full`. apex-session-agent points `icon-theme` at `Apex-<accent>` (S7).
+`folder-remote`, GVfs's icon for a network mount, takes the `network-wired` emblem.
+Not drawn on the boards, so still Adwaita's: `user-trash` and `user-trash-full`.
+apex-session-agent points `icon-theme` at `Apex-<accent>` (S7).
 
 GLib names no icon for two of board 27's folders, so `places/emblems` also draws
 `folder-screenshots` (camera-photo), and `apex-folder-icons.sh`, installed as

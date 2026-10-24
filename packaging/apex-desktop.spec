@@ -188,6 +188,9 @@ bash desktop/wallpapers/check-greeter.sh %{buildroot}%{_datadir}/backgrounds/ape
 
 %changelog
 * Sat Oct 24 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
+- folder-remote, a network mount's folder, in the accent with the network-wired emblem
+
+* Sat Oct 24 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
 - Board 31d's 72 Apex Symbolic glyphs (everywhere else): the last names Adwaita drew, and
   the shell's accessibility menu icon, so Apex Symbolic draws 268 of the 275 names
 
