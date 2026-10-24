@@ -47,6 +47,9 @@ jobs:
           grep -q '^tmpfiles-check.sh: ' /tmp/check-data.log
           grep -q '^places-check.py: .* resolve to Apex' /tmp/check-data.log
           grep -q '^mimetypes-check.py: .* resolve to Apex' /tmp/check-data.log
+          grep -q '^check-greeter.sh: ' /tmp/check-data.log
+          grep -q '^gdm-logo-check.sh: ' /tmp/check-data.log
+          grep -q 'build-logo.sh .*apex-gdm-logo.svg' /tmp/check-data.log
 
       - name: The prompt under VTE's shell integration
         run: .github/scripts/prompt-vte-check.sh
@@ -83,7 +86,8 @@ jobs:
 
       - name: bash -n and shellcheck
         run: |
-          files=(.github/scripts/*.sh desktop/icons/*.sh desktop/plymouth/*.sh desktop/ptyxis/*.sh)
+          files=(.github/scripts/*.sh desktop/icons/*.sh desktop/plymouth/*.sh desktop/ptyxis/*.sh
+            desktop/gdm/*.sh desktop/wallpapers/*.sh)
           for f in "${files[@]}"; do bash -n "$f"; done
           shellcheck -x -P .github/scripts --severity=style "${files[@]}"
 

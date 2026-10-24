@@ -68,6 +68,9 @@ cp -p Colloid-icon-theme-%{colloid_commit}/LICENSE LICENSE.Colloid
 # 3840x2400 covers the laptop's 2880x1800 panel and a 4K monitor.
 rsvg-convert -w 3840 -h 2400 -o apex-facets-light.png desktop/wallpapers/apex-facets-light.svg
 rsvg-convert -w 3840 -h 2400 -o apex-facets-dark.png desktop/wallpapers/apex-facets-dark.svg
+rsvg-convert -w 2880 -h 1800 -o apex-greeter-light.png desktop/wallpapers/apex-greeter-light.svg
+rsvg-convert -w 2880 -h 1800 -o apex-greeter-dark.png desktop/wallpapers/apex-greeter-dark.svg
+bash desktop/gdm/build-logo.sh apex-gdm-logo.svg desktop/gdm/logo.svg %{fedora}
 mkdir symbolic
 for f in desktop/icons/symbolic/*.svg; do
     n=${f##*/}
@@ -103,6 +106,10 @@ ln -s ../../..%{_datadir}/fontconfig/conf.avail/60-apex-adwaita-sans-ss03.conf \
     %{buildroot}%{_sysconfdir}/fonts/conf.d/60-apex-adwaita-sans-ss03.conf
 install -Dm0644 apex-facets-light.png %{buildroot}%{_datadir}/backgrounds/apex/apex-facets-light.png
 install -Dm0644 apex-facets-dark.png %{buildroot}%{_datadir}/backgrounds/apex/apex-facets-dark.png
+install -Dm0644 -t %{buildroot}%{_datadir}/backgrounds/apex apex-greeter-light.png apex-greeter-dark.png
+install -Dm0644 apex-gdm-logo.svg %{buildroot}%{_datadir}/pixmaps/apex-gdm-logo.svg
+install -Dm0644 desktop/gdm/zz_apex-login-screen.gschema.override \
+    %{buildroot}%{_datadir}/glib-2.0/schemas/zz_apex-login-screen.gschema.override
 install -Dm0644 desktop/wallpapers/apex-facets.xml \
     %{buildroot}%{_datadir}/gnome-background-properties/apex-facets.xml
 install -Dm0644 desktop/icons/index.theme %{buildroot}%{_datadir}/icons/Apex/index.theme
@@ -125,12 +132,14 @@ glib-compile-schemas --strict --dry-run %{buildroot}%{_datadir}/glib-2.0/schemas
 bash desktop/icons/check-theme.sh %{buildroot}%{_datadir}/icons/Apex desktop/icons/symbolic
 for t in %{buildroot}%{_datadir}/icons/Apex-*; do bash desktop/icons/check-theme.sh "$t"; done
 bash desktop/plymouth/check-theme.sh %{buildroot}%{_datadir}/plymouth/themes
+bash desktop/wallpapers/check-greeter.sh %{buildroot}%{_datadir}/backgrounds/apex
 
 %files
 %license LICENSE
 %license LICENSE.Colloid
 %{_datadir}/glib-2.0/schemas/io.github.apex_linux.Apex.Desktop.gschema.xml
 %{_datadir}/glib-2.0/schemas/90_apex.gschema.override
+%{_datadir}/glib-2.0/schemas/zz_apex-login-screen.gschema.override
 %{_datadir}/gnome-control-center/keybindings/60-apex.xml
 %{_datadir}/fontconfig/conf.avail/60-apex-adwaita-sans-ss03.conf
 %config(noreplace) %{_sysconfdir}/fonts/conf.d/60-apex-adwaita-sans-ss03.conf
@@ -145,6 +154,9 @@ bash desktop/plymouth/check-theme.sh %{buildroot}%{_datadir}/plymouth/themes
 %dir %{_datadir}/backgrounds/apex
 %{_datadir}/backgrounds/apex/apex-facets-light.png
 %{_datadir}/backgrounds/apex/apex-facets-dark.png
+%{_datadir}/backgrounds/apex/apex-greeter-light.png
+%{_datadir}/backgrounds/apex/apex-greeter-dark.png
+%{_datadir}/pixmaps/apex-gdm-logo.svg
 %dir %{_datadir}/gnome-background-properties
 %{_datadir}/gnome-background-properties/apex-facets.xml
 %{_datadir}/icons/Apex/
@@ -153,6 +165,10 @@ bash desktop/plymouth/check-theme.sh %{buildroot}%{_datadir}/plymouth/themes
 %{_datadir}/plymouth/themes/apex-twostep/
 
 %changelog
+* Sat Oct 24 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
+- Board 12's greeter: the pre-blurred Facets backgrounds at 2880x1800, and the gdm logo,
+  the footer's wordmark and Fedora credit as paths, with its login-screen override
+
 * Sat Oct 24 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
 - lower-refresh-rate-on-battery in the Apex schema: the panel's refresh rate on battery,
   which Settings' Power panel writes (board 24)
