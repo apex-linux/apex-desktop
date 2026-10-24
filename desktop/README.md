@@ -250,6 +250,25 @@ Apex file icon in its kind's colour, at list and grid sizes and at scale 1 and 2
 To move the Colloid pin, set `colloid_commit` and run `make rpm`: `%prep` fails, and
 `sha256sum target/rpm/SOURCES/Colloid-icon-theme-*.tar` gives the new `colloid_sha256`.
 
+### Symbolic icon coverage
+
+`expected-symbolic.txt` lists every `*-symbolic` name that the Fedora 45 shell, GTK 4,
+libadwaita and the apps of apex-image's `gnome.txt` request and do not ship themselves,
+with the packages that request it. `tools/icons/scan.sh tools/icons/packages.txt` writes it
+in fedora:45 with those packages installed: it reads each package's ELF files, GResources
+(through `gresource extract`, so compressed ones too), JavaScript, GtkBuilder, CSS and
+Python files. Its `@` lines name the versions it read, so a Fedora update shows up as a
+diff. Names built at run time, such as UPower's battery levels and the shell's signal
+strengths, are not literals: the scan prints them as templates, and `DYNAMIC` in
+`scan.sh` lists the families Apex knows of.
+
+`make check-icons` builds Apex Symbolic, then looks every name up with GTK 4's own
+`Gtk.IconTheme` in `Apex` (`.github/scripts/symbolic-check.py`). Through `Inherits=`, an
+Apex glyph wins and a stock Adwaita one is fine; a name nothing draws fails, and the check
+prints it. It reports how many names each theme draws; `SYMBOLIC_FLAGS=--fallbacks` lists
+the names Apex Symbolic does not draw yet. CI runs both in fedora:45, and warns, without
+failing, when a fresh scan differs from the committed list.
+
 ## `plymouth/`
 
 Boards 01 (boot splash) and 30 (disk unlock), in `/usr/share/plymouth/themes/`
