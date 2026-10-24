@@ -32,7 +32,7 @@ jobs:
           dnf5 -y --setopt=install_weak_deps=False --repo=fedora --repo=updates install
           git-core make libxml2 glib2 dconf inkscape librsvg2-tools adwaita-sans-fonts
           plymouth-plugin-script plymouth-plugin-two-step plymouth-devel
-          xorg-x11-server-Xvfb xwd xdotool netpbm-progs cpio systemd
+          xorg-x11-server-Xvfb xwd xdotool netpbm-progs cpio systemd vte-profile bash-color-prompt
 
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -44,6 +44,9 @@ jobs:
           make check-data 2>&1 | tee /tmp/check-data.log
           test -s target/check-data/plymouth-frames/apex-scale1-splash.png
           grep -q '^tmpfiles-check.sh: ' /tmp/check-data.log
+
+      - name: The prompt under VTE's shell integration
+        run: .github/scripts/prompt-vte-check.sh
 
       - name: rpms.sh build
         # The builder VM builds the RPM the same way; a spec error fails here, not there.
@@ -75,7 +78,7 @@ jobs:
 
       - name: bash -n and shellcheck
         run: |
-          files=(.github/scripts/*.sh desktop/icons/*.sh desktop/plymouth/*.sh)
+          files=(.github/scripts/*.sh desktop/icons/*.sh desktop/plymouth/*.sh desktop/ptyxis/*.sh)
           for f in "${files[@]}"; do bash -n "$f"; done
           shellcheck -x -P .github/scripts --severity=style "${files[@]}"
 
