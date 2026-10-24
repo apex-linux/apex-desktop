@@ -181,8 +181,9 @@ bash desktop/wallpapers/check-greeter.sh %{buildroot}%{_datadir}/backgrounds/ape
 
 %changelog
 * Sat Oct 24 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
-- Board 31b's 42 status-family glyphs: every Wi-Fi, battery, volume, microphone,
-  Bluetooth, power-profile and VPN state the shell switches between
+- Board 31b's 69 glyphs: every Wi-Fi, battery, volume, microphone, Bluetooth,
+  power-profile and VPN state the shell switches between, and the most visible
+  gaps check-icons found (password reveal, clear, media, privacy indicators)
 
 * Sat Oct 24 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
 - apex-folder-icons.service: the Projects and Screenshots folder icons at login
