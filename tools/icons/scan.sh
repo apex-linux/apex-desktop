@@ -92,7 +92,12 @@ main() {
             eval "printf '%s\t${entry%% *}\n' ${entry#* }"
         done
     } | awk -F '\t' -v not="$NOT_ICONS" -v toolkits="$TOOLKITS" '
-        /^-/ { shipped[substr($1, 2), $2] = 1; if ($2 ~ toolkits) bundled[substr($1, 2)] = 1; next }
+        # A shipped name also ships its tails: Nautilus asks for "readonly-symbolic" and adds "emblem-".
+        /^-/ {
+            n = substr($1, 2); shipped[n, $2] = 1; if ($2 ~ toolkits) bundled[n] = 1
+            for (t = n; (i = index(t, "-")) > 0; ) { t = substr(t, i + 1); shipped[t, $2] = 1 }
+            next
+        }
         # Run-together strings and property paths: an icon name starts lower case, and only an app id has dots.
         $1 ~ /^[A-Z]/ || ($1 ~ /\./ && $1 !~ /^[a-z]+\.[A-Za-z0-9]+\.[A-Za-z0-9]/) || $1 ~ /symb.*symb/ || $1 ~ not { next }
         { want[$1 "\t" $2] = 1 }

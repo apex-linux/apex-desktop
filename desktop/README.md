@@ -297,10 +297,15 @@ diff. Names built at run time, such as UPower's battery levels and the shell's s
 strengths, are not literals: the scan prints them as templates, and `DYNAMIC` in
 `scan.sh` lists the families Apex knows of.
 
+A name stays unless the source package that asks for it ships it, under that name or as a
+longer one ending in it. A name GTK or libadwaita bundles is marked `toolkit`: every app
+resolves it, and Apex can still draw it.
+
 `make check-icons` builds Apex Symbolic, then looks every name up with GTK 4's own
 `Gtk.IconTheme` in `Apex` (`.github/scripts/symbolic-check.py`). Through `Inherits=`, an
 Apex glyph wins and a stock Adwaita one is fine; a name nothing draws fails, and the check
-prints it. It reports how many names each theme draws; `SYMBOLIC_FLAGS=--fallbacks` lists
+prints it, unless `tools/icons/unresolved.txt` lists it with why: names stock Fedora 45
+draws nowhere either. A listed name that resolves now fails too, so the list stays true. It reports how many names each theme draws; `SYMBOLIC_FLAGS=--fallbacks` lists
 the names Apex Symbolic does not draw yet. CI runs both in fedora:45, and warns, without
 failing, when a fresh scan differs from the committed list.
 

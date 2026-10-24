@@ -183,7 +183,8 @@ mkdir -p "$TMP/scan/bin" "$TMP/scan/pkg/icons/hicolor/symbolic/apps"
 # shellcheck disable=SC2016 # the shell template is the input, not an expansion
 printf '%s\n' "label='x-symbolic' y@2-symbolic view-%s-symbolic" '`net-${s}-symbolic` z-symbolic' \
     'Clipboardexternal-link-symbolic image.dialog-error-symbolic org.gnome.Fake-symbolic force-symbolic' \
-    "'w-symbolic' /org/fake/icons/scalable/actions/w-symbolic.svg" >"$TMP/scan/pkg/a.js"
+    "'w-symbolic' /org/fake/icons/scalable/actions/w-symbolic.svg" \
+    "'readonly-symbolic' /org/fake/icons/scalable/actions/emblem-readonly-symbolic.svg" >"$TMP/scan/pkg/a.js"
 : >"$TMP/scan/pkg/icons/hicolor/symbolic/apps/z-symbolic.svg"
 cat >"$TMP/scan/bin/rpm" <<FAKE
 #!/bin/sh
