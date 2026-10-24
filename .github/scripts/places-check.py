@@ -12,12 +12,12 @@ import gi
 gi.require_version("Gtk", "4.0")
 from gi.repository import Gtk  # noqa: E402
 
-# gio/glocalfileinfo.c get_icon_name(), and "folder", inode/directory's generic icon.
+# gio/glocalfileinfo.c get_icon_name(), "folder", and inode-directory, which Nautilus's search names first.
 DRAWN = ["folder", "user-home", "user-desktop", "folder-documents", "folder-download",
          "folder-music", "folder-pictures", "folder-projects", "folder-publicshare",
          "folder-templates", "folder-videos"]
 SET_BY_APEX_FOLDER_ICONS_SH = ["folder-screenshots"]
-DRAWN += SET_BY_APEX_FOLDER_ICONS_SH + ["folder-remote"]
+DRAWN += SET_BY_APEX_FOLDER_ICONS_SH + ["folder-remote", "inode-directory"]
 # The dock's bin, in no accent: every theme finds Apex's through Inherits=.
 NEUTRAL = ["user-trash", "user-trash-full"]
 LIST = [(16, 1), (24, 1), (32, 1), (16, 2), (24, 2), (32, 2)]
@@ -50,7 +50,8 @@ def main():
                     fails.append(f"{theme} {name} at {size}@{scale}: {got or 'nothing'}, not {' or '.join(wants)}")
                 elif colour not in open(got).read():
                     fails.append(f"{got} does not use {colour}")
-                elif subdirs != ["scalable"] and 'scale(1.245)"/>' not in open(got).read():
+                elif (subdirs != ["scalable"] or name == "inode-directory") and \
+                        'scale(1.245)"/>' not in open(got).read():
                     fails.append(f"{got} has an emblem at a list size")
         for name in NEUTRAL:
             for (size, scale), subdir in [(s, "32x32") for s in LIST] + [(s, "scalable") for s in GRID]:
