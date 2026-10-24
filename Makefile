@@ -160,6 +160,13 @@ check-data:
 	else \
 		echo "skip: rsvg-convert or Adwaita Sans not found, so no Plymouth check (Fedora: librsvg2-tools adwaita-sans-fonts)"; \
 	fi
+	@names=$$(sed -n 's/^set_icon .* \([a-z-]*\)$$/\1/p' desktop/icons/apex-folder-icons.sh); \
+	[ -n "$$names" ] || { echo "error: apex-folder-icons.sh sets no icon" >&2; exit 1; }; \
+	for n in $$names; do \
+		grep -q "^$$n " desktop/icons/places/emblems || \
+			{ echo "error: apex-folder-icons.sh sets $$n, which desktop/icons/places/emblems does not draw" >&2; exit 1; }; \
+	done; \
+	echo "apex-folder-icons.sh: $$(echo $$names) are in desktop/icons/places/emblems"
 
 rpm:
 	@if [ -z '$(SHORTCOMMIT)' ]; then \

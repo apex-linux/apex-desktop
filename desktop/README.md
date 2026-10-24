@@ -245,6 +245,19 @@ when Python has GTK 4; CI requires it, and runs it again on the RPM's payload.
 Not drawn on the boards, so still Adwaita's: `folder-remote`, `user-trash` and
 `user-trash-full`. apex-session-agent points `icon-theme` at `Apex-<accent>` (S7).
 
+GLib names no icon for two of board 27's folders, so `places/emblems` also draws
+`folder-screenshots` (camera-photo), and `apex-folder-icons.sh`, installed as
+`/usr/libexec/apex-folder-icons`, gives both folders their name as
+`metadata::custom-icon-name` through `gio set`: `~/Projects` gets `folder-projects`, and
+the Pictures folder's `Screenshots`, under the name GNOME Shell's own translation gives
+it (`gettext -d gnome-shell`), gets `folder-screenshots`. `apex-folder-icons.service`
+runs it at each login: a `graphical-session.target.wants` link in `/usr/lib/systemd/user`
+enables it for every user, with no preset to apply. It only sets the key on a folder that
+exists and has no custom icon yet, so it never creates a folder or replaces the user's
+choice; a Screenshots folder made during a session gets its icon at the next login.
+`make check-data` checks that every name it sets is in `places/emblems`, and the self-test
+runs it against a temporary HOME with fake `gio`, `xdg-user-dir` and `gettext`.
+
 ### File icons
 
 Boards 27 to 29 draw a file as a flat page on the same 64-unit grid, in its kind's
