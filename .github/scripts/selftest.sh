@@ -212,11 +212,20 @@ if python3 -c 'import gi; gi.require_version("Gtk", "4.0"); from gi.repository i
     printf '%s\n' "$svg" >"$TMP/sym/themes/Apex/symbolic/apex-only-symbolic.svg"
     printf '%s\n' "$svg" >"$TMP/sym/share/Adwaita/symbolic/actions/stock-only-symbolic.svg"
     printf '# list\n@fake-1-1\napex-only-symbolic\tfake\nstock-only-symbolic\tfake\n' >"$TMP/sym/names"
-    sym_check() { python3 "$APEX_ROOT/.github/scripts/symbolic-check.py" "$TMP/sym/names" "$TMP/sym/themes" --search "$TMP/sym/share"; }
+    sym_check() { python3 "$APEX_ROOT/.github/scripts/symbolic-check.py" "$TMP/sym/names" "$TMP/sym/themes" --search "$TMP/sym/share" \
+        ${sym_gaps:+--unresolved "$sym_gaps"}; }
+    sym_gaps=
     check "symbolic-check.py counts an Apex glyph and an Adwaita fallback" \
         "symbolic-check.py: 2 names: 1 from Apex, 1 from Adwaita" "$(sym_check 2>&1)"
+    printf 'toolkit-only-symbolic\tfake\ttoolkit\n' >>"$TMP/sym/names"
+    check_true "symbolic-check.py counts a name its toolkit bundles" sym_check
     printf 'apex-no-such-icon-symbolic\tfake\n' >>"$TMP/sym/names"
     check_false "symbolic-check.py fails on a name nothing draws" sym_check
+    printf 'apex-no-such-icon-symbolic\tstock draws none\n' >"$TMP/sym/gaps"
+    sym_gaps=$TMP/sym/gaps
+    check_true "symbolic-check.py passes a listed gap" sym_check
+    printf 'stock-only-symbolic\tstale\n' >>"$TMP/sym/gaps"
+    check_false "symbolic-check.py fails on a listed gap that resolves" sym_check
 fi
 
 if ((FAILS > 0)); then

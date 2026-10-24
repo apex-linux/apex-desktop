@@ -108,7 +108,8 @@ jobs:
           if ! diff -u desktop/icons/expected-symbolic.txt /tmp/expected-symbolic.txt; then
             echo "::warning::desktop/icons/expected-symbolic.txt differs from a fresh scan; run tools/icons/scan.sh"
             cat /tmp/expected-symbolic.txt
-            python3 .github/scripts/symbolic-check.py --fallbacks /tmp/expected-symbolic.txt target/check-data/icons || true
+            python3 .github/scripts/symbolic-check.py --fallbacks --unresolved tools/icons/unresolved.txt \
+              /tmp/expected-symbolic.txt target/check-data/icons || true
           fi
 
   scripts:

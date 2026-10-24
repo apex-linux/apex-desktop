@@ -16,7 +16,7 @@ EOF
     exit 2
 }
 
-readonly NAME_RE='(?<![A-Za-z0-9._%$/{}@-])[A-Za-z0-9][A-Za-z0-9._-]*-symbolic(?![A-Za-z0-9_])'
+readonly NAME_RE='(?<![A-Za-z0-9._%$/{}@-])[A-Za-z0-9][A-Za-z0-9._-]*-symbolic(?![A-Za-z0-9_]|-(?!rtl|ltr))'
 # shellcheck disable=SC2016 # a regular expression, not an expansion
 readonly TEMPLATE_RE='[A-Za-z0-9._-]*(%[a-z]|\$\{[^}]{1,40}\})[A-Za-z0-9._%${}-]*-symbolic(?![A-Za-z0-9_])'
 readonly ICON_FILE_RE='/icons/(.*/)?[^/]+-symbolic(\.symbolic)?\.(svg|png)$'
@@ -24,8 +24,10 @@ readonly ICON_FILE_RE='/icons/(.*/)?[^/]+-symbolic(\.symbolic)?\.(svg|png)$'
 readonly SHIPPED_RE='[A-Za-z0-9][A-Za-z0-9._-]*-symbolic(?=(\.symbolic)?\.(svg|png))'
 readonly TEXT_RE='\.(js|ui|css|py|xml)$'
 
+# Names every app resolves from its toolkit's own GResources.
+readonly TOOLKITS='^(gtk4|libadwaita)$'
 # GTK and GNOME Shell property and flag names that end in -symbolic, not icons.
-readonly NOT_ICONS='^(force|is|on|traditional)-symbolic$'
+readonly NOT_ICONS='^(force|is|on|traditional|yelp-page-searchsearch)-symbolic$'
 
 # The templates the shell fills from UPower's and NetworkManager's state.
 readonly DYNAMIC=(
@@ -61,7 +63,8 @@ scan_package() {
             printf -- '-%s\t%s\n' "$(sed -E 's/(\.symbolic)?\.(svg|png)$//' <<<"$f")" "$pkg"
         elif [[ $f =~ $TEXT_RE || $f == *.gresource ]] || is_elf "$f"; then
             files=$((files + 1))
-            contents "$f" >"$TMP/contents"
+            { gresource list "$f" 2>/dev/null || true; } >"$TMP/contents"
+            contents "$f" >>"$TMP/contents"
             { grep -aoP "$SHIPPED_RE" "$TMP/contents" || true; } | sed "s|^|-|; s|\$|\t$pkg|"
             { grep -aoP "$TEMPLATE_RE" "$TMP/contents" || true; } | sed "s|^|template $pkg: |" >&2
             { grep -aoP "$NAME_RE" "$TMP/contents" || true; } | sed "s|\$|\t$pkg|"
@@ -88,16 +91,22 @@ main() {
         for entry in "${DYNAMIC[@]}"; do
             eval "printf '%s\t${entry%% *}\n' ${entry#* }"
         done
-    } | awk -F '\t' -v not="$NOT_ICONS" '
-        /^-/ { shipped[substr($1, 2), $2] = 1; next }
+    } | awk -F '\t' -v not="$NOT_ICONS" -v toolkits="$TOOLKITS" '
+        /^-/ { shipped[substr($1, 2), $2] = 1; if ($2 ~ toolkits) bundled[substr($1, 2)] = 1; next }
         # Run-together strings and property paths: an icon name starts lower case, and only an app id has dots.
         $1 ~ /^[A-Z]/ || ($1 ~ /\./ && $1 !~ /^[a-z]+\.[A-Za-z0-9]+\.[A-Za-z0-9]/) || $1 ~ /symb.*symb/ || $1 ~ not { next }
         { want[$1 "\t" $2] = 1 }
-        END { for (k in want) { split(k, nk, "\t"); if (!((nk[1], nk[2]) in shipped)) print k } }
+        END {
+            for (k in want) {
+                split(k, nk, "\t")
+                if (!((nk[1], nk[2]) in shipped)) print k "\t" (nk[1] in bundled ? "toolkit" : "")
+            }
+        }
     ' | LC_ALL=C sort -u | awk -F '\t' '
-        $1 != name { if (name != "") print name "\t" pkgs; name = $1; pkgs = $2; next }
+        function flush() { if (name != "") print name "\t" pkgs (flag == "" ? "" : "\t" flag) }
+        $1 != name { flush(); name = $1; pkgs = $2; flag = $3; next }
         { pkgs = pkgs " " $2 }
-        END { if (name != "") print name "\t" pkgs }
+        END { flush() }
     '
 }
 

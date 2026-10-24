@@ -1,0 +1,2 @@
+# Names the shell or an app requests that stock Fedora 45 draws nowhere either, with why;
+# make check-icons fails on any other unresolved name, and on an entry that resolves now.

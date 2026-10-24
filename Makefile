@@ -175,7 +175,8 @@ check-icons:
 		n=$${f##*/}; \
 		bash desktop/icons/fill-strokes.sh "$$f" "$(CHECK_DIR)/icons/Apex/symbolic/$${n%.svg}-symbolic.svg" || exit 1; \
 	done 2>/dev/null
-	$(PYTHON) .github/scripts/symbolic-check.py $(SYMBOLIC_FLAGS) desktop/icons/expected-symbolic.txt '$(CHECK_DIR)/icons'
+	$(PYTHON) .github/scripts/symbolic-check.py $(SYMBOLIC_FLAGS) --unresolved tools/icons/unresolved.txt \
+		desktop/icons/expected-symbolic.txt '$(CHECK_DIR)/icons'
 
 rpm:
 	@if [ -z '$(SHORTCOMMIT)' ]; then \
