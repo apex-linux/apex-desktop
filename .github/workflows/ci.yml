@@ -32,7 +32,7 @@ jobs:
           dnf5 -y --setopt=install_weak_deps=False --repo=fedora --repo=updates install
           git-core make libxml2 glib2 dconf inkscape librsvg2-tools adwaita-sans-fonts
           plymouth-plugin-script plymouth-plugin-two-step plymouth-devel
-          xorg-x11-server-Xvfb xwd xdotool netpbm-progs cpio systemd vte-profile bash-color-prompt
+          xorg-x11-server-Xvfb xwd xdotool netpbm-progs cpio systemd vte-profile bash-color-prompt util-linux-script
           python3-gobject gtk4 adwaita-icon-theme
 
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1

@@ -11,7 +11,7 @@ The Apex desktop sources ([ADR 0014](https://github.com/apex-linux/apex/blob/mai
 | `wallpapers/` | `apex-desktop`: Apex Facets, rendered to PNG at build | GPL-3.0-or-later |
 | `fontconfig/` | `apex-desktop`: `ss03` for Adwaita Sans | GPL-3.0-or-later |
 | `dconf/` | `apex-desktop`: defaults no override can express, in dconf's `distro` database | GPL-3.0-or-later |
-| `ptyxis/` | `apex-desktop`: the coloured bash prompt, in `/etc/profile.d/` | GPL-3.0-or-later |
+| `ptyxis/` | `apex-desktop`: the coloured bash prompt and the shell's exit status for VTE, in `/etc/profile.d/` | GPL-3.0-or-later |
 | `tmpfiles/` | `apex-desktop`: the global Flatpak override, created at boot when missing | GPL-3.0-or-later |
 | `systemd/` | `apex-desktop`: the shell's crash guard, as user units | GPL-3.0-or-later |
 | `icons/` | `apex-desktop`: the `Apex` icon theme, with Colloid's app icons fetched at build | GPL-3.0-or-later; Colloid GPL-3.0-only |
@@ -89,11 +89,36 @@ checks each case in a clean bash.
 
 Ptyxis reads each session's state from VTE's shell integration: `vte.sh` sets
 `PROMPT_COMMAND` and wraps PS1 in the OSC 133 `D;A` and `B` markers, unless PS1 already
-carries them. `apex-prompt.sh` must therefore sort before `vte.sh`. In CI's Fedora job,
-`.github/scripts/prompt-vte-check.sh` installs it among the real `/etc/profile.d`
-scripts and runs `/etc/bashrc` in an interactive bash with `VTE_VERSION` set. It fails
-when the file sorts after `vte.sh`, when PS1 is not our prompt between those markers,
-or when `PROMPT_COMMAND` does not run VTE's prompt command.
+carries them. `apex-prompt.sh` must therefore sort before `vte.sh`.
+
+`vte.sh` reports a command's exit status as `vte.shell.postexec` from `__vte_precmd`,
+but Fedora's `/etc/bashrc` puts a title `printf` and systemd's
+`__systemd_osc_context_precmdline` ahead of it in the `PROMPT_COMMAND` array, so `$?`
+is 0 by then and a failed command reads as a success. `zz-apex-shell-status.sh` sorts
+after `vte.sh`:
+
+- it puts `__apex_postexec` first in `PROMPT_COMMAND`, where `$?` is still the
+  command's, and sends `vte.shell.postexec` from there;
+- it sends it only after a command ran: PS0, which bash expands only before running a
+  command, sets a flag, so an empty Enter repeats no stale status;
+- it redefines `__vte_precmd` to send only `vte.shell.precmd`.
+
+It does nothing outside an interactive bash, or when `vte.sh` did not load or
+`PROMPT_COMMAND` is not an array (older bash, where `vte.sh`'s single
+`__vte_prompt_command` reads `$?` first anyway).
+
+In CI's Fedora job, `.github/scripts/prompt-vte-check.sh` installs both files among the
+real `/etc/profile.d` scripts and runs `/etc/bashrc` in an interactive bash with `VTE_VERSION` set. It fails
+when:
+
+- `apex-prompt.sh` sorts after `vte.sh`, or `zz-apex-shell-status.sh` before it;
+- PS1 is not our prompt between those markers;
+- `PROMPT_COMMAND` does not run VTE's prompt command;
+- `vte.sh`'s `__vte_precmd` is not the one `zz-apex-shell-status.sh` replaces, so a
+  VTE update that changes it fails CI instead of breaking quietly;
+- in a pty (`script`), `false`, `true`, an empty line and `(exit 3)` do not give exactly
+  the expected OSC 666 and 133 sequence: each status once, after the command's
+  `preexec`, and none for the empty line.
 
 ## `tmpfiles/`
 
