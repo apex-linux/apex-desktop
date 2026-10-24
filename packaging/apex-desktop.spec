@@ -48,13 +48,14 @@ rebuilt gnome-shell. The layer treats a missing schema as safe mode. It ships Ap
 vendor defaults for GNOME's own schemas, the Open Spotlight row of Settings > Keyboard,
 the ss03 feature of Adwaita Sans, the default Ptyxis profile and the coloured bash
 prompt. It also ships the crash guard: when GNOME Shell fails within 60 seconds of the
-layer's enable, apex-shell-safe.service sets layer-enabled to false for that user.
-The light and dark Apex Facets wallpapers ship as PNGs, paired for GNOME's background
-chooser. The Apex icon theme carries Colloid's full-colour app icons and the Apex Symbolic glyphs, with
-their strokes turned into fills, and inherits Adwaita and hicolor. The Plymouth script
-theme apex draws the boot splash and the disk passphrase field at 1x and @2x;
-apex-twostep is its two-step fallback. A tmpfiles entry creates the global Flatpak
-override, when there is none, so that Flatpak apps read the window radius in apex.css.
+layer's enable, apex-shell-safe.service sets layer-enabled to false for that user. The
+light and dark Apex Facets wallpapers ship as PNGs, paired for GNOME's background
+chooser. The Apex icon theme carries Colloid's full-colour app icons and the Apex
+Symbolic glyphs, with their strokes turned into fills, and inherits Adwaita and hicolor.
+The Plymouth script theme apex draws the boot splash and the disk passphrase field at 1x
+and @2x; apex-twostep is its two-step fallback. A tmpfiles entry creates the global
+Flatpak override, when there is none, so that Flatpak apps read the window radius in
+apex.css.
 
 %prep
 %autosetup -n %{name}-%{version}
