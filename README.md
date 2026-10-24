@@ -13,6 +13,8 @@ RPM, which carries no code:
   the Apex Facets wallpapers;
 - the `Apex` icon theme: Colloid's app icons from a pinned commit, and the Apex Symbolic
   glyphs with their strokes turned into fills;
+- the boot splash: the Plymouth script theme `apex`, with its disk passphrase field, and
+  the `apex-twostep` fallback;
 - the shell's crash guard, as user units.
 
 [desktop/README.md](desktop/README.md) describes each directory. The layer itself lives
@@ -36,7 +38,8 @@ just rpm          # the RPM from git HEAD, on Fedora 45
 ```
 
 `make check-data` runs xmllint, `glib-compile-schemas --strict`, `dconf compile` and the
-icon theme check (Inkscape for the symbolic icons) when they are installed. `make rpm`
+icon theme check (Inkscape for the symbolic icons), and builds, checks and renders the
+Plymouth themes, when the tools are installed. `make rpm`
 fetches Colloid from github.com. CI also builds the RPM in Fedora 45. The comment guard is
 `apex-lint`, from [apex-ci](https://github.com/apex-linux/apex-ci):
 `cargo install --locked --git https://github.com/apex-linux/apex-ci apex-lint`.

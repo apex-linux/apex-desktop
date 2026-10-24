@@ -14,8 +14,7 @@ The Apex desktop sources ([ADR 0014](https://github.com/apex-linux/apex/blob/mai
 | `ptyxis/` | `apex-desktop`: the coloured bash prompt, in `/etc/profile.d/` | GPL-3.0-or-later |
 | `systemd/` | `apex-desktop`: the shell's crash guard, as user units | GPL-3.0-or-later |
 | `icons/` | `apex-desktop`: the `Apex` icon theme, with Colloid's app icons fetched at build | GPL-3.0-or-later; Colloid GPL-3.0-only |
-
-S1b adds the Plymouth directory to `apex-desktop`.
+| `plymouth/` | `apex-desktop`: the boot splash, the `apex` script theme and its `apex-twostep` fallback | GPL-3.0-or-later |
 
 The Apex layer itself, `desktop/shell/`, ships inside the rebuilt gnome-shell and lives in
 [apex-gnome](https://github.com/apex-linux/apex-gnome), with its own
@@ -133,6 +132,57 @@ build and to gtk-update-icon-cache's file trigger.
 
 To move the Colloid pin, set `colloid_commit` and run `make rpm`: `%prep` fails, and
 `sha256sum target/rpm/SOURCES/Colloid-icon-theme-*.tar` gives the new `colloid_sha256`.
+
+## `plymouth/`
+
+Boards 01 (boot splash) and 30 (disk unlock), in `/usr/share/plymouth/themes/`
+(DESIGN.md, "Boot"; ARCHITECTURE 7.4):
+
+| Theme | Plugin | What it draws |
+|---|---|---|
+| `apex` | script | black; the diamond and the Apex wordmark; the 160×3 bar with round ends, driven by Plymouth's boot progress (and an offline update's percentage); no footer. A passphrase request swaps the bar for the lock screen's 250×38 field, "Enter Passphrase", "Press Enter to unlock the disk", and after a wrong passphrase a red ring and "Wrong passphrase. Try again." |
+| `apex-twostep` | two-step | the same wordmark, two-step's own square-ended bar and its passphrase dialog: the fallback when the script theme misbehaves |
+
+`build.sh OUTDIR art/*.svg` renders the art with `rsvg-convert` into both themes,
+`apex`'s at 1x and `@2x`. The text is pre-rendered in Adwaita Sans, so the initramfs
+needs no font and no label plugin; `build.sh` fails when fontconfig does not resolve
+Adwaita Sans ExtraBold. Neither theme sets itself as the default: the image runs
+`plymouth-set-default-theme apex` before dracut.
+
+Plymouth 26 draws a script image at one image pixel per logical pixel and has no call
+to change that. `apex.script` lays the boards out in logical pixels from the screen's
+centre and loads the `@2x` images when the screen is at least 1600 logical pixels high:
+
+- at `DeviceScale=1`, the laptop's 2880×1800 is logical, so the `@2x` images draw 1:1
+  and sharp;
+- at `DeviceScale=2`, it is 1440×900 logical, so the 1x images draw at the right size,
+  upscaled and soft.
+
+`apex-twostep` has one size, the 1x images and a 160×3 bar, right at `DeviceScale=2`.
+
+`check-theme.sh THEMES` fails when a keyfile lacks its `Name`, `ModuleName`, `ImageDir`
+or `ScriptFile` at `/usr/share/plymouth/themes/`, when an image `apex.script` loads is
+missing at 1x or `@2x`, when an `@2x` image is not exactly twice its 1x size, when the bar
+is not 160×3, or when a two-step image is missing. The spec's `%check` runs it on the
+installed themes, CI on the built RPM's payload, and `make check-data` on `build.sh`'s
+output.
+
+`.github/scripts/plymouth-preview.sh THEMES OUTDIR` boots both themes headless:
+plymouthd on its X11 renderer (`plymouth-devel`) in Xvfb, a 2880×1800 screen at
+`DeviceScale` 2 and 1. It shows the
+splash at 58 %, asks for a passphrase, types one, answers it and asks again, saves each
+frame as PNG, and checks pixels: the black background, the wordmark, the bar's fill and
+track, the field, the placeholder, the hint, the first bullet and the error ring. It runs
+as root in a container only, because the themes go to `/run/plymouth/themes`; `make
+check-data` runs it there, and CI fails if it skipped.
+
+```bash
+podman run --rm -v "$PWD:/src:z" -w /src registry.fedoraproject.org/fedora:45 bash -c \
+  'dnf5 -y install make librsvg2-tools adwaita-sans-fonts plymouth-plugin-script \
+     plymouth-plugin-two-step plymouth-devel xorg-x11-server-Xvfb xwd xdotool netpbm-progs &&
+   make check-data'    # frames in target/check-data/plymouth-frames/
+sudo plymouth-set-default-theme apex      # on a machine; -R also rebuilds the initramfs
+```
 
 ## `fontconfig/`
 

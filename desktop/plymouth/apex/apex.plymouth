@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=Apex
+Description=The Apex boot splash: the wordmark, a rounded progress bar and the disk passphrase field
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/apex
+ScriptFile=/usr/share/plymouth/themes/apex/apex.script

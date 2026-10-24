@@ -12,7 +12,7 @@
 Name:           apex-desktop
 Version:        0.1.0
 Release:        0.%{commitdate}.git%{shortcommit}%{?dist}
-Summary:        Apex desktop data: the Apex GSettings schema, vendor defaults, the shell crash guard, the wallpapers and the Apex icon theme
+Summary:        Apex desktop data: the Apex GSettings schema, vendor defaults, the shell crash guard, the wallpapers, the Apex icon theme and the boot splash
 
 # Colloid's app icons ship the GPLv3 text and state no version beyond it.
 License:        GPL-3.0-or-later AND GPL-3.0-only
@@ -22,10 +22,12 @@ Source1:        Colloid-icon-theme-%{colloid_commit}.tar
 
 BuildArch:      noarch
 
+BuildRequires:  /usr/bin/fc-match
 BuildRequires:  /usr/bin/glib-compile-schemas
 BuildRequires:  /usr/bin/inkscape
 BuildRequires:  /usr/bin/rsvg-convert
 BuildRequires:  /usr/bin/xmllint
+BuildRequires:  adwaita-sans-fonts
 BuildRequires:  systemd-rpm-macros
 
 # apex-shell-safe.service runs gsettings.
@@ -36,6 +38,8 @@ Requires:       hicolor-icon-theme
 Requires:       dconf
 Requires:       fontconfig
 Requires:       gnome-control-center-filesystem
+Requires:       plymouth-plugin-script
+Requires:       plymouth-plugin-two-step
 
 %description
 Data files of the Apex desktop. This build ships the io.github.apex_linux.Apex.Desktop
@@ -43,11 +47,13 @@ GSettings schema, with its Keybindings child: the settings of the Apex layer in 
 rebuilt gnome-shell. The layer treats a missing schema as safe mode. It ships Apex's
 vendor defaults for GNOME's own schemas, the Open Spotlight row of Settings > Keyboard,
 the ss03 feature of Adwaita Sans, the default Ptyxis profile and the coloured bash
-prompt. It also ships the crash guard: when GNOME Shell fails within 60 seconds of the layer's enable,
-apex-shell-safe.service sets layer-enabled to false for that user. The light and dark
+prompt. It also ships the crash guard: when GNOME Shell fails within 60 seconds of the
+layer's enable, apex-shell-safe.service sets layer-enabled to false for that user. The light and dark
 Apex Facets wallpapers ship as PNGs, paired for GNOME's background chooser. The Apex
 icon theme carries Colloid's full-colour app icons and the Apex Symbolic glyphs, with
-their strokes turned into fills, and inherits Adwaita and hicolor.
+their strokes turned into fills, and inherits Adwaita and hicolor. The Plymouth script
+theme apex draws the boot splash and the disk passphrase field at 1x and @2x;
+apex-twostep is its two-step fallback.
 
 %prep
 %autosetup -n %{name}-%{version}
@@ -64,6 +70,7 @@ for f in desktop/icons/symbolic/*.svg; do
     n=${f##*/}
     bash desktop/icons/fill-strokes.sh "$f" "symbolic/${n%.svg}-symbolic.svg"
 done
+bash desktop/plymouth/build.sh plymouth desktop/plymouth/art/*.svg
 
 %install
 install -Dm0644 desktop/schemas/io.github.apex_linux.Apex.Desktop.gschema.xml \
@@ -96,10 +103,15 @@ cp -a Colloid-icon-theme-%{colloid_commit}/src/apps/scalable/. \
     %{buildroot}%{_datadir}/icons/Apex/scalable/apps/
 # Colloid links a few names to icons it does not ship, and one symbolic name to a colour icon.
 find %{buildroot}%{_datadir}/icons/Apex/scalable/apps \( -xtype l -o -name '*-symbolic.svg' \) -print -delete
+install -Dm0644 -t %{buildroot}%{_datadir}/plymouth/themes/apex \
+    desktop/plymouth/apex/apex.plymouth desktop/plymouth/apex/apex.script plymouth/apex/*.png
+install -Dm0644 -t %{buildroot}%{_datadir}/plymouth/themes/apex-twostep \
+    desktop/plymouth/apex-twostep/apex-twostep.plymouth plymouth/apex-twostep/*.png
 
 %check
 glib-compile-schemas --strict --dry-run %{buildroot}%{_datadir}/glib-2.0/schemas
 bash desktop/icons/check-theme.sh %{buildroot}%{_datadir}/icons/Apex desktop/icons/symbolic
+bash desktop/plymouth/check-theme.sh %{buildroot}%{_datadir}/plymouth/themes
 
 %files
 %license LICENSE
@@ -121,10 +133,16 @@ bash desktop/icons/check-theme.sh %{buildroot}%{_datadir}/icons/Apex desktop/ico
 %dir %{_datadir}/gnome-background-properties
 %{_datadir}/gnome-background-properties/apex-facets.xml
 %{_datadir}/icons/Apex/
+%{_datadir}/plymouth/themes/apex/
+%{_datadir}/plymouth/themes/apex-twostep/
 
 %changelog
 * Sat Oct 24 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
 - /etc/profile.d/apex-prompt.sh: board 32's prompt, a blue directory and a dim $
+
+* Sat Oct 24 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
+- The Plymouth script theme apex (boards 01 and 30): the wordmark, the 160x3 bar with
+  round ends, the disk passphrase field, at 1x and @2x; apex-twostep as the fallback
 
 * Fri Oct 23 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
 - The 78 Apex Symbolic glyphs of board 31, filled by fill-strokes.sh at 100x scale
