@@ -111,6 +111,10 @@ main() {
         xargs -0 -r grep -EoH "(^|[^-[:alnum:]])stroke[[:space:]]*(=[[:space:]]*[$Q][^$Q]*|:[^;$Q]*)" |
         grep -Ev "(=[[:space:]]*[$Q]|:)[[:space:]]*none[[:space:]]*\$" | cut -d: -f1 | sort -u || true)
     [[ -z $stroked ]] || fail "symbolic icons with a stroke: $stroked"
+    local empty
+    empty=$(find "$theme" -name '*-symbolic.svg' ! -xtype l -print0 |
+        xargs -0 -r grep -LzE '<(path|circle|ellipse|rect|polygon|polyline|line|use)[[:space:]/>]' || true)
+    [[ -z $empty ]] || fail "symbolic icons that draw nothing: $empty"
     (($# == 1)) || check_opacity "$theme" "${2%/}"
 
     ((FAILED == 0)) || exit 1

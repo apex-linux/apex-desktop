@@ -188,6 +188,11 @@ bash desktop/wallpapers/check-greeter.sh %{buildroot}%{_datadir}/backgrounds/ape
 %{_datadir}/plymouth/themes/apex-twostep/
 
 %changelog
+* Sun Oct 25 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
+- starred is board 31's star filled again and non-starred its outline; board 31c's export
+  had left both empty, so Files' star toggle drew nothing. check-theme fails on a symbolic
+  icon that draws nothing
+
 * Sat Oct 24 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
 - inode-directory as each theme's plain accent folder, so Spotlight's Files rows, which name
   it before folder, take the accent and not Adwaita's

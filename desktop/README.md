@@ -224,7 +224,7 @@ cores and opacities pass through, and a `stroke-opacity` becomes a `fill-opacity
 `check-theme.sh` fails when `index.theme` lacks a key, a group or
 `Inherits=Adwaita,hicolor` (`Inherits=Apex` for an `Apex-<accent>` theme), when a directory with icons is not listed, when an SVG does
 not parse, when a link is absolute or dangling, when a symbolic icon has a stroke that is
-not `none` or sits outside `symbolic/`, and, given the sources, when a glyph's
+not `none`, draws nothing (no path or shape) or sits outside `symbolic/`, and, given the sources, when a glyph's
 `stroke-opacity` did not survive as a fill or opacity. The spec's `%check` runs it on the installed theme; `make
 check-data` runs it on a theme built from `icons/`. The spec's `%install` builds each of
 the ten themes' `icon-theme.cache` with `gtk-update-icon-cache`, and `%check` validates
