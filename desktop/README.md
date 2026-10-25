@@ -208,11 +208,14 @@ draw yet, and every app icon Colloid lacks, comes from Adwaita and then hicolor,
 the places and content types boards 27 to 29 do not draw. Glyphs are drawn on a 16 px grid with a 1 px
 keyline, a 1.75 px stroke, and round caps and joins: the 78 glyphs of board 31, the 72 of
 board 31b (status families and the shell's gaps), the 64 of board 31c (everyday
-actions) and the 72 of board 31d (everywhere else), named by the boards' ids. Twelve of them (`go-next-arrow`, `apex-desktop`, `auth-fingerprint`,
+actions) and the 73 of board 31d (everywhere else, with Maps' `document-print`), named
+by the boards' ids. Maps' `value-increase`, `value-decrease`, `emoji-recent` and `favorite`
+share the drawings of `list-add`, `list-remove`, `document-open-recent` and `non-starred`.
+Thirteen of them (`go-next-arrow`, `apex-desktop`, `auth-fingerprint`,
 `selection-area`, `pointer`, `window`, `briefcase`, `globe`, `dark-mode`, and the
-`emblem-documents`, `emblem-shared` and `emblem-synchronizing` that apps request and
-Adwaita 51 does not draw) add icons; the rest replace Adwaita's symbolic icon of the same
-name.
+`emblem-documents`, `emblem-shared`, `emblem-synchronizing` and `favorite` that apps
+request and Adwaita 51 does not draw) add icons; the rest replace Adwaita's symbolic icon
+of the same name.
 
 `fill-strokes.sh` scales a glyph 100 times before stroke-to-path, because Inkscape offsets
 curves to a fixed tolerance in user units, and the 16-unit canvas made that tolerance a
@@ -330,7 +333,7 @@ It reports how many names each theme draws; `SYMBOLIC_FLAGS=--fallbacks` lists t
 Apex Symbolic does not draw yet. CI runs both in fedora:45, and warns, without failing,
 when a fresh scan differs from the committed list.
 
-Coverage with boards 31 to 31d: of the 275 names, Apex Symbolic draws 268 and Adwaita
+Coverage with boards 31 to 31d: of the 281 names, Apex Symbolic draws 274 and Adwaita
 none; GTK's and libadwaita's own bundles draw 2 and Epiphany's GResource 1; 4 are known
 gaps. `make check-icons` prints the same line, and `SYMBOLIC_FLAGS=--fallbacks` lists
 the names Apex does not draw, so refresh these numbers with each board.

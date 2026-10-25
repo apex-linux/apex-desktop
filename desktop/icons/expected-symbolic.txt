@@ -16,6 +16,7 @@
 @gnome-font-viewer-50.0-8.fc45
 @gnome-initial-setup-51.1-1.fc45
 @gnome-logs-50.0-6.fc45
+@gnome-maps-51.1-2.fc45
 @gnome-online-accounts-3.58.1-4.fc45
 @gnome-settings-daemon-51.0-1.fc45
 @gnome-shell-51.0-1.fc45
@@ -55,7 +56,7 @@ audio-volume-medium-symbolic	decibels gnome-control-center gnome-settings-daemon
 audio-volume-muted-symbolic	decibels gnome-control-center gnome-settings-daemon gnome-shell showtime	toolkit
 audio-volume-overamplified-symbolic	gnome-settings-daemon gnome-shell
 audio-x-generic-symbolic	gnome-shell nautilus sushi
-avatar-default-symbolic	gnome-contacts gnome-shell
+avatar-default-symbolic	gnome-contacts gnome-maps gnome-shell
 battery-action-symbolic	gnome-settings-daemon
 battery-caution-symbolic	gnome-settings-daemon
 battery-level-0-charging-symbolic	gnome-shell
@@ -97,15 +98,17 @@ channel-insecure-symbolic	gnome-shell
 channel-secure-symbolic	epiphany gnome-control-center gnome-shell
 check-outlined-symbolic	gnome-online-accounts
 computer-fail-symbolic	gnome-control-center yelp
-computer-symbolic	epiphany gnome-control-center gnome-firmware
+computer-symbolic	epiphany gnome-control-center gnome-firmware gnome-maps
 dialog-error-symbolic	gnome-control-center gnome-extensions-app nautilus ptyxis showtime	toolkit
+dialog-information-symbolic	gnome-maps	toolkit
 dialog-password-symbolic	gnome-control-center gnome-initial-setup gnome-online-accounts gnome-shell	toolkit
-dialog-question-symbolic	gnome-control-center yelp	toolkit
+dialog-question-symbolic	gnome-control-center gnome-maps yelp	toolkit
 dialog-warning-symbolic	gnome-control-center gnome-disk-utility gnome-initial-setup gnome-settings-daemon nautilus	toolkit
 display-brightness-symbolic	gnome-settings-daemon gnome-shell	toolkit
-document-edit-symbolic	epiphany gnome-calculator gnome-contacts gnome-control-center gnome-initial-setup gnome-shell nautilus xdg-desktop-portal-gnome
-document-open-recent-symbolic	gnome-characters gnome-control-center gnome-text-editor nautilus	toolkit
+document-edit-symbolic	epiphany gnome-calculator gnome-contacts gnome-control-center gnome-initial-setup gnome-maps gnome-shell nautilus xdg-desktop-portal-gnome
+document-open-recent-symbolic	gnome-characters gnome-control-center gnome-maps gnome-text-editor nautilus	toolkit
 document-open-symbolic	gnome-text-editor libadwaita	toolkit
+document-print-symbolic	gnome-maps
 document-properties-symbolic	gnome-system-monitor
 document-save-symbolic	gnome-calculator gnome-firmware gnome-logs libadwaita	toolkit
 drive-harddisk-symbolic	gnome-firmware gnome-settings-daemon gnome-system-monitor nautilus	toolkit
@@ -114,10 +117,10 @@ drive-harddisk-usb-symbolic	xdg-desktop-portal-gnome
 drive-multidisk-symbolic	gnome-disk-utility
 drive-removable-media-symbolic	gnome-settings-daemon
 edit-clear-rtl-symbolic	nautilus
-edit-clear-symbolic	epiphany gnome-calculator gnome-control-center gnome-shell gnome-text-editor nautilus	toolkit
+edit-clear-symbolic	epiphany gnome-calculator gnome-control-center gnome-maps gnome-shell gnome-text-editor nautilus	toolkit
 edit-copy-symbolic	epiphany gnome-calculator gnome-control-center gnome-firmware gnome-online-accounts gnome-shell libadwaita loupe ptyxis snapshot	toolkit
 edit-cut-symbolic	libadwaita	toolkit
-edit-delete-symbolic	baobab epiphany gnome-calendar gnome-clocks gnome-control-center yelp	toolkit
+edit-delete-symbolic	baobab epiphany gnome-calendar gnome-clocks gnome-control-center gnome-maps yelp	toolkit
 edit-find-replace-symbolic	gnome-text-editor
 edit-find-symbolic	epiphany gnome-calculator gnome-calendar gnome-characters gnome-clocks gnome-control-center gnome-extensions-app gnome-initial-setup gnome-logs gnome-shell gnome-system-monitor gnome-text-editor gnome-weather libadwaita nautilus ptyxis yelp	toolkit
 edit-paste-symbolic	libadwaita	toolkit
@@ -137,12 +140,14 @@ emoji-food-symbolic	gnome-characters	toolkit
 emoji-nature-symbolic	gnome-characters	toolkit
 emoji-objects-symbolic	gnome-characters	toolkit
 emoji-people-symbolic	gnome-characters	toolkit
+emoji-recent-symbolic	gnome-maps	toolkit
 emoji-travel-symbolic	gnome-characters	toolkit
 ephy-site-menu-button-symbolic	epiphany
 face-sad-symbolic	gnome-control-center gnome-firmware
 face-smile-symbolic	gnome-shell	toolkit
 face-uncertain-symbolic	epiphany
-find-location-symbolic	gnome-initial-setup gnome-shell gnome-weather	toolkit
+favorite-symbolic	gnome-maps
+find-location-symbolic	gnome-initial-setup gnome-maps gnome-shell gnome-weather	toolkit
 focus-windows-symbolic	xdg-desktop-portal-gnome
 folder-documents-symbolic	gnome-control-center nautilus	toolkit
 folder-download-symbolic	gnome-control-center nautilus	toolkit
@@ -159,12 +164,12 @@ folder-videos-symbolic	gnome-control-center nautilus	toolkit
 font-select-symbolic	ptyxis
 font-x-generic-symbolic	gtk4
 gnome-power-manager-symbolic	gnome-shell
-go-down-symbolic	epiphany gnome-calendar gnome-control-center gnome-shell gnome-text-editor libadwaita nautilus papers ptyxis yelp	toolkit
+go-down-symbolic	epiphany gnome-calendar gnome-control-center gnome-maps gnome-shell gnome-text-editor libadwaita nautilus papers ptyxis yelp	toolkit
 go-home-symbolic	epiphany
 go-jump-symbolic	epiphany
-go-next-symbolic	baobab epiphany gnome-bluetooth gnome-calculator gnome-calendar gnome-characters gnome-clocks gnome-contacts gnome-control-center gnome-shell gnome-text-editor gnome-weather libadwaita loupe nautilus ptyxis snapshot sushi yelp	toolkit
-go-previous-symbolic	epiphany gnome-calculator gnome-control-center gnome-disk-utility gnome-logs gnome-shell gnome-weather libadwaita loupe nautilus snapshot sushi yelp	toolkit
-go-up-symbolic	epiphany gnome-control-center gnome-firmware gnome-shell gnome-text-editor nautilus papers ptyxis yelp	toolkit
+go-next-symbolic	baobab epiphany gnome-bluetooth gnome-calculator gnome-calendar gnome-characters gnome-clocks gnome-contacts gnome-control-center gnome-maps gnome-shell gnome-text-editor gnome-weather libadwaita loupe nautilus ptyxis snapshot sushi yelp	toolkit
+go-previous-symbolic	epiphany gnome-calculator gnome-control-center gnome-disk-utility gnome-logs gnome-maps gnome-shell gnome-weather libadwaita loupe nautilus snapshot sushi yelp	toolkit
+go-up-symbolic	epiphany gnome-control-center gnome-firmware gnome-maps gnome-shell gnome-text-editor nautilus papers ptyxis yelp	toolkit
 help-about-symbolic	gnome-calculator gnome-control-center gnome-font-viewer
 icon-redraw-symbolic	gtk4
 image-missing-symbolic	loupe sushi
@@ -175,14 +180,14 @@ input-tablet-symbolic	gnome-control-center
 input-touchpad-symbolic	gnome-control-center gnome-settings-daemon
 insert-object-symbolic	gnome-shell	toolkit
 keyboard-brightness-symbolic	gnome-settings-daemon
-list-add-symbolic	baobab epiphany gnome-calculator gnome-calendar gnome-clocks gnome-contacts gnome-control-center gnome-disk-utility libadwaita nautilus ptyxis	toolkit
+list-add-symbolic	baobab epiphany gnome-calculator gnome-calendar gnome-clocks gnome-contacts gnome-control-center gnome-disk-utility gnome-maps libadwaita nautilus ptyxis	toolkit
 list-drag-handle-symbolic	epiphany gnome-control-center nautilus
-list-remove-symbolic	epiphany gnome-disk-utility	toolkit
+list-remove-symbolic	epiphany gnome-disk-utility gnome-maps	toolkit
 location-services-active-symbolic	gnome-shell
 locked-symbolic	gnome-firmware
 mail-send-symbolic	gnome-contacts
-mail-unread-symbolic	gnome-contacts gnome-online-accounts
-mark-location-symbolic	gnome-contacts loupe
+mail-unread-symbolic	gnome-contacts gnome-maps gnome-online-accounts
+mark-location-symbolic	gnome-contacts gnome-maps loupe
 media-eject-symbolic	gnome-disk-utility gnome-settings-daemon nautilus	toolkit
 media-playback-pause-symbolic	gnome-clocks gnome-control-center gnome-shell libadwaita showtime	toolkit
 media-playback-start-symbolic	gnome-clocks gnome-control-center gnome-disk-utility gnome-shell libadwaita showtime	toolkit
@@ -216,14 +221,14 @@ network-vpn-symbolic	gnome-shell
 network-wired-acquiring-symbolic	gnome-shell
 network-wired-disconnected-symbolic	gnome-control-center gnome-shell
 network-wired-no-route-symbolic	gnome-shell
-network-wired-symbolic	gnome-control-center gnome-shell
+network-wired-symbolic	gnome-control-center gnome-maps gnome-shell
 network-wireless-acquiring-symbolic	gnome-shell
 network-wireless-disabled-symbolic	gnome-control-center gnome-shell
 network-wireless-encrypted-symbolic	gnome-initial-setup gnome-shell
 network-wireless-hotspot-symbolic	gnome-shell
 network-wireless-no-route-symbolic	gnome-control-center gnome-shell
-network-wireless-offline-symbolic	gnome-control-center gnome-shell
-network-wireless-signal-excellent-symbolic	gnome-control-center gnome-initial-setup gnome-shell
+network-wireless-offline-symbolic	gnome-control-center gnome-maps gnome-shell
+network-wireless-signal-excellent-symbolic	gnome-control-center gnome-initial-setup gnome-maps gnome-shell
 network-wireless-signal-good-symbolic	gnome-control-center gnome-initial-setup gnome-shell
 network-wireless-signal-none-symbolic	gnome-control-center gnome-initial-setup gnome-shell
 network-wireless-signal-ok-symbolic	gnome-control-center gnome-initial-setup gnome-shell
@@ -237,7 +242,7 @@ notifications-disabled-symbolic	gnome-shell
 object-rotate-left-symbolic	loupe showtime
 object-rotate-right-symbolic	loupe showtime
 object-select-symbolic	epiphany gnome-calculator gnome-calendar gnome-clocks gnome-contacts gnome-control-center gnome-initial-setup gnome-shell gnome-text-editor libadwaita nautilus ptyxis xdg-desktop-portal-gnome	toolkit
-open-menu-symbolic	baobab decibels epiphany gnome-calculator gnome-calendar gnome-characters gnome-clocks gnome-contacts gnome-control-center gnome-extensions-app gnome-firmware gnome-logs gnome-system-monitor gnome-text-editor gnome-weather libadwaita loupe nautilus ptyxis showtime snapshot yelp	toolkit
+open-menu-symbolic	baobab decibels epiphany gnome-calculator gnome-calendar gnome-characters gnome-clocks gnome-contacts gnome-control-center gnome-extensions-app gnome-firmware gnome-logs gnome-maps gnome-system-monitor gnome-text-editor gnome-weather libadwaita loupe nautilus ptyxis showtime snapshot yelp	toolkit
 org.freedesktop.MalcontentControl-symbolic	gnome-initial-setup
 org.gnome.Settings-accessibility-symbolic	gnome-shell
 org.gnome.Software-symbolic	xdg-desktop-portal-gnome
@@ -262,7 +267,7 @@ security-high-symbolic	gnome-control-center gnome-firmware
 security-low-symbolic	gnome-firmware
 security-medium-symbolic	gnome-firmware
 selection-mode-symbolic	epiphany gnome-contacts
-sidebar-show-symbolic	gnome-calendar nautilus
+sidebar-show-symbolic	gnome-calendar gnome-maps nautilus
 software-update-available-symbolic	gnome-extensions-app gnome-firmware
 software-update-urgent-symbolic	gnome-firmware
 starred-symbolic	gnome-calculator gnome-disk-utility gtk4
@@ -271,10 +276,10 @@ system-lock-screen-symbolic	gnome-firmware gnome-shell
 system-log-out-symbolic	gnome-shell
 system-reboot-symbolic	gnome-firmware gnome-shell
 system-run-symbolic	gnome-control-center gnome-disk-utility	toolkit
-system-search-symbolic	gnome-characters yelp	toolkit
+system-search-symbolic	gnome-characters gnome-maps yelp	toolkit
 system-shutdown-symbolic	gnome-disk-utility gnome-firmware gnome-shell
 system-switch-user-symbolic	gnome-shell
-system-users-symbolic	ptyxis
+system-users-symbolic	gnome-maps ptyxis
 tab-new-symbolic	epiphany gnome-text-editor nautilus ptyxis	toolkit
 task-due-symbolic	gnome-firmware
 thunderbolt-acquiring-symbolic	gnome-shell
@@ -287,6 +292,8 @@ user-not-tracked-symbolic	epiphany
 user-trash-full-symbolic	gnome-shell gtk4 nautilus
 user-trash-symbolic	epiphany gnome-calculator gnome-clocks gnome-contacts gnome-control-center gnome-initial-setup gnome-shell libadwaita nautilus	toolkit
 utilities-terminal-symbolic	gnome-control-center ptyxis
+value-decrease-symbolic	gnome-maps	toolkit
+value-increase-symbolic	gnome-maps	toolkit
 video-display-symbolic	xdg-desktop-portal-gnome
 video-x-generic-symbolic	showtime
 view-app-grid-symbolic	gnome-shell
@@ -295,18 +302,18 @@ view-fullscreen-symbolic	showtime sushi	toolkit
 view-grid-symbolic	epiphany libadwaita nautilus ptyxis	toolkit
 view-list-symbolic	libadwaita nautilus	toolkit
 view-more-horizontal-symbolic	epiphany nautilus
-view-more-symbolic	epiphany gnome-contacts gnome-control-center gnome-disk-utility gnome-extensions-app gnome-initial-setup gnome-system-monitor gnome-weather libadwaita nautilus ptyxis snapshot xdg-desktop-portal-gnome	toolkit
-view-refresh-symbolic	baobab epiphany gnome-clocks gnome-control-center gnome-shell gnome-system-monitor gnome-weather	toolkit
+view-more-symbolic	epiphany gnome-contacts gnome-control-center gnome-disk-utility gnome-extensions-app gnome-initial-setup gnome-maps gnome-system-monitor gnome-weather libadwaita nautilus ptyxis snapshot xdg-desktop-portal-gnome	toolkit
+view-refresh-symbolic	baobab epiphany gnome-clocks gnome-control-center gnome-maps gnome-shell gnome-system-monitor gnome-weather	toolkit
 view-restore-symbolic	epiphany gnome-text-editor ptyxis showtime sushi
 view-reveal-symbolic	gnome-control-center gnome-shell libadwaita	toolkit
 view-wrapped-symbolic	epiphany
 weather-showers-scattered-symbolic	gnome-weather
 weather-showers-symbolic	gnome-weather
-web-browser-symbolic	gnome-online-accounts
-window-close-symbolic	epiphany gnome-calendar gnome-contacts gnome-control-center gnome-disk-utility gnome-shell gnome-text-editor gnome-weather libadwaita nautilus ptyxis yelp	toolkit
+web-browser-symbolic	gnome-maps gnome-online-accounts
+window-close-symbolic	epiphany gnome-calendar gnome-contacts gnome-control-center gnome-disk-utility gnome-maps gnome-shell gnome-text-editor gnome-weather libadwaita nautilus ptyxis yelp	toolkit
 window-new-symbolic	nautilus	toolkit
 x-office-calendar-symbolic	gnome-calendar gnome-online-accounts gnome-weather nautilus
 x-office-spreadsheet-symbolic	nautilus
 zoom-fit-best-symbolic	papers
-zoom-in-symbolic	epiphany gnome-text-editor nautilus papers ptyxis yelp	toolkit
-zoom-out-symbolic	epiphany gnome-text-editor nautilus papers ptyxis yelp	toolkit
+zoom-in-symbolic	epiphany gnome-maps gnome-text-editor nautilus papers ptyxis yelp	toolkit
+zoom-out-symbolic	epiphany gnome-maps gnome-text-editor nautilus papers ptyxis yelp	toolkit
