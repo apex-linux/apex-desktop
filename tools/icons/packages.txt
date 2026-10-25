@@ -29,6 +29,7 @@ gnome-clocks
 gnome-calendar
 gnome-contacts
 gnome-weather
+gnome-maps
 gnome-font-viewer
 gnome-logs
 yelp

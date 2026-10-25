@@ -27,7 +27,7 @@ readonly TEXT_RE='\.(js|ui|css|py|xml)$'
 # Names every app resolves from its toolkit's own GResources.
 readonly TOOLKITS='^(gtk4|libadwaita)$'
 # GTK and GNOME Shell property and flag names that end in -symbolic, not icons.
-readonly NOT_ICONS='^(force|is|on|traditional|yelp-page-searchsearch)-symbolic$'
+readonly NOT_ICONS='^(force|is|non|on|traditional|yelp-page-searchsearch)-symbolic$'
 
 # The templates the shell fills from UPower's and NetworkManager's state.
 readonly DYNAMIC=(
