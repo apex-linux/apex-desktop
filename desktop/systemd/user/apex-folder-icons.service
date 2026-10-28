@@ -3,6 +3,8 @@
 Description=Set the Apex icons of the Projects and Screenshots folders
 PartOf=graphical-session.target
 After=graphical-session.target
+# GDM's greeter and initial setup are graphical sessions of dynamic users, with no folders to set.
+ConditionEnvironment=XDG_SESSION_CLASS=user
 
 [Service]
 Type=oneshot
