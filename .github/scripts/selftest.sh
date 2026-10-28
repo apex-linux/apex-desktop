@@ -263,6 +263,9 @@ check "apex-folder-icons.sh keeps an icon the user set" \
 check "apex-folder-icons.sh finds Screenshots under the shell's translation" \
     "$TMP/fi/home/Pictures/Ảnh chụp màn hình metadata::custom-icon-name folder-screenshots" \
     "$(FAKE_SHOTS='Ảnh chụp màn hình' folder_icons 'Pictures/Ảnh chụp màn hình' Pictures/Screenshots)"
+check "apex-folder-icons.service runs only in a user's session, not the greeter's" \
+    "ConditionEnvironment=XDG_SESSION_CLASS=user" \
+    "$(grep -x 'ConditionEnvironment=.*' "$APEX_ROOT/desktop/systemd/user/apex-folder-icons.service")"
 
 # --- check-caches.sh, where gtk-update-icon-cache is installed ---------------------------------
 if command -v gtk-update-icon-cache >/dev/null 2>&1; then
