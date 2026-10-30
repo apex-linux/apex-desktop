@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # SPDX-License-Identifier: GPL-3.0-or-later
 #
-# Run by apex-shell-safe.service when GNOME Shell's unit fails. Turns the Apex layer off on
-# a failure during its first 60 s, or on the second later failure on one ostree deployment.
+# Run by apex-shell-safe.service when GNOME Shell's unit fails: turns the layer off on a failure in
+# its first 60 s, or the second later one on a deployment (none without ostree=, as in a container).
 
 set -euo pipefail
 
