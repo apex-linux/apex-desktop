@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: GPL-3.0-or-later
 #
-# Draws board 31's contact sheets with GTK 4's own symbolic recolouring, headless, at scale 2.
+# Draws board 31's contact sheets with GTK 4's own symbolic recolouring, at scale 2.
 # contact-sheet.sh checks the dependencies and runs it; its usage is the contract.
 
 import os
@@ -81,6 +81,8 @@ def main():
             scene, name = line.split()
             scenes.setdefault(scene, []).append(name)
 
+    if not Gtk.init_check():
+        sys.exit(f"contact-sheet.py: GTK 4 opens no display {os.environ.get('DISPLAY', '')}")
     theme = Gtk.IconTheme()
     theme.set_search_path([icons])
     theme.set_theme_name("Apex")

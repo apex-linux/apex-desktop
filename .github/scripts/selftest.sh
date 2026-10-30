@@ -288,7 +288,8 @@ check "boards.txt lists every desktop/icons/symbolic glyph exactly once" \
 check "boards.txt puts each glyph in one of board 31's scenes" "" \
     "$(grep -v '^#' "$APEX_ROOT/tools/icons/boards.txt" | grep -Evx '(core|status|actions|everywhere|aliases) [A-Za-z0-9._-]+')"
 if python3 -c 'import gi; gi.require_version("Gtk", "4.0"); from gi.repository import Gtk' 2>/dev/null &&
-    [[ $(fc-match -f '%{family[0]}' 'Adwaita Sans' 2>/dev/null) == 'Adwaita Sans' ]]; then
+    [[ $(fc-match -f '%{family[0]}' 'Adwaita Sans' 2>/dev/null) == 'Adwaita Sans' ]] &&
+    { [[ -n ${DISPLAY:-}${WAYLAND_DISPLAY:-} ]] || command -v Xvfb >/dev/null; }; then
     mkdir -p "$TMP/sheet/icons/Apex/symbolic"
     cp "$APEX_ROOT/desktop/icons/index.theme" "$TMP/sheet/icons/Apex/"
     grep -v '^#' "$APEX_ROOT/tools/icons/boards.txt" | cut -d' ' -f2 | while IFS= read -r n; do
