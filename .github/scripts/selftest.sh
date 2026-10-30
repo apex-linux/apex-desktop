@@ -281,6 +281,31 @@ if command -v gtk-update-icon-cache >/dev/null 2>&1; then
     check_false "check-caches.sh fails on an invalid cache" bash "$APEX_ROOT/desktop/icons/check-caches.sh" "$TMP/cache/T"
 fi
 
+# --- tools/icons/boards.txt and contact-sheet.sh --------------------------------------------
+check "boards.txt lists every desktop/icons/symbolic glyph exactly once" \
+    "$(cd "$APEX_ROOT/desktop/icons/symbolic" && find . -maxdepth 1 -name '*.svg' -printf '%f\n' | sed 's/\.svg$//' | LC_ALL=C sort)" \
+    "$(grep -v '^#' "$APEX_ROOT/tools/icons/boards.txt" | cut -d' ' -f2 | LC_ALL=C sort)"
+check "boards.txt puts each glyph in one of board 31's scenes" "" \
+    "$(grep -v '^#' "$APEX_ROOT/tools/icons/boards.txt" | grep -Evx '(core|status|actions|everywhere|aliases) [A-Za-z0-9._-]+')"
+if python3 -c 'import gi; gi.require_version("Gtk", "4.0"); from gi.repository import Gtk' 2>/dev/null &&
+    [[ $(fc-match -f '%{family[0]}' 'Adwaita Sans' 2>/dev/null) == 'Adwaita Sans' ]]; then
+    mkdir -p "$TMP/sheet/icons/Apex/symbolic"
+    cp "$APEX_ROOT/desktop/icons/index.theme" "$TMP/sheet/icons/Apex/"
+    grep -v '^#' "$APEX_ROOT/tools/icons/boards.txt" | cut -d' ' -f2 | while IFS= read -r n; do
+        printf '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><path d="M2 2h12v12H2z"/></svg>\n' \
+            >"$TMP/sheet/icons/Apex/symbolic/$n-symbolic.svg"
+    done
+    sheet() { "$APEX_ROOT/tools/icons/contact-sheet.sh" "$TMP/sheet/icons" "$TMP/sheet/out" 2>"$TMP/sheet/err"; }
+    check "contact-sheet.sh draws every scene, light and dark" 0 "$(rc_of sheet)"
+    check "contact-sheet.sh writes one light and one dark sheet per scene" 10 "$(find "$TMP/sheet/out" -name 'board-31-symbolic-*.png' | wc -l)"
+    rm "$TMP/sheet/icons/Apex/symbolic/alarm-symbolic.svg"
+    printf '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"/>\n' >"$TMP/sheet/icons/Apex/symbolic/phone-symbolic.svg"
+    check "contact-sheet.sh fails on a missing or an empty glyph" 1 "$(rc_of sheet)"
+    check_true "contact-sheet.sh names the missing glyph" grep -q 'everywhere alarm: missing' "$TMP/sheet/err"
+    check_true "contact-sheet.sh names the empty glyph" grep -q 'everywhere phone: empty' "$TMP/sheet/err"
+    check_false "contact-sheet.sh writes no sheet of a failing scene" test -e "$TMP/sheet/out/board-31-symbolic-everywhere-light.png"
+fi
+
 if ((FAILS > 0)); then
     die "selftest: $FAILS failure(s)"
 fi

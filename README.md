@@ -36,6 +36,7 @@ from the commit it pins here, so a schema change lands here first and the copies
 just check        # make check-data, the script self-test and the comment guard
 just rpm          # the RPM from git HEAD, on Fedora 45
 make check-icons  # every symbolic icon the shell and the apps request resolves through Apex
+just contact-sheet ICONS OUT  # board 31's sheets of every Apex Symbolic glyph, light and dark
 .github/scripts/rpms.sh key    # the RPM's content key for git HEAD
 ```
 

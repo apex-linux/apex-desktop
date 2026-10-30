@@ -18,6 +18,10 @@ check-data:
 selftest:
     .github/scripts/selftest.sh
 
+# Board 31's contact sheets, every Apex Symbolic glyph as GTK 4 draws it, from an icons dir into OUT.
+contact-sheet icons="/usr/share/icons" out="target/contact-sheet":
+    tools/icons/contact-sheet.sh {{icons}} {{out}}
+
 # The apex-desktop RPM from git HEAD (Fedora only: the builder VM or a fedora:45 toolbox).
 rpm:
     make rpm
