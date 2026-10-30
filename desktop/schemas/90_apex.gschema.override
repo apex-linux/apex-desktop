@@ -43,5 +43,6 @@ default-profile-uuid='d14b2180d28c41f3a9ee7785f4daa697'
 profile-uuids=['d14b2180d28c41f3a9ee7785f4daa697']
 
 [org.gnome.settings-daemon.plugins.power]
-# The fingerprint sensor is the power key: 'interactive' does nothing on the lock screen.
+# The fingerprint sensor is the power key: on hardware, 'interactive' does nothing on the lock
+# screen. In a VM gsd-media-keys powers off for any value but 'nothing'.
 power-button-action='interactive'
