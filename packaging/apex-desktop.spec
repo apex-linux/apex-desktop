@@ -188,6 +188,10 @@ bash desktop/wallpapers/check-greeter.sh %{buildroot}%{_datadir}/backgrounds/ape
 %{_datadir}/plymouth/themes/apex-twostep/
 
 %changelog
+* Fri Oct 30 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
+- The override's power-button-action comment: in a VM gsd-media-keys powers off for any
+  value but 'nothing'; 'interactive' stays, for the laptop
+
 * Sun Oct 25 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
 - GNOME Maps' icons: document-print drawn (board 31d), and value-increase, value-decrease,
   emoji-recent and favorite sharing drawn glyphs, so Apex Symbolic draws 274 of 281 names
