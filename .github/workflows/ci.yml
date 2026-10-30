@@ -68,6 +68,17 @@ jobs:
           python3 .github/scripts/places-check.py /tmp/payload/usr/share/icons
           python3 .github/scripts/mimetypes-check.py /tmp/payload/usr/share/icons
 
+      - name: Board 31's contact sheets from the payload
+        run: |
+          tools/icons/contact-sheet.sh /tmp/payload/usr/share/icons /tmp/contact-sheet
+          test "$(find /tmp/contact-sheet -name 'board-31-symbolic-*.png' | wc -l)" -eq 10
+
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: apex-symbolic-sheet
+          path: /tmp/contact-sheet/
+          if-no-files-found: error
+
       - name: An accent theme without inode-directory fails places-check
         # Without it, St falls to Adwaita's inode-directory before it tries the accent folder.
         run: |
