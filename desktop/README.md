@@ -416,10 +416,19 @@ only, and the Apex layer is compiled into gnome-shell.
 | File | Installed as | What it does |
 |---|---|---|
 | `user/org.gnome.Shell@.service.d/50-apex.conf` | `/usr/lib/systemd/user/org.gnome.Shell@.service.d/50-apex.conf` | adds `OnFailure=apex-shell-safe.service` to GNOME Shell's user unit, next to upstream's `org.gnome.Shell-disable-extensions.service` |
-| `user/apex-shell-safe.service` | `/usr/lib/systemd/user/apex-shell-safe.service` | a oneshot with `DefaultDependencies=no`, ordered before `gnome-session-restart-dbus.service` (the same `OnFailure=` list restarts the session bus, and `gsettings` exits 0 when its write is lost), gated on the layer's `%t/apex-shell-starting`: sets `layer-enabled=false`, leaves `$XDG_STATE_HOME/apex/shell-guard-tripped` for `apex-session-agent` (S1b), and removes the layer's file |
+| `user/apex-shell-safe.service` | `/usr/lib/systemd/user/apex-shell-safe.service` | a oneshot with `DefaultDependencies=no`, ordered before `gnome-session-restart-dbus.service` (the same `OnFailure=` list restarts the session bus, and `gsettings` exits 0 when its write is lost), that runs the guard on every failure of the shell |
+| `apex-shell-guard.sh` | `/usr/libexec/apex/apex-shell-guard` | ADR 0014's two triggers. A failure while the layer's `%t/apex-shell-starting` exists (its first 60 s) trips at once. A later one counts in `$XDG_STATE_HOME/apex/shell-guard-trips`, one line `<deployment> <count>`, and the second on one deployment trips. A trip sets `layer-enabled=false`, leaves `$XDG_STATE_HOME/apex/shell-guard-tripped` for `apex-session-agent`, removes the layer's file and zeroes the count |
 
-A shell that exits with status 1 does not trip it: upstream's unit counts that as
-success, and only an error in the static import graph causes it, which G2 catches.
+The deployment is the booted ostree deployment as ostree names it, `<checksum>.<serial>`:
+the basename of the `ostree=` argument's target. The `boot.N` path itself and its kernel
+checksum repeat across updates that keep the kernel, so they are not the key. Without
+`ostree=`, in a container, the deployment is `none`. A new deployment starts the count
+again at 1. While `layer-enabled` is false nothing counts, so turning the layer back on
+starts from zero.
+
+A shell that exits with status 1 does not trip it or count: upstream's unit counts that as
+success, and only an error in the static import graph causes it, which G2 catches. The guard
+also ignores an `OnFailure=` start whose `MONITOR_EXIT_STATUS` is 1.
 Until the agent offers it (S1b), turn the layer back on with the `gsettings` line
 above. The files must not name the shell's dev-loop or fault-injection variables: G1
 searches every text file under `/usr` for them.
