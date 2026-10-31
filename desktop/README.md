@@ -208,14 +208,21 @@ draw yet, and every app icon Colloid lacks, comes from Adwaita and then hicolor,
 the places and content types boards 27 to 29 do not draw. Glyphs are drawn on a 16 px grid with a 1 px
 keyline, a 1.75 px stroke, and round caps and joins: the 78 glyphs of board 31, the 72 of
 board 31b (status families and the shell's gaps), the 64 of board 31c (everyday
-actions) and the 73 of board 31d (everywhere else, with Maps' `document-print`), named
-by the boards' ids. Maps' `value-increase`, `value-decrease`, `emoji-recent` and `favorite`
-share the drawings of `list-add`, `list-remove`, `document-open-recent` and `non-starred`.
+actions) and the 75 of board 31d (everywhere else, with Maps' `document-print` and the
+switch's `switch-on` and `switch-off`), named by the boards' ids. Maps' `value-increase`,
+`value-decrease`, `emoji-recent` and `favorite` share the drawings of `list-add`,
+`list-remove`, `document-open-recent` and `non-starred`. The shell's own names share the
+drawings its boards use: `screenshooter` (board 17's Screenshot button) is `camera-photo`;
+board 19's `screenshot-ui-area`, `-display`, `-window` and `-show-pointer` are
+`selection-area`, `video-display`, `window` and `pointer`, and its `preview-close` is
+`window-close`; `notification-expand`, which the shell turns over, is `pan-down`.
 Thirteen of them (`go-next-arrow`, `apex-desktop`, `auth-fingerprint`,
 `selection-area`, `pointer`, `window`, `briefcase`, `globe`, `dark-mode`, and the
 `emblem-documents`, `emblem-shared`, `emblem-synchronizing` and `favorite` that apps
-request and Adwaita 51 does not draw) add icons; the rest replace Adwaita's symbolic icon
-of the same name.
+request and Adwaita 51 does not draw) add icons. The shell's names above and `switch-on`
+and `switch-off`, the switch's marks with Show Status Shapes on, replace the icons
+gnome-shell ships in its own resources, which it looks up after the theme's. The rest
+replace Adwaita's symbolic icon of the same name.
 
 `fill-strokes.sh` scales a glyph 100 times before stroke-to-path, because Inkscape offsets
 curves to a fixed tolerance in user units, and the 16-unit canvas made that tolerance a
