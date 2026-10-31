@@ -198,6 +198,10 @@ bash desktop/wallpapers/check-greeter.sh %{buildroot}%{_datadir}/backgrounds/ape
   (drawn, board 31d), so no shell surface falls back to gnome-shell's resource icons
 
 * Fri Oct 30 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
+- disabled-features' description: a change applies at once, as the layer follows the key,
+  not at the next login
+
+* Fri Oct 30 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
 - The override's power-button-action comment: in a VM gsd-media-keys powers off for any
   value but 'nothing'; 'interactive' stays, for the laptop
 
