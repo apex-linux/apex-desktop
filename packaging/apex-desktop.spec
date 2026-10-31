@@ -192,6 +192,11 @@ bash desktop/wallpapers/check-greeter.sh %{buildroot}%{_datadir}/backgrounds/ape
 %{_datadir}/plymouth/themes/apex-twostep/
 
 %changelog
+* Sat Oct 31 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
+- The shell's own icon names in Apex Symbolic: the screenshot UI's, the Screenshot
+  button's, the notification expander's (shared drawings) and the switch's status shapes
+  (drawn, board 31d), so no shell surface falls back to gnome-shell's resource icons
+
 * Fri Oct 30 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
 - The crash guard's second trigger (ADR 0014): apex-shell-guard counts the shell's later
   failures per deployment and turns the layer off at the second
