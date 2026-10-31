@@ -193,6 +193,10 @@ bash desktop/wallpapers/check-greeter.sh %{buildroot}%{_datadir}/backgrounds/ape
 
 %changelog
 * Sat Oct 31 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
+- The light greeter background's scrim at 68 %, not 34 %, so the greeter's white text
+  holds DESIGN's 4.5:1 over the blurred light Facets
+
+* Sat Oct 31 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
 - The shell's own icon names in Apex Symbolic: the screenshot UI's, the Screenshot
   button's, the notification expander's (shared drawings) and the switch's status shapes
   (drawn, board 31d), so no shell surface falls back to gnome-shell's resource icons
