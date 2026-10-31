@@ -172,8 +172,9 @@ covers the laptop's 2880×1800 panel and a 4K monitor, into `/usr/share/backgrou
 `picture-uri` and `picture-uri-dark` at the same PNGs.
 
 `apex-greeter-{light,dark}.svg` wrap the Facets SVGs in board 12's blur: a 30 px Gaussian
-blur, 1.3× saturation and a 34 % dark scrim, over `#0c1122` so the blurred edges darken
-as the board's do. The spec renders them at 2880×1800 to `apex-greeter-{light,dark}.png`
+blur, 1.3× saturation and a dark scrim, over `#0c1122` so the blurred edges darken as the
+board's do. The scrim is 68 % on the light render, which board 12 always draws, so the
+greeter's white text holds 4.5:1, and 34 % on the dark one. The spec renders them at 2880×1800 to `apex-greeter-{light,dark}.png`
 in the same directory, and `check-greeter.sh` checks both sizes in `%check` and
 `make check-data`. They are not in `apex-facets.xml`: the greeter theme draws them, and
 the background chooser does not offer them.
