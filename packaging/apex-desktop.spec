@@ -188,6 +188,11 @@ bash desktop/wallpapers/check-greeter.sh %{buildroot}%{_datadir}/backgrounds/ape
 %{_datadir}/plymouth/themes/apex-twostep/
 
 %changelog
+* Sat Oct 31 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
+- The shell's own icon names in Apex Symbolic: the screenshot UI's, the Screenshot
+  button's, the notification expander's (shared drawings) and the switch's status shapes
+  (drawn, board 31d), so no shell surface falls back to gnome-shell's resource icons
+
 * Fri Oct 30 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
 - disabled-features' description: a change applies at once, as the layer follows the key,
   not at the next login

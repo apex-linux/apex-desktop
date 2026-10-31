@@ -278,6 +278,8 @@ everywhere security-medium
 everywhere selection-mode
 everywhere software-update-urgent
 everywhere start-here
+everywhere switch-off
+everywhere switch-on
 everywhere task-due
 everywhere user-bookmarks
 everywhere user-not-tracked
@@ -289,5 +291,12 @@ everywhere web-browser
 everywhere zoom-fit-best
 aliases emoji-recent
 aliases favorite
+aliases notification-expand
+aliases preview-close
+aliases screenshooter
+aliases screenshot-ui-area
+aliases screenshot-ui-display
+aliases screenshot-ui-show-pointer
+aliases screenshot-ui-window
 aliases value-decrease
 aliases value-increase
