@@ -31,7 +31,7 @@ BuildRequires:  /usr/bin/xmllint
 BuildRequires:  adwaita-sans-fonts
 BuildRequires:  systemd-rpm-macros
 
-# apex-shell-safe.service runs gsettings.
+# apex-shell-guard runs gsettings.
 Requires:       /usr/bin/gsettings
 # apex-folder-icons sets folder metadata with gio, in the shell's translation of Screenshots.
 Requires:       /usr/bin/gio
@@ -93,6 +93,7 @@ install -Dm0644 desktop/schemas/io.github.apex_linux.Apex.Desktop.gschema.xml \
     %{buildroot}%{_datadir}/glib-2.0/schemas/io.github.apex_linux.Apex.Desktop.gschema.xml
 install -Dm0644 desktop/systemd/user/apex-shell-safe.service \
     %{buildroot}%{_userunitdir}/apex-shell-safe.service
+install -Dm0755 desktop/systemd/apex-shell-guard.sh %{buildroot}%{_libexecdir}/apex/apex-shell-guard
 install -Dm0644 'desktop/systemd/user/org.gnome.Shell@.service.d/50-apex.conf' \
     '%{buildroot}%{_userunitdir}/org.gnome.Shell@.service.d/50-apex.conf'
 install -Dm0644 desktop/systemd/user/apex-folder-icons.service \
@@ -166,6 +167,9 @@ bash desktop/wallpapers/check-greeter.sh %{buildroot}%{_datadir}/backgrounds/ape
 %config(noreplace) %{_sysconfdir}/profile.d/apex-prompt.sh
 %config(noreplace) %{_sysconfdir}/profile.d/zz-apex-shell-status.sh
 %{_userunitdir}/apex-shell-safe.service
+# apex-system's package owns this directory too.
+%dir %{_libexecdir}/apex
+%{_libexecdir}/apex/apex-shell-guard
 %{_tmpfilesdir}/apex-desktop.conf
 # gnome-shell ships no drop-in directory for its unit, so this package owns it.
 %dir %{_userunitdir}/org.gnome.Shell@.service.d
@@ -196,6 +200,10 @@ bash desktop/wallpapers/check-greeter.sh %{buildroot}%{_datadir}/backgrounds/ape
 - The shell's own icon names in Apex Symbolic: the screenshot UI's, the Screenshot
   button's, the notification expander's (shared drawings) and the switch's status shapes
   (drawn, board 31d), so no shell surface falls back to gnome-shell's resource icons
+
+* Fri Oct 30 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
+- The crash guard's second trigger (ADR 0014): apex-shell-guard counts the shell's later
+  failures per deployment and turns the layer off at the second
 
 * Fri Oct 30 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
 - The override's power-button-action comment: in a VM gsd-media-keys powers off for any

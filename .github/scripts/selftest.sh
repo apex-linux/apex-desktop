@@ -267,6 +267,63 @@ check "apex-folder-icons.service runs only in a user's session, not the greeter'
     "ConditionEnvironment=XDG_SESSION_CLASS=user" \
     "$(grep -x 'ConditionEnvironment=.*' "$APEX_ROOT/desktop/systemd/user/apex-folder-icons.service")"
 
+# --- apex-shell-guard.sh, with a fake gsettings, cmdline and ostree tree -----------------------
+sg=$TMP/sg
+mkdir -p "$sg/bin" "$sg/root/ostree/deploy/apex/deploy/aaa.0" "$sg/root/ostree/deploy/apex/deploy/bbb.0" \
+    "$sg/root/ostree/boot.1/apex/kcsum" "$sg/root/ostree/boot.0/apex/kcsum2"
+ln -s ../../../deploy/apex/deploy/bbb.0 "$sg/root/ostree/boot.0/apex/kcsum2/0"
+cat >"$sg/bin/gsettings" <<'FAKE'
+#!/bin/sh
+case "$1" in
+    get) cat "$FAKE_LAYER" ;;
+    set) echo "$4" >"$FAKE_LAYER" ;;
+esac
+FAKE
+chmod +x "$sg/bin/gsettings"
+echo 'BOOT_IMAGE=/vmlinuz ostree=/ostree/boot.1/apex/kcsum/0 rw' >"$sg/cmdline"
+echo 'BOOT_IMAGE=/vmlinuz ostree=/ostree/boot.0/apex/kcsum2/0 rw' >"$sg/cmdline-new"
+echo 'BOOT_IMAGE=/vmlinuz rw' >"$sg/cmdline-container"
+booted() { ln -sfn "../../../deploy/apex/deploy/$1" "$sg/root/ostree/boot.1/apex/kcsum/0"; }
+guard_reset() {
+    rm -rf "$sg/run" "$sg/state" && mkdir -p "$sg/run"
+    echo true >"$sg/layer"
+    booted aaa.0
+}
+shell_fails() {
+    FAKE_LAYER=$sg/layer PATH="$sg/bin:$PATH" bash "$APEX_ROOT/desktop/systemd/apex-shell-guard.sh" \
+        "$sg/run/apex-shell-starting" "$sg/state" "${GUARD_CMDLINE:-$sg/cmdline}" "$sg/root"
+}
+guard_state() {
+    printf '%s|%s|%s' "$(cat "$sg/layer")" "$(cat "$sg/state/shell-guard-trips" 2>/dev/null)" \
+        "$([[ -e $sg/state/shell-guard-tripped ]] && echo tripped)"
+}
+guard_reset && shell_fails
+check "apex-shell-guard: a first late failure counts and does not trip" "true|aaa.0 1|" "$(guard_state)"
+shell_fails
+check "apex-shell-guard: a second late failure on one deployment trips and zeroes" "false||tripped" \
+    "$(guard_state)"
+guard_reset && shell_fails && GUARD_CMDLINE=$sg/cmdline-new shell_fails
+check "apex-shell-guard: a new deployment starts again at 1" "true|bbb.0 1|" "$(guard_state)"
+guard_reset && shell_fails && booted bbb.0 && shell_fails
+check "apex-shell-guard: an update that keeps the kernel, same boot path, counts apart" "true|bbb.0 1|" \
+    "$(guard_state)"
+guard_reset && shell_fails && touch "$sg/run/apex-shell-starting" && shell_fails
+check "apex-shell-guard: a failure in the first 60 s trips at once and zeroes" "false||tripped" \
+    "$(guard_state)"
+check_false "apex-shell-guard: an early trip removes the layer's marker" test -e "$sg/run/apex-shell-starting"
+guard_reset && MONITOR_EXIT_CODE=exited MONITOR_EXIT_STATUS=1 shell_fails
+check "apex-shell-guard: exit status 1 never counts" "true||" "$(guard_state)"
+guard_reset && echo false >"$sg/layer" && shell_fails && shell_fails
+check "apex-shell-guard: no count and no trip while the layer is off" "false||" "$(guard_state)"
+guard_reset && shell_fails && shell_fails && echo true >"$sg/layer" && shell_fails
+check "apex-shell-guard: turning the layer back on restarts the count" "true|aaa.0 1|tripped" "$(guard_state)"
+guard_reset && GUARD_CMDLINE=$sg/cmdline-container shell_fails
+check "apex-shell-guard: without ostree= the deployment is 'none'" "true|none 1|" "$(guard_state)"
+check "apex-shell-safe.service runs the guard without a condition" \
+    "ExecStart=/usr/libexec/apex/apex-shell-guard %t/apex-shell-starting %S/apex|" \
+    "$(grep -x 'ExecStart=.*' "$APEX_ROOT/desktop/systemd/user/apex-shell-safe.service")|$(grep '^Condition' \
+        "$APEX_ROOT/desktop/systemd/user/apex-shell-safe.service" || true)"
+
 # --- check-caches.sh, where gtk-update-icon-cache is installed ---------------------------------
 if command -v gtk-update-icon-cache >/dev/null 2>&1; then
     mkdir -p "$TMP/cache/T/symbolic"
