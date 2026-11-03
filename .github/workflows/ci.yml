@@ -156,7 +156,7 @@ jobs:
       - name: bash -n and shellcheck
         run: |
           files=(.github/scripts/*.sh desktop/icons/*.sh desktop/plymouth/*.sh desktop/ptyxis/*.sh
-            desktop/gdm/*.sh desktop/wallpapers/*.sh tools/icons/*.sh)
+            desktop/gdm/*.sh desktop/wallpapers/*.sh desktop/systemd/*.sh tools/icons/*.sh)
           for f in "${files[@]}"; do bash -n "$f"; done
           shellcheck -x -P .github/scripts --severity=style "${files[@]}"
 
