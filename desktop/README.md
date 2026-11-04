@@ -426,13 +426,16 @@ only, and the Apex layer is compiled into gnome-shell.
 | `user/org.gnome.Shell@.service.d/50-apex.conf` | `/usr/lib/systemd/user/org.gnome.Shell@.service.d/50-apex.conf` | adds `OnFailure=apex-shell-safe.service` to GNOME Shell's user unit, next to upstream's `org.gnome.Shell-disable-extensions.service` |
 | `user/apex-shell-safe.service` | `/usr/lib/systemd/user/apex-shell-safe.service` | a oneshot with `DefaultDependencies=no`, ordered before `gnome-session-restart-dbus.service` (the same `OnFailure=` list restarts the session bus, and `gsettings` exits 0 when its write is lost), that runs the guard on every failure of the shell |
 | `apex-shell-guard.sh` | `/usr/libexec/apex/apex-shell-guard` | ADR 0014's two triggers. A failure while the layer's `%t/apex-shell-starting` exists (its first 60 s) trips at once. A later one counts in `$XDG_STATE_HOME/apex/shell-guard-trips`, one line `<deployment> <count>`, and the second on one deployment trips. A trip sets `layer-enabled=false`, leaves `$XDG_STATE_HOME/apex/shell-guard-tripped` for `apex-session-agent`, removes the layer's file and zeroes the count |
+| `system/apex-booted-deployment.service` | `/usr/lib/systemd/system/apex-booted-deployment.service` | a oneshot in `sysinit.target`, enabled by the package's `sysinit.target.wants` link, that runs the recorder before any session |
+| `apex-booted-deployment.sh` | `/usr/libexec/apex/apex-booted-deployment` | writes the booted deployment to `/run/apex/booted-deployment`, which the guard reads |
 
 The deployment is the booted ostree deployment as ostree names it, `<checksum>.<serial>`:
-the basename of the `ostree=` argument's target. The `boot.N` path itself and its kernel
-checksum repeat across updates that keep the kernel, so they are not the key. Without
-`ostree=`, in a container, the deployment is `none`. A new deployment starts the count
-again at 1. While `layer-enabled` is false nothing counts, so turning the layer back on
-starts from zero.
+the basename of the `ostree=` argument's target, resolved at boot. bootc rewrites that
+`boot.N` entry after boot, so resolving it when the shell fails could find nothing or the
+other deployment. The entry's path and its kernel checksum also repeat across updates that
+keep the kernel, so they are not the key. Without `ostree=`, in a container, nothing is
+recorded and the deployment is `none`. A new deployment starts the count again at 1. While
+`layer-enabled` is false nothing counts, so turning the layer back on starts from zero.
 
 A shell that exits with status 1 does not trip it or count: upstream's unit counts that as
 success, and only an error in the static import graph causes it, which G2 catches. The guard

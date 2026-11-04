@@ -1,0 +1,14 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# Enabled by the package's sysinit.target.wants link.
+[Unit]
+Description=Record the booted ostree deployment for the Apex crash guard
+DefaultDependencies=no
+# Before anything can rewrite the boot entries, and before any user session.
+After=ostree-remount.service
+Before=sysinit.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/libexec/apex/apex-booted-deployment /run/apex/booted-deployment
