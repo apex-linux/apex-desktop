@@ -94,6 +94,13 @@ install -Dm0644 desktop/schemas/io.github.apex_linux.Apex.Desktop.gschema.xml \
 install -Dm0644 desktop/systemd/user/apex-shell-safe.service \
     %{buildroot}%{_userunitdir}/apex-shell-safe.service
 install -Dm0755 desktop/systemd/apex-shell-guard.sh %{buildroot}%{_libexecdir}/apex/apex-shell-guard
+install -Dm0644 desktop/systemd/system/apex-booted-deployment.service \
+    %{buildroot}%{_unitdir}/apex-booted-deployment.service
+install -Dm0755 desktop/systemd/apex-booted-deployment.sh \
+    %{buildroot}%{_libexecdir}/apex/apex-booted-deployment
+install -dm0755 %{buildroot}%{_unitdir}/sysinit.target.wants
+ln -s ../apex-booted-deployment.service \
+    %{buildroot}%{_unitdir}/sysinit.target.wants/apex-booted-deployment.service
 install -Dm0644 'desktop/systemd/user/org.gnome.Shell@.service.d/50-apex.conf' \
     '%{buildroot}%{_userunitdir}/org.gnome.Shell@.service.d/50-apex.conf'
 install -Dm0644 desktop/systemd/user/apex-folder-icons.service \
@@ -170,6 +177,9 @@ bash desktop/wallpapers/check-greeter.sh %{buildroot}%{_datadir}/backgrounds/ape
 # apex-system's package owns this directory too.
 %dir %{_libexecdir}/apex
 %{_libexecdir}/apex/apex-shell-guard
+%{_libexecdir}/apex/apex-booted-deployment
+%{_unitdir}/apex-booted-deployment.service
+%{_unitdir}/sysinit.target.wants/apex-booted-deployment.service
 %{_tmpfilesdir}/apex-desktop.conf
 # gnome-shell ships no drop-in directory for its unit, so this package owns it.
 %dir %{_userunitdir}/org.gnome.Shell@.service.d
@@ -192,6 +202,11 @@ bash desktop/wallpapers/check-greeter.sh %{buildroot}%{_datadir}/backgrounds/ape
 %{_datadir}/plymouth/themes/apex-twostep/
 
 %changelog
+* Wed Nov 04 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
+- The crash guard keys the deployment apex-booted-deployment.service records at boot: bootc
+  rewrites the boot entry ostree= names after boot, so resolving it at failure time could
+  give 'none' or the other deployment
+
 * Sat Oct 31 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
 - The light greeter background's scrim at 68 %, not 34 %, so the greeter's white text
   holds DESIGN's 4.5:1 over the blurred light Facets
