@@ -143,6 +143,11 @@ cp -a Colloid-icon-theme-%{colloid_commit}/src/apps/scalable/. \
     %{buildroot}%{_datadir}/icons/Apex/scalable/apps/
 # Colloid links a few names to icons it does not ship, and one symbolic name to a colour icon.
 find %{buildroot}%{_datadir}/icons/Apex/scalable/apps \( -xtype l -o -name '*-symbolic.svg' \) -print -delete
+# Apex's own app icons replace Colloid's, which are often links: remove before installing.
+for f in desktop/icons/apps/*.svg; do
+    rm -f "%{buildroot}%{_datadir}/icons/Apex/scalable/apps/${f##*/}"
+    install -m0644 "$f" %{buildroot}%{_datadir}/icons/Apex/scalable/apps/
+done
 # Fedora's cache triggers cover only their own themes. GTK drops a cache older than its
 # directory, and ostree commits both at mtime 0.
 for t in %{buildroot}%{_datadir}/icons/Apex %{buildroot}%{_datadir}/icons/Apex-*; do
@@ -202,6 +207,11 @@ bash desktop/wallpapers/check-greeter.sh %{buildroot}%{_datadir}/backgrounds/ape
 %{_datadir}/plymouth/themes/apex-twostep/
 
 %changelog
+* Thu Nov 05 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
+- Apex Code's icon (ADR 0017, board 40): org.gnome.Builder as the Apex diamond split into
+  angle brackets around a solid core, in full colour on a Colloid tile in the blue accent
+  and as an Apex Symbolic glyph, replacing Colloid's icon and the app's own
+
 * Wed Nov 04 2026 Thuong Vo <66083331+SekiroKenjii@users.noreply.github.com> - 0.1.0-0
 - The crash guard keys the deployment apex-booted-deployment.service records at boot: bootc
   rewrites the boot entry ostree= names after boot, so resolving it at failure time could

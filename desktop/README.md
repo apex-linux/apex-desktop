@@ -199,7 +199,7 @@ The `Apex` icon theme, in `/usr/share/icons/Apex/` (DESIGN.md, "Visual principle
 
 | Directory | What it holds |
 |---|---|
-| `scalable/apps/` | Colloid's full-colour app icons and its alias links, less the one alias with a `-symbolic` name, from the commit `colloid_commit` in the spec pins. `make rpm` fetches that commit with git and archives only `COLLOID_PATHS`; `%prep` checks the archive against `colloid_sha256` |
+| `scalable/apps/` | Colloid's full-colour app icons and its alias links, less the one alias with a `-symbolic` name, from the commit `colloid_commit` in the spec pins. `make rpm` fetches that commit with git and archives only `COLLOID_PATHS`; `%prep` checks the archive against `colloid_sha256`. Apex's own drawings in `icons/apps/` replace Colloid's icon or link of the same name |
 | `32x32/places/`, `32x32@2x/places/`, `scalable/places/` | the Apex folders in blue, built by `build-places.sh` (below) |
 | `32x32/mimetypes/`, `32x32@2x/mimetypes/`, `scalable/mimetypes/` | the Apex file icons, built by `build-mimetypes.sh` (below) |
 | `symbolic/` | Apex Symbolic: each `icons/symbolic/NAME.svg` becomes `NAME-symbolic.svg`, its strokes turned into fills by `fill-strokes.sh` (Inkscape's stroke-to-path), because GTK and St recolour fills only |
@@ -217,6 +217,9 @@ drawings its boards use: `screenshooter` (board 17's Screenshot button) is `came
 board 19's `screenshot-ui-area`, `-display`, `-window` and `-show-pointer` are
 `selection-area`, `video-display`, `window` and `pointer`, and its `preview-close` is
 `window-close`; `notification-expand`, which the shell turns over, is `pan-down`.
+`org.gnome.Builder` is Apex Code's (ADR 0017; board 40): the Apex diamond split into two
+angle brackets around its solid core, as a full-colour icon in `icons/apps/` on a Colloid
+tile in the blue accent, and as a glyph that replaces the app's own symbolic icon.
 Thirteen of them (`go-next-arrow`, `apex-desktop`, `auth-fingerprint`,
 `selection-area`, `pointer`, `window`, `briefcase`, `globe`, `dark-mode`, and the
 `emblem-documents`, `emblem-shared`, `emblem-synchronizing` and `favorite` that apps
@@ -269,6 +272,9 @@ when Python has GTK 4; CI requires it, and runs it again on the RPM's payload.
 provider names a folder `["inode-directory", "folder", …]`, so without it Spotlight's
 Files rows would take Adwaita's `inode-directory` in every accent. CI removes
 `Apex-red`'s and expects `places-check.py` to fail.
+`.github/scripts/apps-check.py THEMES` looks each icon of `icons/apps/` and its `-symbolic`
+name up the same way, in all ten themes from 16 to 256 px: each must resolve to Apex's
+file, so neither Colloid's icon nor the app's own hicolor one wins.
 `user-trash` and `user-trash-full` are the dock's light bin (boards 37 and 39), flat: a
 `#f5f5f5` body with a 1-unit edge of black at 8 % and a `#b8b8b8` opening, scaled to 85 %
 on its base so `-full`'s crumpled sheets fit above the rim. They take no accent, so
