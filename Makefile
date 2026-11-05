@@ -77,8 +77,9 @@ check-data:
 	@if command -v xmllint >/dev/null 2>&1; then \
 		rm -rf '$(CHECK_DIR)/Apex' '$(CHECK_DIR)'/Apex-* && mkdir -p '$(CHECK_DIR)/Apex/symbolic'; \
 		cp desktop/icons/index.theme '$(CHECK_DIR)/Apex/'; \
-		echo "xmllint --noout --nonet desktop/icons/symbolic/*.svg"; \
-		xmllint --noout --nonet desktop/icons/symbolic/*.svg; \
+		echo "xmllint --noout --nonet desktop/icons/symbolic/*.svg desktop/icons/apps/*.svg"; \
+		xmllint --noout --nonet desktop/icons/symbolic/*.svg desktop/icons/apps/*.svg; \
+		install -Dm0644 -t '$(CHECK_DIR)/Apex/scalable/apps' desktop/icons/apps/*.svg; \
 		src=; \
 		if command -v inkscape >/dev/null 2>&1; then \
 			src=desktop/icons/symbolic; \
@@ -117,6 +118,10 @@ check-data:
 		if python3 -c 'import gi; gi.require_version("Gtk", "4.0"); from gi.repository import Gtk' 2>/dev/null; then \
 			echo ".github/scripts/places-check.py $(CHECK_DIR)"; \
 			python3 .github/scripts/places-check.py '$(CHECK_DIR)' || exit 1; \
+			if [ -n "$$src" ]; then \
+				echo ".github/scripts/apps-check.py $(CHECK_DIR)"; \
+				python3 .github/scripts/apps-check.py '$(CHECK_DIR)' || exit 1; \
+			fi; \
 			if [ -n "$$mime" ]; then \
 				echo ".github/scripts/mimetypes-check.py $(CHECK_DIR)"; \
 				python3 .github/scripts/mimetypes-check.py '$(CHECK_DIR)' || exit 1; \

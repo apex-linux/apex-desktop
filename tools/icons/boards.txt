@@ -267,6 +267,7 @@ everywhere network-transmit-receive
 everywhere network-workgroup
 everywhere object-rotate-left
 everywhere object-rotate-right
+everywhere org.gnome.Builder
 everywhere org.gnome.Settings-accessibility
 everywhere package-x-generic
 everywhere phone
