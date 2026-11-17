@@ -43,6 +43,8 @@ class InstallTest(unittest.TestCase):
             "usr/share/backgrounds/apex/facets-l.svg",
             "usr/share/backgrounds/apex/facets-d.svg",
             "usr/share/apex-desktop/gtk-4.0/gtk.css",
+            "usr/share/icons/Apex/index.theme",
+            "usr/share/icons/Apex/symbolic/network-wireless-symbolic.svg",
         ]
         with tempfile.TemporaryDirectory() as tmp:
             destdir = pathlib.Path(tmp)
@@ -50,6 +52,17 @@ class InstallTest(unittest.TestCase):
             for name in expected:
                 with self.subTest(name):
                     self.assertTrue((destdir / name).is_file())
+
+    def test_keeps_icon_aliases_as_symlinks(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            destdir = pathlib.Path(tmp)
+            run_install(destdir)
+            alias = destdir / (
+                "usr/share/icons/Apex/symbolic/"
+                "network-wireless-signal-good-symbolic.svg"
+            )
+            self.assertTrue(alias.is_symlink())
+            self.assertTrue(alias.resolve().is_file())
 
     def test_rejects_a_missing_destdir(self) -> None:
         result = subprocess.run([str(_INSTALL)], check=False)

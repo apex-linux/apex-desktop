@@ -9,7 +9,15 @@ requires-python = ">=3.14"
 dependencies = []
 
 [dependency-groups]
-dev = ["isort", "mypy", "pyink", "pylint", "shellcheck-py", "shfmt-py"]
+dev = [
+    "isort",
+    "mypy",
+    "picosvg",
+    "pyink",
+    "pylint",
+    "shellcheck-py",
+    "shfmt-py",
+]
 
 [tool.uv]
 package = false

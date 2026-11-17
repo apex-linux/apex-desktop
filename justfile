@@ -23,3 +23,9 @@ test:
 # Installs the desktop files under <destdir>/usr, the contract apex-image uses.
 install destdir:
     scripts/install.sh "{{destdir}}"
+
+# Re-extracts the Apex Symbolic glyphs from the design owner's canvas folder
+# and rebuilds the outlined icons. The image build never runs this.
+icons project="../.design/canvas/project":
+    PYTHONPATH=src uv run --frozen python -m apex_desktop.entrypoints.extract_glyphs "{{project}}"
+    PYTHONPATH=src uv run --frozen python -m apex_desktop.entrypoints.build_icons

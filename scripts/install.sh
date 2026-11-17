@@ -36,6 +36,22 @@ install_extension() {
   glib-compile-schemas --strict "${target}/schemas"
 }
 
+# Copies the outlined Apex Symbolic icons. Names that share a drawing are
+# relative symlinks, and stay symlinks.
+install_icons() {
+  local root="$1" destdir="$2" file
+  local source="${root}/icons/Apex/symbolic"
+  local target="${destdir}/usr/share/icons/Apex/symbolic"
+  install -d "${target}"
+  for file in "${source}"/*.svg; do
+    if [[ -L "${file}" ]]; then
+      ln -sfn "$(readlink "${file}")" "${target}/${file##*/}"
+    else
+      install -m 0644 "${file}" "${target}/${file##*/}"
+    fi
+  done
+}
+
 main() {
   if [[ $# -ne 1 || -z "$1" ]]; then
     usage
@@ -46,6 +62,7 @@ main() {
 
   generate "${root}" "${destdir}"
   install_extension "${root}" "${destdir}"
+  install_icons "${root}" "${destdir}"
   install -D -m 0644 "${root}/LICENSE" \
     "${destdir}/usr/share/licenses/apex-desktop/LICENSE"
 }

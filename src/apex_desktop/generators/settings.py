@@ -7,6 +7,7 @@ sets to a stock value, named with the spec row that asks for it.
 
 from xml.sax import saxutils
 
+from apex_desktop.generators import icons
 from apex_desktop.kernel import tokens as tokens_lib
 
 Scheme = tokens_lib.Scheme
@@ -36,6 +37,7 @@ def override(tokens: tokens_lib.Tokens) -> str:
         "\n"
         "[org.gnome.desktop.interface]\n"
         f"accent-color='{tokens.default_accent()}'\n"
+        f"icon-theme='{icons.THEME}'\n"
         "# Top bar clock draws the weekday (shell-top-bar-and-dock.md).\n"
         "clock-show-weekday=true\n"
         "\n"
