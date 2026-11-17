@@ -1,0 +1,44 @@
+[project]
+name = "apex-desktop"
+version = "0.0.0"
+description = "Design tokens, themes, icons and Shell extension for Apex Linux"
+license = "GPL-3.0-or-later"
+requires-python = ">=3.14"
+# The generator runs inside the image build with the base image's python3,
+# so it may use the standard library only.
+dependencies = []
+
+[dependency-groups]
+dev = ["isort", "mypy", "pyink", "pylint", "shellcheck-py", "shfmt-py"]
+
+[tool.uv]
+package = false
+
+[tool.pyink]
+line-length = 80
+pyink-indentation = 4
+pyink-use-majority-quotes = true
+target-version = ["py314"]
+
+[tool.isort]
+profile = "google"
+line_length = 80
+
+[tool.pylint.main]
+py-version = "3.14"
+source-roots = ["src"]
+
+[tool.pylint.format]
+max-line-length = 80
+
+[tool.pylint."messages control"]
+disable = ["too-few-public-methods"]
+
+[tool.pylint.basic]
+# As in Google's pylintrc: tests and private names need no docstring.
+no-docstring-rgx = "^(_|test_|.*Test$)"
+
+[tool.mypy]
+strict = true
+mypy_path = "src"
+python_version = "3.14"

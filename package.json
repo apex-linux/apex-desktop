@@ -1,0 +1,13 @@
+{
+  "name": "apex-desktop",
+  "private": true,
+  "type": "module",
+  "description": "Lint tooling for the Apex GNOME Shell extension",
+  "license": "GPL-3.0-or-later",
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@stylistic/eslint-plugin": "6.0.1",
+    "eslint": "10.15.0",
+    "globals": "17.14.0"
+  }
+}
