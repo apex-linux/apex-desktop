@@ -37,7 +37,9 @@ export default [
       '@stylistic/keyword-spacing': 'error',
       '@stylistic/list-style': ['error', {
         singleLine: {spacing: 'never'},
-        overrides: {'{}': {singleLine: {spacing: 'never'}}},
+        // Google style wraps arguments with a continuation indent, not one
+        // argument per line, so parentheses are left to max-len and indent.
+        overrides: {'{}': {singleLine: {spacing: 'never'}}, '()': 'off'},
       }],
       '@stylistic/max-len': ['error', {
         code: 80,
@@ -65,6 +67,17 @@ export default [
       'prefer-const': ['error', {destructuring: 'all'}],
       'prefer-rest-params': 'error',
       'prefer-spread': 'error',
+    },
+  },
+  {
+    // GNOME Shell extensions run in GJS, which has its own globals.
+    files: ['extension/**/*.js'],
+    languageOptions: {
+      globals: {
+        global: 'readonly',
+        log: 'readonly',
+        logError: 'readonly',
+      },
     },
   },
 ];

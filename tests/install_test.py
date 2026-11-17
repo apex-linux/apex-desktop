@@ -30,6 +30,27 @@ class InstallTest(unittest.TestCase):
                 (destdir / "usr/share/licenses/apex-desktop/LICENSE").is_file()
             )
 
+    def test_installs_the_generated_desktop(self) -> None:
+        extension = "usr/share/gnome-shell/extensions/apex@apex-linux.github.io"
+        expected = [
+            f"{extension}/metadata.json",
+            f"{extension}/extension.js",
+            f"{extension}/stylesheet-light.css",
+            f"{extension}/stylesheet-dark.css",
+            f"{extension}/schemas/gschemas.compiled",
+            "usr/share/glib-2.0/schemas/zz0-apex.gschema.override",
+            "usr/share/gnome-background-properties/apex.xml",
+            "usr/share/backgrounds/apex/facets-l.svg",
+            "usr/share/backgrounds/apex/facets-d.svg",
+            "usr/share/apex-desktop/gtk-4.0/gtk.css",
+        ]
+        with tempfile.TemporaryDirectory() as tmp:
+            destdir = pathlib.Path(tmp)
+            run_install(destdir)
+            for name in expected:
+                with self.subTest(name):
+                    self.assertTrue((destdir / name).is_file())
+
     def test_rejects_a_missing_destdir(self) -> None:
         result = subprocess.run([str(_INSTALL)], check=False)
         self.assertEqual(result.returncode, 2)

@@ -1,0 +1,9 @@
+{
+  "uuid": "apex@apex-linux.github.io",
+  "name": "Apex",
+  "description": "The Apex Linux desktop: theme, top bar and dock.",
+  "url": "https://github.com/apex-linux/apex-desktop",
+  "settings-schema": "io.github.apex_linux.Desktop",
+  "session-modes": ["user", "unlock-dialog"],
+  "shell-version": ["51"]
+}
