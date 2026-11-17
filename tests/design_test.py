@@ -30,6 +30,21 @@ class DesignTest(unittest.TestCase):
                 text = path.read_text(encoding="utf-8")
                 self.assertEqual(svg.sanitize(text), text)
 
+    def test_sources_cover_every_imported_document(self) -> None:
+        listed = {
+            line.split("  ", 1)[1]
+            for line in (_DESIGN / "SOURCES.sha256")
+            .read_text(encoding="utf-8")
+            .splitlines()
+        }
+        for path in _DESIGN.rglob("*.md"):
+            name = str(path.relative_to(_DESIGN))
+            if name in ("README.md", "canvas/assets/README.md"):
+                continue
+            with self.subTest(name):
+                self.assertIn(name, listed)
+        self.assertIn("system/tokens.json", listed)
+
     def test_no_private_canvas_address(self) -> None:
         pattern = re.compile(r"claude\.ai/artifact/")
         for path in _DESIGN.rglob("*"):
