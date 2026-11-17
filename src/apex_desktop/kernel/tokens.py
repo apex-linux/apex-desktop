@@ -143,6 +143,10 @@ class Tokens:
         """Returns a shadow token with its `var()` references resolved."""
         return self.resolve(self._lookup("shadow", name), scheme)
 
+    def icon(self) -> dict[str, Any]:
+        """Returns the icon drawing rules: stroke, caps, inactive opacity."""
+        return dict(self._data["icon"])
+
     def solid_wallpapers(self) -> list[tuple[str, str, colors.Color]]:
         """Returns the solid wallpapers as (name, label, colour), in order."""
         try:

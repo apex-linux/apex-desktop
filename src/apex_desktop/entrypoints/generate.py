@@ -14,6 +14,7 @@ import pathlib
 import sys
 
 from apex_desktop.generators import gtk
+from apex_desktop.generators import icons
 from apex_desktop.generators import settings
 from apex_desktop.generators import shell
 from apex_desktop.kernel import color
@@ -57,6 +58,7 @@ def generate(design: pathlib.Path, destdir: pathlib.Path) -> list[str]:
     files[_SHARE / "gnome-background-properties/apex.xml"] = (
         settings.background_properties(tokens)
     )
+    files[_SHARE / "icons" / icons.THEME / "index.theme"] = icons.index_theme()
     assets = design / "canvas" / "assets"
     for installed, source in settings.WALLPAPERS.items():
         text = (assets / source).read_text(encoding="utf-8")

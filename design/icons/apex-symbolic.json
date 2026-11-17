@@ -1,0 +1,2317 @@
+{
+  "source": "Apex Symbolic contact sheets 31, 31b, 31c and 31d",
+  "glyphs": {
+    "action-unavailable": {
+      "board": "31c",
+      "group": "OSDs",
+      "label": "Unavailable",
+      "d": "M2 8a6 6 0 1 0 12 0a6 6 0 1 0-12 0zM3.8 3.8l8.4 8.4",
+      "f": "",
+      "o": ""
+    },
+    "airplane-mode": {
+      "board": "31",
+      "group": "Quick Settings",
+      "label": "Airplane Mode",
+      "d": "",
+      "f": "M8 1.2c.7 0 1.2.9 1.2 1.9v3.3l5.3 3v1.7l-5.3-1.6v2.9l1.7 1.3v1.4L8 14.4l-2.9.7v-1.4l1.7-1.3V9.5L1.5 11.1V9.4l5.3-3V3.1c0-1 .5-1.9 1.2-1.9z",
+      "o": ""
+    },
+    "airplane-mode-disabled": {
+      "board": "31d",
+      "group": "Shell",
+      "label": "Airplane mode off",
+      "d": "M2.5 2.5l11 11",
+      "f": "",
+      "o": "M8 2.2v10.4M2.2 9.6 8 6.4l5.8 3.2M5.9 13.8 8 12.6l2.1 1.2"
+    },
+    "alarm": {
+      "board": "31d",
+      "group": "Firmware, Disks, Usage, System Monitor and Help",
+      "label": "Alarm",
+      "d": "M3 8.6a5 5 0 1 0 10 0a5 5 0 1 0-10 0zM8 6.2v2.4l1.6 1.2M2.5 4l2-1.8M13.5 4l-2-1.8",
+      "f": "",
+      "o": ""
+    },
+    "apex-desktop": {
+      "board": "31",
+      "group": "Settings panels",
+      "label": "Apex Desktop",
+      "d": "M8 2.2 13.8 8 8 13.8 2.2 8z",
+      "f": "",
+      "o": ""
+    },
+    "application-x-addon": {
+      "board": "31d",
+      "group": "Viewers, Contacts, Web and Maps",
+      "label": "Extension",
+      "d": "M3 5.5h2.2a1.8 1.8 0 1 1 3.6 0H11v2.3a1.8 1.8 0 1 1 0 3.6v2.1H3z",
+      "f": "",
+      "o": ""
+    },
+    "application-x-executable": {
+      "board": "31d",
+      "group": "Shell",
+      "label": "App without an icon",
+      "d": "M4 2.5h8a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2zM2 6.4h12",
+      "f": "M5.9 7.9h1.6v1.6H5.9zM8.5 7.9h1.6v1.6H8.5zM5.9 10.5h1.6v1.6H5.9zM8.5 10.5h1.6v1.6H8.5z",
+      "o": ""
+    },
+    "applications-engineering": {
+      "board": "31d",
+      "group": "Viewers, Contacts, Web and Maps",
+      "label": "Developer tools",
+      "d": "M10.3 2.2a3.3 3.3 0 0 0-3.6 4.4L2.6 10.7a1.4 1.4 0 0 0 2 2l4.1-4.1a3.3 3.3 0 0 0 4.4-3.6l-2 2-1.9-.5-.5-1.9z",
+      "f": "",
+      "o": ""
+    },
+    "applications-multimedia": {
+      "board": "31c",
+      "group": "Settings and apps",
+      "label": "Multimedia",
+      "d": "M6.2 12.2V3.5l6.8-1.5v8.6",
+      "f": "M2.4 12.2a1.9 1.9 0 1 0 3.8 0a1.9 1.9 0 1 0-3.8 0zM9.2 10.6a1.9 1.9 0 1 0 3.8 0a1.9 1.9 0 1 0-3.8 0z",
+      "o": ""
+    },
+    "applications-system": {
+      "board": "31d",
+      "group": "Viewers, Contacts, Web and Maps",
+      "label": "System",
+      "d": "",
+      "f": "M6.67 2.87L6.84 1.1A7 7 0 0 1 9.16 1.1L9.33 2.87A5.3 5.3 0 0 1 10.69 3.43L12.06 2.3 A7 7 0 0 1 13.7 3.94L12.57 5.31A5.3 5.3 0 0 1 13.13 6.67L14.9 6.84A7 7 0 0 1 14.9 9.16 L13.13 9.33A5.3 5.3 0 0 1 12.57 10.69L13.7 12.06A7 7 0 0 1 12.06 13.7L10.69 12.57 A5.3 5.3 0 0 1 9.33 13.13L9.16 14.9A7 7 0 0 1 6.84 14.9L6.67 13.13 A5.3 5.3 0 0 1 5.31 12.57L3.94 13.7A7 7 0 0 1 2.3 12.06L3.43 10.69 A5.3 5.3 0 0 1 2.87 9.33L1.1 9.16A7 7 0 0 1 1.1 6.84L2.87 6.67A5.3 5.3 0 0 1 3.43 5.31 L2.3 3.94A7 7 0 0 1 3.94 2.3L5.31 3.43A5.3 5.3 0 0 1 6.67 2.87zM5.7 8a2.3 2.3 0 1 0 4.6 0 a2.3 2.3 0 1 0-4.6 0z",
+      "o": ""
+    },
+    "audio-headphones": {
+      "board": "31b",
+      "group": "Media and privacy",
+      "label": "Headphones",
+      "d": "M2.5 11V8.5a5.5 5.5 0 0 1 11 0V11",
+      "f": "M2.9 10.5h.7c.5 0 .9.4.9.9v2.2c0 .5-.4.9-.9.9h-.7c-.5 0-.9-.4-.9-.9v-2.2c0-.5.4-.9.9-.9zM12.4 10.5h.7c.5 0 .9.4.9.9v2.2c0 .5-.4.9-.9.9h-.7c-.5 0-.9-.4-.9-.9v-2.2c0-.5.4-.9.9-.9z",
+      "o": ""
+    },
+    "audio-headset": {
+      "board": "31b",
+      "group": "Media and privacy",
+      "label": "Headset",
+      "d": "M2.5 11V8.5a5.5 5.5 0 0 1 11 0V11",
+      "f": "M2.9 10.5h.7c.5 0 .9.4.9.9v2.2c0 .5-.4.9-.9.9h-.7c-.5 0-.9-.4-.9-.9v-2.2c0-.5.4-.9.9-.9zM12.4 10.5h.7c.5 0 .9.4.9.9v2.2c0 .5-.4.9-.9.9h-.7c-.5 0-.9-.4-.9-.9v-2.2c0-.5.4-.9.9-.9z",
+      "o": ""
+    },
+    "audio-input-microphone": {
+      "board": "31",
+      "group": "Top bar and status",
+      "label": "Microphone",
+      "d": "M3.6 7.6a4.4 4.4 0 0 0 8.8 0M8 12v2.4",
+      "f": "M8 1.5c1.3 0 2.4 1.1 2.4 2.4v3.7c0 1.3-1.1 2.4-2.4 2.4S5.6 8.9 5.6 7.6V3.9C5.6 2.6 6.7 1.5 8 1.5z",
+      "o": ""
+    },
+    "audio-volume-high": {
+      "board": "31",
+      "group": "Top bar and status",
+      "label": "Volume",
+      "d": "M10 6.2a2.2 2.2 0 0 1 0 3.6M12 3.8a5 5 0 0 1 0 8.4",
+      "f": "M1 6.3c0-.5.4-.8.8-.8h1.8L6.8 2.9c.5-.4 1.2-.1 1.2.6v9c0 .7-.7 1-1.2.6L3.6 10.5H1.8c-.4 0-.8-.3-.8-.8z",
+      "o": ""
+    },
+    "audio-volume-low": {
+      "board": "31b",
+      "group": "Sound and input",
+      "label": "Volume, low",
+      "d": "M10 6.2a2.2 2.2 0 0 1 0 3.6",
+      "f": "M1 6.3c0-.5.4-.8.8-.8h1.8L6.8 2.9c.5-.4 1.2-.1 1.2.6v9c0 .7-.7 1-1.2.6L3.6 10.5H1.8c-.4 0-.8-.3-.8-.8z",
+      "o": "M12 3.8a5 5 0 0 1 0 8.4"
+    },
+    "audio-volume-medium": {
+      "board": "31b",
+      "group": "Sound and input",
+      "label": "Volume, medium",
+      "d": "M10 6.2a2.2 2.2 0 0 1 0 3.6M12 3.8a5 5 0 0 1 0 8.4",
+      "f": "M1 6.3c0-.5.4-.8.8-.8h1.8L6.8 2.9c.5-.4 1.2-.1 1.2.6v9c0 .7-.7 1-1.2.6L3.6 10.5H1.8c-.4 0-.8-.3-.8-.8z",
+      "o": ""
+    },
+    "audio-volume-muted": {
+      "board": "31",
+      "group": "Top bar and status",
+      "label": "Muted",
+      "d": "M10.6 6.1l3.8 3.8M14.4 6.1l-3.8 3.8",
+      "f": "M1 6.3c0-.5.4-.8.8-.8h1.8L6.8 2.9c.5-.4 1.2-.1 1.2.6v9c0 .7-.7 1-1.2.6L3.6 10.5H1.8c-.4 0-.8-.3-.8-.8z",
+      "o": ""
+    },
+    "audio-volume-overamplified": {
+      "board": "31b",
+      "group": "Sound and input",
+      "label": "Volume, over 100 %",
+      "d": "M10 6.2a2.2 2.2 0 0 1 0 3.6M12 3.8a5 5 0 0 1 0 8.4",
+      "f": "M1 6.3c0-.5.4-.8.8-.8h1.8L6.8 2.9c.5-.4 1.2-.1 1.2.6v9c0 .7-.7 1-1.2.6L3.6 10.5H1.8c-.4 0-.8-.3-.8-.8z",
+      "o": ""
+    },
+    "audio-x-generic": {
+      "board": "31c",
+      "group": "Shell",
+      "label": "Audio",
+      "d": "M6.2 12.2V3.5l6.8-1.5v8.6",
+      "f": "M2.4 12.2a1.9 1.9 0 1 0 3.8 0a1.9 1.9 0 1 0-3.8 0zM9.2 10.6a1.9 1.9 0 1 0 3.8 0a1.9 1.9 0 1 0-3.8 0z",
+      "o": ""
+    },
+    "auth-fingerprint": {
+      "board": "31",
+      "group": "System and sign-in",
+      "label": "Fingerprint",
+      "d": "M2.36 6.95A6 6 0 0 1 13.64 6.95M4.6 13.2c.5-1.2.8-2.6.8-4.2a2.6 2.6 0 0 1 5.2 0c0 1.9-.3 3.5-.9 4.9M8 9.2c0 1.9-.3 3.5-.9 4.9M13.7 9.6c0 1.5-.2 2.9-.7 4.1",
+      "f": "",
+      "o": ""
+    },
+    "avatar-default": {
+      "board": "31b",
+      "group": "People, input and emblems",
+      "label": "User",
+      "d": "M2 8a6 6 0 1 0 12 0a6 6 0 1 0-12 0zM4.6 12.6a4 4 0 0 1 6.8 0",
+      "f": "M6.2 6.6a1.8 1.8 0 1 0 3.6 0a1.8 1.8 0 1 0-3.6 0z",
+      "o": ""
+    },
+    "battery": {
+      "board": "31d",
+      "group": "Firmware, Disks, Usage, System Monitor and Help",
+      "label": "Battery",
+      "d": "M3.5 4.5h7.5a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-7.5a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2z",
+      "f": "M4 6.5h6.33a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5H4a.5.5 0 0 1-.5-.5V7a.5.5 0 0 1 .5-.5zM14 6.3h.6a.9.9 0 0 1 .9.9v1.6a.9.9 0 0 1-.9.9H14z",
+      "o": ""
+    },
+    "battery-action": {
+      "board": "31c",
+      "group": "OSDs",
+      "label": "Battery action",
+      "d": "M3.5 4.5h7.5a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-7.5a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2zM7.2 6.2v2.2",
+      "f": "M6.5 9.9a.7.7 0 1 0 1.4 0a.7.7 0 1 0-1.4 0zM14 6.3h.6a.9.9 0 0 1 .9.9v1.6a.9.9 0 0 1-.9.9H14z",
+      "o": ""
+    },
+    "battery-caution": {
+      "board": "31c",
+      "group": "OSDs",
+      "label": "Battery critical",
+      "d": "M3.5 4.5h7.5a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-7.5a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2z",
+      "f": "M14 6.3h.6a.9.9 0 0 1 .9.9v1.6a.9.9 0 0 1-.9.9H14z",
+      "o": ""
+    },
+    "battery-level-0": {
+      "board": "31b",
+      "group": "Battery",
+      "label": "Battery 0 %",
+      "d": "M3.5 4.5h7.5a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-7.5a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2z",
+      "f": "M14 6.3h.6a.9.9 0 0 1 .9.9v1.6a.9.9 0 0 1-.9.9H14z",
+      "o": ""
+    },
+    "battery-level-0-charging": {
+      "board": "31b",
+      "group": "Battery",
+      "label": "Charging 0 %",
+      "d": "M3.5 4.5h7.5a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-7.5a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2z",
+      "f": "M8.4 5.6 5.5 8.5h2l-.5 1.9 2.9-2.9h-2zM14 6.3h.6a.9.9 0 0 1 .9.9v1.6a.9.9 0 0 1-.9.9H14z",
+      "o": ""
+    },
+    "battery-level-10": {
+      "board": "31b",
+      "group": "Battery",
+      "label": "Battery 10 %",
+      "d": "M3.5 4.5h7.5a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-7.5a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2z",
+      "f": "M4 6.5h0.33a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5H4a.5.5 0 0 1-.5-.5V7a.5.5 0 0 1 .5-.5zM14 6.3h.6a.9.9 0 0 1 .9.9v1.6a.9.9 0 0 1-.9.9H14z",
+      "o": ""
+    },
+    "battery-level-10-charging": {
+      "board": "31b",
+      "group": "Battery",
+      "label": "Charging 10 %",
+      "d": "M3.5 4.5h7.5a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-7.5a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2z",
+      "f": "M8.4 5.6 5.5 8.5h2l-.5 1.9 2.9-2.9h-2zM14 6.3h.6a.9.9 0 0 1 .9.9v1.6a.9.9 0 0 1-.9.9H14z",
+      "o": ""
+    },
+    "battery-level-100": {
+      "board": "31b",
+      "group": "Battery",
+      "label": "Battery 100 %",
+      "d": "M3.5 4.5h7.5a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-7.5a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2z",
+      "f": "M4 6.5h6.33a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5H4a.5.5 0 0 1-.5-.5V7a.5.5 0 0 1 .5-.5zM14 6.3h.6a.9.9 0 0 1 .9.9v1.6a.9.9 0 0 1-.9.9H14z",
+      "o": ""
+    },
+    "battery-level-100-charged": {
+      "board": "31b",
+      "group": "Battery",
+      "label": "Charged",
+      "d": "M3.5 4.5h7.5a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-7.5a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2z",
+      "f": "M4 6.5h6.33a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5H4a.5.5 0 0 1-.5-.5V7a.5.5 0 0 1 .5-.5zM14 6.3h.6a.9.9 0 0 1 .9.9v1.6a.9.9 0 0 1-.9.9H14z",
+      "o": ""
+    },
+    "battery-level-20": {
+      "board": "31",
+      "group": "Top bar and status",
+      "label": "Battery, low",
+      "d": "M3.5 4.5h7.5a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-7.5a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2z",
+      "f": "M4 6.5h1a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5H4a.5.5 0 0 1-.5-.5V7a.5.5 0 0 1 .5-.5zM14 6.3h.6a.9.9 0 0 1 .9.9v1.6a.9.9 0 0 1-.9.9H14z",
+      "o": ""
+    },
+    "battery-level-20-charging": {
+      "board": "31b",
+      "group": "Battery",
+      "label": "Charging 20 %",
+      "d": "M3.5 4.5h7.5a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-7.5a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2z",
+      "f": "M8.4 5.6 5.5 8.5h2l-.5 1.9 2.9-2.9h-2zM14 6.3h.6a.9.9 0 0 1 .9.9v1.6a.9.9 0 0 1-.9.9H14z",
+      "o": ""
+    },
+    "battery-level-30": {
+      "board": "31b",
+      "group": "Battery",
+      "label": "Battery 30 %",
+      "d": "M3.5 4.5h7.5a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-7.5a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2z",
+      "f": "M4 6.5h1.67a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5H4a.5.5 0 0 1-.5-.5V7a.5.5 0 0 1 .5-.5zM14 6.3h.6a.9.9 0 0 1 .9.9v1.6a.9.9 0 0 1-.9.9H14z",
+      "o": ""
+    },
+    "battery-level-30-charging": {
+      "board": "31b",
+      "group": "Battery",
+      "label": "Charging 30 %",
+      "d": "M3.5 4.5h7.5a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-7.5a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2z",
+      "f": "M8.4 5.6 5.5 8.5h2l-.5 1.9 2.9-2.9h-2zM14 6.3h.6a.9.9 0 0 1 .9.9v1.6a.9.9 0 0 1-.9.9H14z",
+      "o": ""
+    },
+    "battery-level-40": {
+      "board": "31b",
+      "group": "Battery",
+      "label": "Battery 40 %",
+      "d": "M3.5 4.5h7.5a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-7.5a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2z",
+      "f": "M4 6.5h2.33a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5H4a.5.5 0 0 1-.5-.5V7a.5.5 0 0 1 .5-.5zM14 6.3h.6a.9.9 0 0 1 .9.9v1.6a.9.9 0 0 1-.9.9H14z",
+      "o": ""
+    },
+    "battery-level-40-charging": {
+      "board": "31b",
+      "group": "Battery",
+      "label": "Charging 40 %",
+      "d": "M3.5 4.5h7.5a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-7.5a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2z",
+      "f": "M8.4 5.6 5.5 8.5h2l-.5 1.9 2.9-2.9h-2zM14 6.3h.6a.9.9 0 0 1 .9.9v1.6a.9.9 0 0 1-.9.9H14z",
+      "o": ""
+    },
+    "battery-level-50": {
+      "board": "31b",
+      "group": "Battery",
+      "label": "Battery 50 %",
+      "d": "M3.5 4.5h7.5a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-7.5a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2z",
+      "f": "M4 6.5h3.00a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5H4a.5.5 0 0 1-.5-.5V7a.5.5 0 0 1 .5-.5zM14 6.3h.6a.9.9 0 0 1 .9.9v1.6a.9.9 0 0 1-.9.9H14z",
+      "o": ""
+    },
+    "battery-level-50-charging": {
+      "board": "31b",
+      "group": "Battery",
+      "label": "Charging 50 %",
+      "d": "M3.5 4.5h7.5a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-7.5a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2z",
+      "f": "M8.4 5.6 5.5 8.5h2l-.5 1.9 2.9-2.9h-2zM14 6.3h.6a.9.9 0 0 1 .9.9v1.6a.9.9 0 0 1-.9.9H14z",
+      "o": ""
+    },
+    "battery-level-60": {
+      "board": "31b",
+      "group": "Battery",
+      "label": "Battery 60 %",
+      "d": "M3.5 4.5h7.5a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-7.5a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2z",
+      "f": "M4 6.5h3.67a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5H4a.5.5 0 0 1-.5-.5V7a.5.5 0 0 1 .5-.5zM14 6.3h.6a.9.9 0 0 1 .9.9v1.6a.9.9 0 0 1-.9.9H14z",
+      "o": ""
+    },
+    "battery-level-60-charging": {
+      "board": "31b",
+      "group": "Battery",
+      "label": "Charging 60 %",
+      "d": "M3.5 4.5h7.5a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-7.5a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2z",
+      "f": "M8.4 5.6 5.5 8.5h2l-.5 1.9 2.9-2.9h-2zM14 6.3h.6a.9.9 0 0 1 .9.9v1.6a.9.9 0 0 1-.9.9H14z",
+      "o": ""
+    },
+    "battery-level-70": {
+      "board": "31b",
+      "group": "Battery",
+      "label": "Battery 70 %",
+      "d": "M3.5 4.5h7.5a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-7.5a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2z",
+      "f": "M4 6.5h4.33a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5H4a.5.5 0 0 1-.5-.5V7a.5.5 0 0 1 .5-.5zM14 6.3h.6a.9.9 0 0 1 .9.9v1.6a.9.9 0 0 1-.9.9H14z",
+      "o": ""
+    },
+    "battery-level-70-charging": {
+      "board": "31b",
+      "group": "Battery",
+      "label": "Charging 70 %",
+      "d": "M3.5 4.5h7.5a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-7.5a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2z",
+      "f": "M8.4 5.6 5.5 8.5h2l-.5 1.9 2.9-2.9h-2zM14 6.3h.6a.9.9 0 0 1 .9.9v1.6a.9.9 0 0 1-.9.9H14z",
+      "o": ""
+    },
+    "battery-level-80": {
+      "board": "31",
+      "group": "Top bar and status",
+      "label": "Battery",
+      "d": "M3.5 4.5h7.5a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-7.5a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2z",
+      "f": "M4 6.5h5a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5H4a.5.5 0 0 1-.5-.5V7a.5.5 0 0 1 .5-.5zM14 6.3h.6a.9.9 0 0 1 .9.9v1.6a.9.9 0 0 1-.9.9H14z",
+      "o": ""
+    },
+    "battery-level-80-charging": {
+      "board": "31",
+      "group": "Top bar and status",
+      "label": "Charging",
+      "d": "M3.5 4.5h7.5a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-7.5a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2z",
+      "f": "M8.4 5.6 5.5 8.5h2l-.5 1.9 2.9-2.9h-2zM14 6.3h.6a.9.9 0 0 1 .9.9v1.6a.9.9 0 0 1-.9.9H14z",
+      "o": ""
+    },
+    "battery-level-90": {
+      "board": "31b",
+      "group": "Battery",
+      "label": "Battery 90 %",
+      "d": "M3.5 4.5h7.5a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-7.5a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2z",
+      "f": "M4 6.5h5.67a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5H4a.5.5 0 0 1-.5-.5V7a.5.5 0 0 1 .5-.5zM14 6.3h.6a.9.9 0 0 1 .9.9v1.6a.9.9 0 0 1-.9.9H14z",
+      "o": ""
+    },
+    "battery-level-90-charging": {
+      "board": "31b",
+      "group": "Battery",
+      "label": "Charging 90 %",
+      "d": "M3.5 4.5h7.5a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-7.5a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2z",
+      "f": "M8.4 5.6 5.5 8.5h2l-.5 1.9 2.9-2.9h-2zM14 6.3h.6a.9.9 0 0 1 .9.9v1.6a.9.9 0 0 1-.9.9H14z",
+      "o": ""
+    },
+    "battery-low": {
+      "board": "31c",
+      "group": "OSDs",
+      "label": "Battery low",
+      "d": "M3.5 4.5h7.5a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-7.5a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2z",
+      "f": "M4 6.5h1a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5H4a.5.5 0 0 1-.5-.5V7a.5.5 0 0 1 .5-.5zM14 6.3h.6a.9.9 0 0 1 .9.9v1.6a.9.9 0 0 1-.9.9H14z",
+      "o": ""
+    },
+    "bluetooth-acquiring": {
+      "board": "31b",
+      "group": "Radios and power",
+      "label": "Bluetooth, connecting",
+      "d": "",
+      "f": "",
+      "o": "M4.5 5 11.5 11 8 14V2l3.5 3L4.5 11"
+    },
+    "bluetooth-active": {
+      "board": "31",
+      "group": "Top bar and status",
+      "label": "Bluetooth",
+      "d": "M4.5 5 11.5 11 8 14V2l3.5 3L4.5 11",
+      "f": "",
+      "o": ""
+    },
+    "bluetooth-disabled": {
+      "board": "31b",
+      "group": "Radios and power",
+      "label": "Bluetooth off",
+      "d": "M2.5 2.5l11 11",
+      "f": "",
+      "o": "M4.5 5 11.5 11 8 14V2l3.5 3L4.5 11"
+    },
+    "bookmark-new": {
+      "board": "31c",
+      "group": "Files",
+      "label": "Bookmark",
+      "d": "M4.5 2.5h7v11.5L8 11.2 4.5 14z",
+      "f": "",
+      "o": ""
+    },
+    "briefcase": {
+      "board": "31",
+      "group": "Files",
+      "label": "Projects",
+      "d": "M4 5h8a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2zM6 5V3.6c0-.6.5-1.1 1.1-1.1h1.8c.6 0 1.1.5 1.1 1.1V5M2 9h12",
+      "f": "",
+      "o": ""
+    },
+    "camera-disabled": {
+      "board": "31d",
+      "group": "Viewers, Contacts, Web and Maps",
+      "label": "Camera off",
+      "d": "M2.5 2.5l11 11",
+      "f": "",
+      "o": "M3.5 4.5h1.6l1.2-1.8h3.4l1.2 1.8h1.6a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-9a2 2 0 0 1-2-2v-5 a2 2 0 0 1 2-2zM5.8 9a2.2 2.2 0 1 0 4.4 0a2.2 2.2 0 1 0-4.4 0z"
+    },
+    "camera-photo": {
+      "board": "31",
+      "group": "Quick Settings",
+      "label": "Screenshot",
+      "d": "M3.5 4.5h1.6l1.2-1.8h3.4l1.2 1.8h1.6a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-9a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2z",
+      "f": "M5.8 9a2.2 2.2 0 1 0 4.4 0a2.2 2.2 0 1 0-4.4 0z",
+      "o": ""
+    },
+    "camera-video": {
+      "board": "31",
+      "group": "Capture and media",
+      "label": "Screencast",
+      "d": "M4 4h5a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zM11 7l3-1.8v5.6L11 9",
+      "f": "",
+      "o": ""
+    },
+    "camera-web": {
+      "board": "31b",
+      "group": "Media and privacy",
+      "label": "Camera",
+      "d": "M8 2a4.5 4.5 0 1 1 0 9a4.5 4.5 0 1 1 0-9zM5 14h6M8 11v3",
+      "f": "M6.6 6.5a1.4 1.4 0 1 0 2.8 0a1.4 1.4 0 1 0-2.8 0z",
+      "o": ""
+    },
+    "caps-lock": {
+      "board": "31b",
+      "group": "Editing and navigation",
+      "label": "Caps Lock",
+      "d": "M8 2.5 13.2 8H10.4v3H5.6V8H2.8zM5.6 13.5h4.8",
+      "f": "",
+      "o": ""
+    },
+    "changes-allow": {
+      "board": "31d",
+      "group": "Firmware, Disks, Usage, System Monitor and Help",
+      "label": "Unlocked",
+      "d": "M5 7V5a3 3 0 0 1 5.8-1.1",
+      "f": "M4.5 7h7A1.5 1.5 0 0 1 13 8.5V13a1.5 1.5 0 0 1-1.5 1.5h-7A1.5 1.5 0 0 1 3 13V8.5 A1.5 1.5 0 0 1 4.5 7z",
+      "o": ""
+    },
+    "changes-prevent": {
+      "board": "31d",
+      "group": "Firmware, Disks, Usage, System Monitor and Help",
+      "label": "Locked",
+      "d": "M5 7V5a3 3 0 0 1 6 0v2",
+      "f": "M4.5 7h7A1.5 1.5 0 0 1 13 8.5V13a1.5 1.5 0 0 1-1.5 1.5h-7A1.5 1.5 0 0 1 3 13V8.5A1.5 1.5 0 0 1 4.5 7z",
+      "o": ""
+    },
+    "channel-insecure": {
+      "board": "31c",
+      "group": "Shell",
+      "label": "Not secure",
+      "d": "M5 7V5a3 3 0 0 1 5.8-1.1",
+      "f": "M4.5 7h7A1.5 1.5 0 0 1 13 8.5V13a1.5 1.5 0 0 1-1.5 1.5h-7A1.5 1.5 0 0 1 3 13V8.5A1.5 1.5 0 0 1 4.5 7z",
+      "o": ""
+    },
+    "channel-secure": {
+      "board": "31c",
+      "group": "Shell",
+      "label": "Secure",
+      "d": "M5 7V5a3 3 0 0 1 6 0v2",
+      "f": "M4.5 7h7A1.5 1.5 0 0 1 13 8.5V13a1.5 1.5 0 0 1-1.5 1.5h-7A1.5 1.5 0 0 1 3 13V8.5A1.5 1.5 0 0 1 4.5 7z",
+      "o": ""
+    },
+    "check-outlined": {
+      "board": "31b",
+      "group": "People, input and emblems",
+      "label": "Checked",
+      "d": "M2 8a6 6 0 1 0 12 0a6 6 0 1 0-12 0zM5.4 8.2l1.8 1.8 3.4-3.6",
+      "f": "",
+      "o": ""
+    },
+    "computer": {
+      "board": "31",
+      "group": "Settings panels",
+      "label": "System",
+      "d": "M4 3h8a1.5 1.5 0 0 1 1.5 1.5V10h-11V4.5A1.5 1.5 0 0 1 4 3zM1.5 13h13",
+      "f": "",
+      "o": ""
+    },
+    "computer-fail": {
+      "board": "31d",
+      "group": "Settings, Files, setup, Text Editor and Ptyxis",
+      "label": "Computer with a fault",
+      "d": "M4 3h8a1.5 1.5 0 0 1 1.5 1.5V10h-11V4.5A1.5 1.5 0 0 1 4 3zM1.5 13h13M6.5 5l3 3M9.5 5l-3 3",
+      "f": "",
+      "o": ""
+    },
+    "dark-mode": {
+      "board": "31",
+      "group": "Quick Settings",
+      "label": "Dark Style",
+      "d": "M2 8a6 6 0 1 0 12 0a6 6 0 1 0-12 0z",
+      "f": "M8 3v10a5 5 0 0 0 0-10z",
+      "o": ""
+    },
+    "dialog-error": {
+      "board": "31c",
+      "group": "Settings and apps",
+      "label": "Error",
+      "d": "M2 8a6 6 0 1 0 12 0a6 6 0 1 0-12 0zM8 4.8v3.6",
+      "f": "M7.05 10.9a.95.95 0 1 0 1.9 0a.95.95 0 1 0-1.9 0z",
+      "o": ""
+    },
+    "dialog-information": {
+      "board": "31",
+      "group": "Header bar and windows",
+      "label": "Details",
+      "d": "M2 8a6 6 0 1 0 12 0a6 6 0 1 0-12 0zM8 7.4v3.8",
+      "f": "M6.9 4.9a1.1 1.1 0 1 0 2.2 0a1.1 1.1 0 1 0-2.2 0z",
+      "o": ""
+    },
+    "dialog-password": {
+      "board": "31",
+      "group": "System and sign-in",
+      "label": "Authentication",
+      "d": "M8 1.8 13 3.8v4c0 3.2-2.1 5.4-5 6.5-2.9-1.1-5-3.3-5-6.5v-4z",
+      "f": "M8 4.9a1.6 1.6 0 0 1 .75 3.01V9.9a.75.75 0 0 1-1.5 0V7.91A1.6 1.6 0 0 1 8 4.9z",
+      "o": ""
+    },
+    "dialog-question": {
+      "board": "31c",
+      "group": "Settings and apps",
+      "label": "Question",
+      "d": "M2 8a6 6 0 1 0 12 0a6 6 0 1 0-12 0zM6.2 6.3a1.9 1.9 0 1 1 2.6 1.8c-.5.2-.8.6-.8 1.1v.3",
+      "f": "M7.1 11.3a.9.9 0 1 0 1.8 0a.9.9 0 1 0-1.8 0z",
+      "o": ""
+    },
+    "dialog-warning": {
+      "board": "31",
+      "group": "Top bar and status",
+      "label": "Warning",
+      "d": "M8 2.6 13.8 12.8H2.2zM8 6.4v2.6",
+      "f": "M7 11a1 1 0 1 0 2 0a1 1 0 1 0-2 0z",
+      "o": ""
+    },
+    "display-brightness": {
+      "board": "31",
+      "group": "Quick Settings",
+      "label": "Brightness",
+      "d": "M8 2v1M8 13v1M2 8h1M13 8h1M3.76 3.76l.71.71M11.53 11.53l.71.71M3.76 12.24l.71-.71M11.53 4.47l.71-.71",
+      "f": "M5 8a3 3 0 1 0 6 0a3 3 0 1 0-6 0z",
+      "o": ""
+    },
+    "document-edit": {
+      "board": "31c",
+      "group": "Shell",
+      "label": "Edit",
+      "d": "M10.6 2.6a1.8 1.8 0 0 1 2.6 2.6L5.6 12.8 2.4 13.6l.8-3.2zM9.4 3.8l2.8 2.8",
+      "f": "",
+      "o": ""
+    },
+    "document-open": {
+      "board": "31c",
+      "group": "Every app (GTK and libadwaita)",
+      "label": "Open",
+      "d": "M2 4.8A1.8 1.8 0 0 1 3.8 3h2.6l1.6 1.8h4.2A1.8 1.8 0 0 1 14 6.6v5.6a1.8 1.8 0 0 1-1.8 1.8H3.8A1.8 1.8 0 0 1 2 12.2z",
+      "f": "",
+      "o": ""
+    },
+    "document-open-recent": {
+      "board": "31",
+      "group": "Files",
+      "label": "Recent",
+      "d": "M2 8a6 6 0 1 0 12 0a6 6 0 1 0-12 0zM8 4.8V8l2.2 1.6",
+      "f": "",
+      "o": ""
+    },
+    "document-print": {
+      "board": "31d",
+      "group": "Viewers, Contacts, Web and Maps",
+      "label": "Print",
+      "d": "M4.5 6V3a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 .5.5v3M4.5 11.5h-1A1.5 1.5 0 0 1 2 10V7.5A1.5 1.5 0 0 1 3.5 6h9A1.5 1.5 0 0 1 14 7.5V10a1.5 1.5 0 0 1-1.5 1.5h-1M4.5 9.5h7v4h-7z",
+      "f": "",
+      "o": ""
+    },
+    "document-properties": {
+      "board": "31d",
+      "group": "Firmware, Disks, Usage, System Monitor and Help",
+      "label": "Properties",
+      "d": "M4.6 1.8h4.3L13 5.9v6.5a1.8 1.8 0 0 1-1.8 1.8H4.6a1.8 1.8 0 0 1-1.8-1.8V3.6 a1.8 1.8 0 0 1 1.8-1.8zM8.8 2v3.4c0 .4.3.7.7.7H13M5.6 8.6h1M8.4 8.6h2M5.6 11.2h1M8.4 11.2h2",
+      "f": "",
+      "o": ""
+    },
+    "document-save": {
+      "board": "31c",
+      "group": "Every app (GTK and libadwaita)",
+      "label": "Save",
+      "d": "M8 2v7.5M4.8 6.5 8 9.7l3.2-3.2M2.5 11v1.5A1.5 1.5 0 0 0 4 14h8a1.5 1.5 0 0 0 1.5-1.5V11",
+      "f": "",
+      "o": ""
+    },
+    "drive-harddisk": {
+      "board": "31",
+      "group": "Files",
+      "label": "Drive",
+      "d": "M4 9h8a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-1a2 2 0 0 1 2-2zM2.3 10.2 4 4.1C4.3 3 5 2.5 6 2.5h4c1 0 1.7.5 2 1.6l1.7 6.1",
+      "f": "M10.6 11.5a.9.9 0 1 0 1.8 0a.9.9 0 1 0-1.8 0z",
+      "o": ""
+    },
+    "drive-harddisk-system": {
+      "board": "31d",
+      "group": "Firmware, Disks, Usage, System Monitor and Help",
+      "label": "System disk",
+      "d": "M4 9h8a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-1a2 2 0 0 1 2-2zM2.3 10.2 4 4.1 C4.3 3 5 2.5 6 2.5h4c1 0 1.7.5 2 1.6l1.7 6.1",
+      "f": "M10.6 11.5a.9.9 0 1 0 1.8 0a.9.9 0 1 0-1.8 0zM8 4.4 9.6 6 8 7.6 6.4 6z",
+      "o": ""
+    },
+    "drive-harddisk-usb": {
+      "board": "31d",
+      "group": "Shell",
+      "label": "External drive",
+      "d": "M4 9h8a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-1a2 2 0 0 1 2-2zM8 9V5.5",
+      "f": "M7 1.5h2a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5H7a.5.5 0 0 1-.5-.5V2a.5.5 0 0 1 .5-.5zM10.6 11.5a.9.9 0 1 0 1.8 0a.9.9 0 1 0-1.8 0z",
+      "o": ""
+    },
+    "drive-multidisk": {
+      "board": "31d",
+      "group": "Firmware, Disks, Usage, System Monitor and Help",
+      "label": "Multiple disks",
+      "d": "M4 2.5h8a1.5 1.5 0 0 1 1.5 1.5v1A1.5 1.5 0 0 1 12 6.5H4A1.5 1.5 0 0 1 2.5 5V4A1.5 1.5 0 0 1 4 2.5zM4 9.5h8a1.5 1.5 0 0 1 1.5 1.5v1a1.5 1.5 0 0 1-1.5 1.5H4A1.5 1.5 0 0 1 2.5 12v-1A1.5 1.5 0 0 1 4 9.5z",
+      "f": "M10.3 4.5a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0-1.4 0zM10.3 11.5a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0-1.4 0z",
+      "o": ""
+    },
+    "drive-removable-media": {
+      "board": "31c",
+      "group": "OSDs",
+      "label": "Removable drive",
+      "d": "M5.5 6h5v7.5a1 1 0 0 1-1 1h-3a1 1 0 0 1-1-1zM6.5 6V2.5h3V6",
+      "f": "",
+      "o": ""
+    },
+    "edit-clear": {
+      "board": "31b",
+      "group": "Editing and navigation",
+      "label": "Clear",
+      "d": "M2 8a6 6 0 1 0 12 0a6 6 0 1 0-12 0zM6 6l4 4M10 6l-4 4",
+      "f": "",
+      "o": ""
+    },
+    "edit-clear-rtl": {
+      "board": "31c",
+      "group": "Files",
+      "label": "Clear",
+      "d": "M2 8a6 6 0 1 0 12 0a6 6 0 1 0-12 0zM6 6l4 4M10 6l-4 4",
+      "f": "",
+      "o": ""
+    },
+    "edit-copy": {
+      "board": "31b",
+      "group": "Editing and navigation",
+      "label": "Copy",
+      "d": "M6 5.5h6a1.5 1.5 0 0 1 1.5 1.5v5.5a1.5 1.5 0 0 1-1.5 1.5H6a1.5 1.5 0 0 1-1.5-1.5V7A1.5 1.5 0 0 1 6 5.5zM2.5 10V4A1.5 1.5 0 0 1 4 2.5h6",
+      "f": "",
+      "o": ""
+    },
+    "edit-cut": {
+      "board": "31c",
+      "group": "Every app (GTK and libadwaita)",
+      "label": "Cut",
+      "d": "M6.2 10.3 11.6 2.5M9.8 10.3 4.4 2.5M2.9 11.6a1.9 1.9 0 1 0 3.8 0a1.9 1.9 0 1 0-3.8 0zM9.3 11.6a1.9 1.9 0 1 0 3.8 0a1.9 1.9 0 1 0-3.8 0z",
+      "f": "",
+      "o": ""
+    },
+    "edit-delete": {
+      "board": "31c",
+      "group": "Settings and apps",
+      "label": "Delete",
+      "d": "M2.5 4.5h11M6 4.5V3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v1.5M3.8 4.5l.7 8.3a1.5 1.5 0 0 0 1.5 1.4h4a1.5 1.5 0 0 0 1.5-1.4l.7-8.3",
+      "f": "",
+      "o": ""
+    },
+    "edit-find": {
+      "board": "31b",
+      "group": "Editing and navigation",
+      "label": "Find",
+      "d": "M2.5 7a4.5 4.5 0 1 0 9 0a4.5 4.5 0 1 0-9 0zM10.4 10.4l3.3 3.3",
+      "f": "",
+      "o": ""
+    },
+    "edit-find-replace": {
+      "board": "31d",
+      "group": "Settings, Files, setup, Text Editor and Ptyxis",
+      "label": "Find and replace",
+      "d": "M2.5 5.5a3 3 0 1 0 6 0a3 3 0 1 0-6 0zM7.7 7.7 9 9M13.5 8.5v1.75a2.25 2.25 0 0 1-2.25 2.25H8.5M10 11l-1.5 1.5L10 14",
+      "f": "",
+      "o": ""
+    },
+    "edit-paste": {
+      "board": "31c",
+      "group": "Every app (GTK and libadwaita)",
+      "label": "Paste",
+      "d": "M5.5 3H4.5A1.5 1.5 0 0 0 3 4.5v8A1.5 1.5 0 0 0 4.5 14h7a1.5 1.5 0 0 0 1.5-1.5v-8A1.5 1.5 0 0 0 11.5 3h-1M6.2 2h3.6v2.2H6.2z",
+      "f": "",
+      "o": ""
+    },
+    "edit-redo": {
+      "board": "31c",
+      "group": "Every app (GTK and libadwaita)",
+      "label": "Redo",
+      "d": "M10.5 3.5l3 3-3 3M13.5 6.5H6.7a3.7 3.7 0 0 0 0 7.4H9",
+      "f": "",
+      "o": ""
+    },
+    "edit-undo": {
+      "board": "31c",
+      "group": "Every app (GTK and libadwaita)",
+      "label": "Undo",
+      "d": "M5.5 3.5 2.5 6.5l3 3M2.5 6.5h6.8a3.7 3.7 0 0 1 0 7.4H7",
+      "f": "",
+      "o": ""
+    },
+    "emblem-default": {
+      "board": "31b",
+      "group": "People, input and emblems",
+      "label": "Default",
+      "d": "M2 8a6 6 0 1 0 12 0a6 6 0 1 0-12 0zM5.4 8.2l1.8 1.8 3.4-3.6",
+      "f": "",
+      "o": ""
+    },
+    "emblem-documents": {
+      "board": "31b",
+      "group": "People, input and emblems",
+      "label": "Documents",
+      "d": "M4.6 1.8h4.3L13 5.9v6.5a1.8 1.8 0 0 1-1.8 1.8H4.6a1.8 1.8 0 0 1-1.8-1.8V3.6a1.8 1.8 0 0 1 1.8-1.8zM8.8 2v3.4c0 .4.3.7.7.7H13M5.6 9h4.8M5.6 11.6h3",
+      "f": "",
+      "o": ""
+    },
+    "emblem-important": {
+      "board": "31d",
+      "group": "Firmware, Disks, Usage, System Monitor and Help",
+      "label": "Important",
+      "d": "",
+      "f": "M2 8a6 6 0 1 0 12 0a6 6 0 1 0-12 0zM7.1 4.5h1.8l-.3 4.6H7.4zM7.05 11a0.95 0.95 0 1 0 1.9 0a0.95 0.95 0 1 0-1.9 0z",
+      "o": ""
+    },
+    "emblem-ok": {
+      "board": "31b",
+      "group": "People, input and emblems",
+      "label": "Done",
+      "d": "M2 8a6 6 0 1 0 12 0a6 6 0 1 0-12 0zM5.4 8.2l1.8 1.8 3.4-3.6",
+      "f": "",
+      "o": ""
+    },
+    "emblem-shared": {
+      "board": "31b",
+      "group": "People, input and emblems",
+      "label": "Shared",
+      "d": "M1.9 13.75a4.1 4.1 0 0 1 8.2 0M10 5a1.75 1.75 0 1 0 3.5 0a1.75 1.75 0 1 0-3.5 0zM11.6 9.3a3.6 3.6 0 0 1 2.6 3.45",
+      "f": "M3.8 5.75a2.2 2.2 0 1 0 4.4 0a2.2 2.2 0 1 0-4.4 0z",
+      "o": ""
+    },
+    "emblem-synchronizing": {
+      "board": "31b",
+      "group": "People, input and emblems",
+      "label": "Syncing",
+      "d": "M2.75 8a5.25 5.25 0 0 1 9.3-3.35M12.4 2.2v2.6H9.8M13.25 8a5.25 5.25 0 0 1-9.3 3.35M3.6 13.8v-2.6h2.6",
+      "f": "",
+      "o": ""
+    },
+    "emblem-system": {
+      "board": "31",
+      "group": "System and sign-in",
+      "label": "Settings",
+      "d": "",
+      "f": "M6.67 2.87L6.84 1.1A7 7 0 0 1 9.16 1.1L9.33 2.87A5.3 5.3 0 0 1 10.69 3.43L12.06 2.3A7 7 0 0 1 13.7 3.94L12.57 5.31A5.3 5.3 0 0 1 13.13 6.67L14.9 6.84A7 7 0 0 1 14.9 9.16L13.13 9.33A5.3 5.3 0 0 1 12.57 10.69L13.7 12.06A7 7 0 0 1 12.06 13.7L10.69 12.57A5.3 5.3 0 0 1 9.33 13.13L9.16 14.9A7 7 0 0 1 6.84 14.9L6.67 13.13A5.3 5.3 0 0 1 5.31 12.57L3.94 13.7A7 7 0 0 1 2.3 12.06L3.43 10.69A5.3 5.3 0 0 1 2.87 9.33L1.1 9.16A7 7 0 0 1 1.1 6.84L2.87 6.67A5.3 5.3 0 0 1 3.43 5.31L2.3 3.94A7 7 0 0 1 3.94 2.3L5.31 3.43A5.3 5.3 0 0 1 6.67 2.87zM5.7 8a2.3 2.3 0 1 0 4.6 0a2.3 2.3 0 1 0-4.6 0z",
+      "o": ""
+    },
+    "emoji-activities": {
+      "board": "31d",
+      "group": "Characters and Weather",
+      "label": "Activities",
+      "d": "M2 8a6 6 0 1 0 12 0a6 6 0 1 0-12 0zM2.6 6.5c3.4.6 6.6 3.4 7.2 7.3M6.2 2.3c.6 3.9 3.8 6.6 7.2 7.2",
+      "f": "",
+      "o": ""
+    },
+    "emoji-body": {
+      "board": "31d",
+      "group": "Characters and Weather",
+      "label": "People and body",
+      "d": "M3.4 14.2a4.6 4.6 0 0 1 9.2 0",
+      "f": "M5.2 5a2.8 2.8 0 1 0 5.6 0a2.8 2.8 0 1 0-5.6 0z",
+      "o": ""
+    },
+    "emoji-flags": {
+      "board": "31d",
+      "group": "Characters and Weather",
+      "label": "Flags",
+      "d": "M3.5 14V2.5M3.5 3H12l-2 3 2 3H3.5",
+      "f": "",
+      "o": ""
+    },
+    "emoji-food": {
+      "board": "31d",
+      "group": "Characters and Weather",
+      "label": "Food and drink",
+      "d": "M8 5.3C6.5 4 2.8 4.3 2.8 8.3c0 3 2.1 5.7 3.9 5.7.6 0 .9-.3 1.3-.3s.7.3 1.3.3c1.8 0 3.9-2.7 3.9-5.7 0-4-3.7-4.3-5.2-3zM8 5.3c0-1.5.8-2.8 2.3-3.3",
+      "f": "",
+      "o": ""
+    },
+    "emoji-nature": {
+      "board": "31d",
+      "group": "Characters and Weather",
+      "label": "Animals and nature",
+      "d": "M3 13C3 7 6.5 3 13 3c0 6.5-4 10-10 10zM3 13l6-6",
+      "f": "",
+      "o": ""
+    },
+    "emoji-objects": {
+      "board": "31d",
+      "group": "Characters and Weather",
+      "label": "Objects",
+      "d": "M6 11.4c0-1.5-2.2-2.5-2.2-5.1a4.2 4.2 0 0 1 8.4 0c0 2.6-2.2 3.6-2.2 5.1zM6.6 13.8h2.8",
+      "f": "",
+      "o": ""
+    },
+    "emoji-people": {
+      "board": "31d",
+      "group": "Characters and Weather",
+      "label": "Smileys and people",
+      "d": "M2 8a6 6 0 1 0 12 0a6 6 0 1 0-12 0zM5.6 9.6a3 3 0 0 0 4.8 0",
+      "f": "M5.4 6.4a.9.9 0 1 0 1.8 0a.9.9 0 1 0-1.8 0zM8.8 6.4a.9.9 0 1 0 1.8 0a.9.9 0 1 0-1.8 0z",
+      "o": ""
+    },
+    "emoji-travel": {
+      "board": "31d",
+      "group": "Characters and Weather",
+      "label": "Travel and places",
+      "d": "M3 10.5v-2l1.4-3.4c.2-.6.8-1 1.4-1h4.4c.6 0 1.2.4 1.4 1L13 8.5v2zM3 8.5h10",
+      "f": "M3.9 12.4a1.1 1.1 0 1 0 2.2 0a1.1 1.1 0 1 0-2.2 0zM9.9 12.4a1.1 1.1 0 1 0 2.2 0a1.1 1.1 0 1 0-2.2 0z",
+      "o": ""
+    },
+    "face-sad": {
+      "board": "31c",
+      "group": "Shell",
+      "label": "Sad",
+      "d": "M2 8a6 6 0 1 0 12 0a6 6 0 1 0-12 0zM5.6 11a3 3 0 0 1 4.8 0",
+      "f": "M5.4 6.4a.9.9 0 1 0 1.8 0a.9.9 0 1 0-1.8 0zM8.8 6.4a.9.9 0 1 0 1.8 0a.9.9 0 1 0-1.8 0z",
+      "o": ""
+    },
+    "face-smile": {
+      "board": "31c",
+      "group": "Shell",
+      "label": "Smile",
+      "d": "M2 8a6 6 0 1 0 12 0a6 6 0 1 0-12 0zM5.6 9.6a3 3 0 0 0 4.8 0",
+      "f": "M5.4 6.4a.9.9 0 1 0 1.8 0a.9.9 0 1 0-1.8 0zM8.8 6.4a.9.9 0 1 0 1.8 0a.9.9 0 1 0-1.8 0z",
+      "o": ""
+    },
+    "face-uncertain": {
+      "board": "31d",
+      "group": "Viewers, Contacts, Web and Maps",
+      "label": "Uncertain",
+      "d": "M2 8a6 6 0 1 0 12 0a6 6 0 1 0-12 0zM5.6 10.8l4.8-.9",
+      "f": "M5.4 6.4a.9.9 0 1 0 1.8 0a.9.9 0 1 0-1.8 0zM8.8 6.4a.9.9 0 1 0 1.8 0a.9.9 0 1 0-1.8 0z",
+      "o": ""
+    },
+    "find-location": {
+      "board": "31c",
+      "group": "Shell",
+      "label": "Find Location",
+      "d": "M3.4 8a4.6 4.6 0 1 0 9.2 0a4.6 4.6 0 1 0-9.2 0zM8 1.8v2M8 12.2v2M1.8 8h2M12.2 8h2",
+      "f": "M6.7 8a1.3 1.3 0 1 0 2.6 0a1.3 1.3 0 1 0-2.6 0z",
+      "o": ""
+    },
+    "focus-windows": {
+      "board": "31d",
+      "group": "Shell",
+      "label": "Focused window",
+      "d": "M3.5 5.5h6A1.5 1.5 0 0 1 11 7v5a1.5 1.5 0 0 1-1.5 1.5h-6A1.5 1.5 0 0 1 2 12V7a1.5 1.5 0 0 1 1.5-1.5z",
+      "f": "",
+      "o": "M5 3.8V4a1.5 1.5 0 0 1 1.5-1.5h6A1.5 1.5 0 0 1 14 4v5"
+    },
+    "folder": {
+      "board": "31",
+      "group": "Files",
+      "label": "Folder",
+      "d": "M2 4.8A1.8 1.8 0 0 1 3.8 3h2.6l1.6 1.8h4.2A1.8 1.8 0 0 1 14 6.6v5.6a1.8 1.8 0 0 1-1.8 1.8H3.8A1.8 1.8 0 0 1 2 12.2z",
+      "f": "",
+      "o": ""
+    },
+    "folder-documents": {
+      "board": "31",
+      "group": "Files",
+      "label": "Documents",
+      "d": "M4.6 1.8h4.3L13 5.9v6.5a1.8 1.8 0 0 1-1.8 1.8H4.6a1.8 1.8 0 0 1-1.8-1.8V3.6a1.8 1.8 0 0 1 1.8-1.8zM8.8 2v3.4c0 .4.3.7.7.7H13M5.6 9h4.8M5.6 11.6h3",
+      "f": "",
+      "o": ""
+    },
+    "folder-download": {
+      "board": "31",
+      "group": "Files",
+      "label": "Downloads",
+      "d": "M8 2v7.5M4.8 6.5 8 9.7l3.2-3.2M2.5 11v1.5A1.5 1.5 0 0 0 4 14h8a1.5 1.5 0 0 0 1.5-1.5V11",
+      "f": "",
+      "o": ""
+    },
+    "folder-music": {
+      "board": "31",
+      "group": "Files",
+      "label": "Music",
+      "d": "M6.2 12.2V3.5l6.8-1.5v8.6",
+      "f": "M2.4 12.2a1.9 1.9 0 1 0 3.8 0a1.9 1.9 0 1 0-3.8 0zM9.2 10.6a1.9 1.9 0 1 0 3.8 0a1.9 1.9 0 1 0-3.8 0z",
+      "o": ""
+    },
+    "folder-new": {
+      "board": "31c",
+      "group": "Files",
+      "label": "New Folder",
+      "d": "M2 4.8A1.8 1.8 0 0 1 3.8 3h2.6l1.6 1.8h4.2A1.8 1.8 0 0 1 14 6.6v5.6a1.8 1.8 0 0 1-1.8 1.8H3.8A1.8 1.8 0 0 1 2 12.2zM8 7.2v4.2M5.9 9.3h4.2",
+      "f": "",
+      "o": ""
+    },
+    "folder-open": {
+      "board": "31c",
+      "group": "Settings and apps",
+      "label": "Open Folder",
+      "d": "M2 4.8A1.8 1.8 0 0 1 3.8 3h2.6l1.6 1.8h4.2A1.8 1.8 0 0 1 14 6.6v5.6a1.8 1.8 0 0 1-1.8 1.8H3.8A1.8 1.8 0 0 1 2 12.2z",
+      "f": "",
+      "o": ""
+    },
+    "folder-pictures": {
+      "board": "31",
+      "group": "Files",
+      "label": "Pictures",
+      "d": "M4 2.5h8a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2zM2.6 12.2 6.2 8.6l2.6 2.6 1.6-1.6 3 3",
+      "f": "M9.1 5.9a1.3 1.3 0 1 0 2.6 0a1.3 1.3 0 1 0-2.6 0z",
+      "o": ""
+    },
+    "folder-projects": {
+      "board": "31c",
+      "group": "Files",
+      "label": "Projects",
+      "d": "M4 5h8a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2zM6 5V3.6c0-.6.5-1.1 1.1-1.1h1.8c.6 0 1.1.5 1.1 1.1V5M2 9h12",
+      "f": "",
+      "o": ""
+    },
+    "folder-publicshare": {
+      "board": "31c",
+      "group": "Settings and apps",
+      "label": "Public",
+      "d": "M2 8a6 6 0 1 0 12 0a6 6 0 1 0-12 0zM2 8h12M8 2c1.7 1.6 2.6 3.7 2.6 6S9.7 12.4 8 14c-1.7-1.6-2.6-3.7-2.6-6S6.3 3.6 8 2z",
+      "f": "",
+      "o": ""
+    },
+    "folder-remote": {
+      "board": "31c",
+      "group": "Settings and apps",
+      "label": "Network Folder",
+      "d": "M2 4.8A1.8 1.8 0 0 1 3.8 3h2.6l1.6 1.8h4.2A1.8 1.8 0 0 1 14 6.6v5.6a1.8 1.8 0 0 1-1.8 1.8H3.8A1.8 1.8 0 0 1 2 12.2z",
+      "f": "",
+      "o": ""
+    },
+    "folder-templates": {
+      "board": "31",
+      "group": "Files",
+      "label": "Templates",
+      "d": "M4 2.5h8a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2zM2 6.5h12M6.5 6.5v7",
+      "f": "",
+      "o": ""
+    },
+    "folder-videos": {
+      "board": "31",
+      "group": "Files",
+      "label": "Videos",
+      "d": "M4 3h8a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z",
+      "f": "M6.7 5.9v4.2c0 .4.4.6.7.4l3.3-2.1c.3-.2.3-.6 0-.8L7.4 5.5c-.3-.2-.7 0-.7.4z",
+      "o": ""
+    },
+    "font-select": {
+      "board": "31d",
+      "group": "Settings, Files, setup, Text Editor and Ptyxis",
+      "label": "Font",
+      "d": "M3 13.5 8 2.5l5 11M4.9 9.5h6.2",
+      "f": "",
+      "o": ""
+    },
+    "font-x-generic": {
+      "board": "31c",
+      "group": "Every app (GTK and libadwaita)",
+      "label": "Font",
+      "d": "M3 13.5 8 2.5l5 11M4.9 9.5h6.2",
+      "f": "",
+      "o": ""
+    },
+    "globe": {
+      "board": "31",
+      "group": "Files",
+      "label": "Public",
+      "d": "M2 8a6 6 0 1 0 12 0a6 6 0 1 0-12 0zM2 8h12M8 2c1.7 1.6 2.6 3.7 2.6 6S9.7 12.4 8 14c-1.7-1.6-2.6-3.7-2.6-6S6.3 3.6 8 2z",
+      "f": "",
+      "o": ""
+    },
+    "gnome-power-manager": {
+      "board": "31c",
+      "group": "Shell",
+      "label": "Power",
+      "d": "M3.5 4.5h7.5a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-7.5a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2z",
+      "f": "M4 6.5h5a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5H4a.5.5 0 0 1-.5-.5V7a.5.5 0 0 1 .5-.5zM14 6.3h.6a.9.9 0 0 1 .9.9v1.6a.9.9 0 0 1-.9.9H14z",
+      "o": ""
+    },
+    "go-down": {
+      "board": "31",
+      "group": "Top bar and status",
+      "label": "Downloading",
+      "d": "M8 2.5v10M3.8 8.6 8 12.8l4.2-4.2",
+      "f": "",
+      "o": ""
+    },
+    "go-home": {
+      "board": "31d",
+      "group": "Viewers, Contacts, Web and Maps",
+      "label": "Home",
+      "d": "M2.5 7.2 8 2.5l5.5 4.7M4 6v6.5a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V6",
+      "f": "",
+      "o": ""
+    },
+    "go-jump": {
+      "board": "31d",
+      "group": "Viewers, Contacts, Web and Maps",
+      "label": "Go",
+      "d": "M2.5 12.5V9a4 4 0 0 1 4-4h7M10.5 2l3 3-3 3",
+      "f": "",
+      "o": ""
+    },
+    "go-next": {
+      "board": "31",
+      "group": "Header bar and windows",
+      "label": "Forward",
+      "d": "M6 3l5 5-5 5",
+      "f": "",
+      "o": ""
+    },
+    "go-next-arrow": {
+      "board": "31",
+      "group": "System and sign-in",
+      "label": "Unlock",
+      "d": "M2.5 8h11M9 3.5 13.5 8 9 12.5",
+      "f": "",
+      "o": ""
+    },
+    "go-previous": {
+      "board": "31",
+      "group": "Header bar and windows",
+      "label": "Back",
+      "d": "M10 3 5 8l5 5",
+      "f": "",
+      "o": ""
+    },
+    "go-up": {
+      "board": "31b",
+      "group": "Editing and navigation",
+      "label": "Up",
+      "d": "M8 13.5v-10M3.8 7.4 8 3.2l4.2 4.2",
+      "f": "",
+      "o": ""
+    },
+    "help-about": {
+      "board": "31c",
+      "group": "Settings and apps",
+      "label": "About",
+      "d": "M2 8a6 6 0 1 0 12 0a6 6 0 1 0-12 0zM8 7.4v3.8",
+      "f": "M6.9 4.9a1.1 1.1 0 1 0 2.2 0a1.1 1.1 0 1 0-2.2 0z",
+      "o": ""
+    },
+    "image-missing": {
+      "board": "31d",
+      "group": "Viewers, Contacts, Web and Maps",
+      "label": "Missing image",
+      "d": "M4 2.5h8a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2z",
+      "f": "",
+      "o": "M2.6 12.2 6.2 8.6l2.6 2.6 1.6-1.6 3 3"
+    },
+    "input-keyboard": {
+      "board": "31",
+      "group": "Settings panels",
+      "label": "Keyboard",
+      "d": "M3.75 3.5h8.5a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-8.5a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2zM5.5 9.6h5",
+      "f": "M3.9 6.7a.9.9 0 1 0 1.8 0a.9.9 0 1 0-1.8 0zM7.1 6.7a.9.9 0 1 0 1.8 0a.9.9 0 1 0-1.8 0zM10.3 6.7a.9.9 0 1 0 1.8 0a.9.9 0 1 0-1.8 0z",
+      "o": ""
+    },
+    "input-mouse": {
+      "board": "31",
+      "group": "Settings panels",
+      "label": "Mouse & Touchpad",
+      "d": "M8 2a4 4 0 0 1 4 4v4a4 4 0 0 1-8 0V6a4 4 0 0 1 4-4zM8 4.8v2",
+      "f": "",
+      "o": ""
+    },
+    "input-tablet": {
+      "board": "31d",
+      "group": "Settings, Files, setup, Text Editor and Ptyxis",
+      "label": "Graphics tablet",
+      "d": "M3.5 8.5h9A1.5 1.5 0 0 1 14 10v2.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 12.5V10a1.5 1.5 0 0 1 1.5-1.5zM13 2 9 6",
+      "f": "",
+      "o": ""
+    },
+    "input-touchpad": {
+      "board": "31b",
+      "group": "People, input and emblems",
+      "label": "Touchpad",
+      "d": "M3.5 2.5h9a1.5 1.5 0 0 1 1.5 1.5v8a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 12V4a1.5 1.5 0 0 1 1.5-1.5zM2 10h12M8 10v3.5",
+      "f": "",
+      "o": ""
+    },
+    "insert-object": {
+      "board": "31d",
+      "group": "Shell",
+      "label": "Insert",
+      "d": "M3.5 2h4A1.5 1.5 0 0 1 9 3.5v4A1.5 1.5 0 0 1 7.5 9h-4A1.5 1.5 0 0 1 2 7.5v-4A1.5 1.5 0 0 1 3.5 2zM11.5 9.5v4M9.5 11.5h4",
+      "f": "",
+      "o": ""
+    },
+    "keyboard-brightness": {
+      "board": "31c",
+      "group": "OSDs",
+      "label": "Keyboard Backlight",
+      "d": "M3.75 3.5h8.5a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-8.5a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2zM5.5 9.6h5",
+      "f": "M3.9 6.7a.9.9 0 1 0 1.8 0a.9.9 0 1 0-1.8 0zM7.1 6.7a.9.9 0 1 0 1.8 0a.9.9 0 1 0-1.8 0zM10.3 6.7a.9.9 0 1 0 1.8 0a.9.9 0 1 0-1.8 0z",
+      "o": ""
+    },
+    "list-add": {
+      "board": "31",
+      "group": "Header bar and windows",
+      "label": "Add",
+      "d": "M8 2.5v11M2.5 8h11",
+      "f": "",
+      "o": ""
+    },
+    "list-drag-handle": {
+      "board": "31c",
+      "group": "Settings and apps",
+      "label": "Drag",
+      "d": "",
+      "f": "M5 4a1 1 0 1 0 2 0a1 1 0 1 0-2 0zM9 4a1 1 0 1 0 2 0a1 1 0 1 0-2 0zM5 8a1 1 0 1 0 2 0a1 1 0 1 0-2 0zM9 8a1 1 0 1 0 2 0a1 1 0 1 0-2 0zM5 12a1 1 0 1 0 2 0a1 1 0 1 0-2 0zM9 12a1 1 0 1 0 2 0a1 1 0 1 0-2 0z",
+      "o": ""
+    },
+    "list-remove": {
+      "board": "31c",
+      "group": "Settings and apps",
+      "label": "Remove",
+      "d": "M2.5 8h11",
+      "f": "",
+      "o": ""
+    },
+    "location-services-active": {
+      "board": "31b",
+      "group": "Media and privacy",
+      "label": "Location",
+      "d": "M8 14s4.6-4 4.6-7.4a4.6 4.6 0 0 0-9.2 0C3.4 10 8 14 8 14z",
+      "f": "M6.5 6.6a1.5 1.5 0 1 0 3 0a1.5 1.5 0 1 0-3 0z",
+      "o": ""
+    },
+    "locked": {
+      "board": "31b",
+      "group": "People, input and emblems",
+      "label": "Locked",
+      "d": "M5 7V5a3 3 0 0 1 6 0v2",
+      "f": "M4.5 7h7A1.5 1.5 0 0 1 13 8.5V13a1.5 1.5 0 0 1-1.5 1.5h-7A1.5 1.5 0 0 1 3 13V8.5A1.5 1.5 0 0 1 4.5 7z",
+      "o": ""
+    },
+    "mail-send": {
+      "board": "31d",
+      "group": "Viewers, Contacts, Web and Maps",
+      "label": "Send",
+      "d": "M14 2 2 6.4l5.1 2.5L9.6 14zM14 2 7.1 8.9",
+      "f": "",
+      "o": ""
+    },
+    "mail-unread": {
+      "board": "31c",
+      "group": "Settings and apps",
+      "label": "Mail",
+      "d": "M3.5 3.5h9a1.5 1.5 0 0 1 1.5 1.5v6a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 11V5a1.5 1.5 0 0 1 1.5-1.5zM2.2 4.6 8 9l5.8-4.4",
+      "f": "",
+      "o": ""
+    },
+    "mark-location": {
+      "board": "31d",
+      "group": "Viewers, Contacts, Web and Maps",
+      "label": "Location",
+      "d": "M8 14s4.6-4 4.6-7.4a4.6 4.6 0 0 0-9.2 0C3.4 10 8 14 8 14z",
+      "f": "M6.5 6.6a1.5 1.5 0 1 0 3 0a1.5 1.5 0 1 0-3 0z",
+      "o": ""
+    },
+    "media-eject": {
+      "board": "31c",
+      "group": "OSDs",
+      "label": "Eject",
+      "d": "",
+      "f": "M8 2.6 13 8.4H3zM3.5 11h9a.75.75 0 0 1 0 1.5h-9a.75.75 0 0 1 0-1.5z",
+      "o": ""
+    },
+    "media-playback-pause": {
+      "board": "31",
+      "group": "Capture and media",
+      "label": "Pause",
+      "d": "",
+      "f": "M4.5 2.5h1.5a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4.5a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1zM10 2.5h1.5a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H10a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1z",
+      "o": ""
+    },
+    "media-playback-start": {
+      "board": "31b",
+      "group": "Media and privacy",
+      "label": "Play",
+      "d": "",
+      "f": "M4.5 3.2v9.6c0 .8.9 1.3 1.6.8l7-4.8c.6-.4.6-1.2 0-1.6l-7-4.8c-.7-.5-1.6 0-1.6.8z",
+      "o": ""
+    },
+    "media-playback-stop": {
+      "board": "31d",
+      "group": "Firmware, Disks, Usage, System Monitor and Help",
+      "label": "Stop",
+      "d": "",
+      "f": "M4.5 3.5h7a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1h-7a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1z",
+      "o": ""
+    },
+    "media-playlist-repeat": {
+      "board": "31d",
+      "group": "Firmware, Disks, Usage, System Monitor and Help",
+      "label": "Repeat",
+      "d": "M13 8a5 5 0 1 1-1.46-3.54M12.4 2.4v2.8H9.6",
+      "f": "",
+      "o": ""
+    },
+    "media-playlist-repeat-song": {
+      "board": "31d",
+      "group": "Firmware, Disks, Usage, System Monitor and Help",
+      "label": "Repeat one",
+      "d": "M13 8a5 5 0 1 1-1.46-3.54M12.4 2.4v2.8H9.6M7.2 8.2l1-.7V11",
+      "f": "",
+      "o": ""
+    },
+    "media-record": {
+      "board": "31b",
+      "group": "Media and privacy",
+      "label": "Recording",
+      "d": "",
+      "f": "M3.5 8a4.5 4.5 0 1 0 9 0a4.5 4.5 0 1 0-9 0z",
+      "o": ""
+    },
+    "media-removable": {
+      "board": "31c",
+      "group": "OSDs",
+      "label": "Removable media",
+      "d": "M5.5 6h5v7.5a1 1 0 0 1-1 1h-3a1 1 0 0 1-1-1zM6.5 6V2.5h3V6",
+      "f": "",
+      "o": ""
+    },
+    "media-skip-backward": {
+      "board": "31b",
+      "group": "Media and privacy",
+      "label": "Previous Track",
+      "d": "",
+      "f": "M13.5 4v8c0 .7-.8 1.1-1.4.7l-5.6-4c-.5-.4-.5-1 0-1.4l5.6-4c.6-.4 1.4 0 1.4.7zM3.5 3H5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5H3.5a.5.5 0 0 1-.5-.5v-9A.5.5 0 0 1 3.5 3z",
+      "o": ""
+    },
+    "media-skip-forward": {
+      "board": "31b",
+      "group": "Media and privacy",
+      "label": "Next Track",
+      "d": "",
+      "f": "M2.5 4v8c0 .7.8 1.1 1.4.7l5.6-4c.5-.4.5-1 0-1.4l-5.6-4c-.6-.4-1.4 0-1.4.7zM11 3h1.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5H11a.5.5 0 0 1-.5-.5v-9A.5.5 0 0 1 11 3z",
+      "o": ""
+    },
+    "microphone-sensitivity-high": {
+      "board": "31b",
+      "group": "Sound and input",
+      "label": "Microphone, high",
+      "d": "M3.6 7.6a4.4 4.4 0 0 0 8.8 0M8 12v2.4",
+      "f": "M8 1.5c1.3 0 2.4 1.1 2.4 2.4v3.7c0 1.3-1.1 2.4-2.4 2.4S5.6 8.9 5.6 7.6V3.9C5.6 2.6 6.7 1.5 8 1.5z",
+      "o": ""
+    },
+    "microphone-sensitivity-low": {
+      "board": "31b",
+      "group": "Sound and input",
+      "label": "Microphone, low",
+      "d": "M3.6 7.6a4.4 4.4 0 0 0 8.8 0M8 12v2.4",
+      "f": "M8 1.5c1.3 0 2.4 1.1 2.4 2.4v3.7c0 1.3-1.1 2.4-2.4 2.4S5.6 8.9 5.6 7.6V3.9C5.6 2.6 6.7 1.5 8 1.5z",
+      "o": ""
+    },
+    "microphone-sensitivity-medium": {
+      "board": "31b",
+      "group": "Sound and input",
+      "label": "Microphone, medium",
+      "d": "M3.6 7.6a4.4 4.4 0 0 0 8.8 0M8 12v2.4",
+      "f": "M8 1.5c1.3 0 2.4 1.1 2.4 2.4v3.7c0 1.3-1.1 2.4-2.4 2.4S5.6 8.9 5.6 7.6V3.9C5.6 2.6 6.7 1.5 8 1.5z",
+      "o": ""
+    },
+    "microphone-sensitivity-muted": {
+      "board": "31b",
+      "group": "Sound and input",
+      "label": "Microphone off",
+      "d": "M2.5 2.5l11 11",
+      "f": "",
+      "o": "M3.6 7.6a4.4 4.4 0 0 0 8.8 0M8 12v2.4M8 2.4c.8 0 1.5.7 1.5 1.5v3.7c0 .8-.7 1.5-1.5 1.5s-1.5-.7-1.5-1.5V3.9c0-.8.7-1.5 1.5-1.5z"
+    },
+    "network-cellular": {
+      "board": "31d",
+      "group": "Shell",
+      "label": "Mobile broadband",
+      "d": "M3 13V11M6 13V8.5M9 13V6M12 13V3.5",
+      "f": "",
+      "o": ""
+    },
+    "network-cellular-acquiring": {
+      "board": "31d",
+      "group": "Shell",
+      "label": "Mobile connecting",
+      "d": "",
+      "f": "M1.9 3.6a0.9 0.9 0 1 0 1.8 0a0.9 0.9 0 1 0-1.8 0zM4.6 3.6a0.9 0.9 0 1 0 1.8 0a0.9 0.9 0 1 0-1.8 0zM7.3 3.6a0.9 0.9 0 1 0 1.8 0a0.9 0.9 0 1 0-1.8 0z",
+      "o": "M3 13V11M6 13V8.5M9 13V6M12 13V3.5"
+    },
+    "network-cellular-connected": {
+      "board": "31d",
+      "group": "Shell",
+      "label": "Mobile connected",
+      "d": "M3 13V11M6 13V8.5M9 13V6M12 13V3.5",
+      "f": "",
+      "o": ""
+    },
+    "network-cellular-disabled": {
+      "board": "31d",
+      "group": "Shell",
+      "label": "Mobile off",
+      "d": "M2.5 2.5l11 11",
+      "f": "",
+      "o": "M3 13V11M6 13V8.5M9 13V6M12 13V3.5"
+    },
+    "network-cellular-offline": {
+      "board": "31d",
+      "group": "Shell",
+      "label": "Mobile offline",
+      "d": "M2.5 2.5l2.4 2.4M4.9 2.5l-2.4 2.4",
+      "f": "",
+      "o": "M3 13V11M6 13V8.5M9 13V6M12 13V3.5"
+    },
+    "network-cellular-signal-excellent": {
+      "board": "31d",
+      "group": "Shell",
+      "label": "Mobile excellent",
+      "d": "M3 13V11M6 13V8.5M9 13V6M12 13V3.5",
+      "f": "",
+      "o": ""
+    },
+    "network-cellular-signal-good": {
+      "board": "31d",
+      "group": "Shell",
+      "label": "Mobile good",
+      "d": "M3 13V11M6 13V8.5M9 13V6",
+      "f": "",
+      "o": "M12 13V3.5"
+    },
+    "network-cellular-signal-none": {
+      "board": "31d",
+      "group": "Shell",
+      "label": "Mobile none",
+      "d": "",
+      "f": "",
+      "o": "M3 13V11M6 13V8.5M9 13V6M12 13V3.5"
+    },
+    "network-cellular-signal-ok": {
+      "board": "31d",
+      "group": "Shell",
+      "label": "Mobile OK",
+      "d": "M3 13V11M6 13V8.5",
+      "f": "",
+      "o": "M9 13V6M12 13V3.5"
+    },
+    "network-cellular-signal-weak": {
+      "board": "31d",
+      "group": "Shell",
+      "label": "Mobile weak",
+      "d": "M3 13V11",
+      "f": "",
+      "o": "M6 13V8.5M9 13V6M12 13V3.5"
+    },
+    "network-error": {
+      "board": "31c",
+      "group": "Shell",
+      "label": "Network error",
+      "d": "M13.4 8.6v2.4",
+      "f": "M12.6 13.3a.8.8 0 1 0 1.6 0a.8.8 0 1 0-1.6 0z",
+      "o": "M2.13 6.31A8.6 8.6 0 0 1 13.87 6.31M4.73 9.09A4.8 4.8 0 0 1 11.27 9.09"
+    },
+    "network-offline": {
+      "board": "31c",
+      "group": "Shell",
+      "label": "Offline",
+      "d": "M11.6 10.4l2.4 2.4M14 10.4l-2.4 2.4",
+      "f": "",
+      "o": "M2.13 6.31A8.6 8.6 0 0 1 13.87 6.31M4.73 9.09A4.8 4.8 0 0 1 11.27 9.09M7.1 12.6a.9.9 0 1 0 1.8 0a.9.9 0 1 0-1.8 0z"
+    },
+    "network-transmit-receive": {
+      "board": "31d",
+      "group": "Firmware, Disks, Usage, System Monitor and Help",
+      "label": "Transfer",
+      "d": "M5.5 13V3M3 5.5 5.5 3 8 5.5M10.5 3v10M8 10.5l2.5 2.5 2.5-2.5",
+      "f": "",
+      "o": ""
+    },
+    "network-vpn": {
+      "board": "31",
+      "group": "Quick Settings",
+      "label": "VPN",
+      "d": "M2.2 11a2.8 2.8 0 1 0 5.6 0a2.8 2.8 0 1 0-5.6 0zM7 9l6-6M11 5l1.8 1.8M9.6 6.4l1.4 1.4",
+      "f": "",
+      "o": ""
+    },
+    "network-vpn-acquiring": {
+      "board": "31b",
+      "group": "Radios and power",
+      "label": "VPN, connecting",
+      "d": "",
+      "f": "",
+      "o": "M2.2 11a2.8 2.8 0 1 0 5.6 0a2.8 2.8 0 1 0-5.6 0zM7 9l6-6M11 5l1.8 1.8M9.6 6.4l1.4 1.4"
+    },
+    "network-vpn-disabled": {
+      "board": "31b",
+      "group": "Radios and power",
+      "label": "VPN off",
+      "d": "M2.5 2.5l11 11",
+      "f": "",
+      "o": "M2.2 11a2.8 2.8 0 1 0 5.6 0a2.8 2.8 0 1 0-5.6 0zM7 9l6-6M11 5l1.8 1.8M9.6 6.4l1.4 1.4"
+    },
+    "network-wired": {
+      "board": "31",
+      "group": "Settings panels",
+      "label": "Network",
+      "d": "M8 6v2.2M4 10V8.2h8V10",
+      "f": "M6.7 1.5h2.6c.7 0 1.2.5 1.2 1.2v2.1c0 .7-.5 1.2-1.2 1.2H6.7c-.7 0-1.2-.5-1.2-1.2V2.7c0-.7.5-1.2 1.2-1.2zM2.7 10h2.6c.7 0 1.2.5 1.2 1.2v2.1c0 .7-.5 1.2-1.2 1.2H2.7c-.7 0-1.2-.5-1.2-1.2v-2.1c0-.7.5-1.2 1.2-1.2zM10.7 10h2.6c.7 0 1.2.5 1.2 1.2v2.1c0 .7-.5 1.2-1.2 1.2h-2.6c-.7 0-1.2-.5-1.2-1.2v-2.1c0-.7.5-1.2 1.2-1.2z",
+      "o": ""
+    },
+    "network-wired-acquiring": {
+      "board": "31c",
+      "group": "Shell",
+      "label": "Wired, connecting",
+      "d": "M8 6v2.2M4 10V8.2h8V10",
+      "f": "M6.7 1.5h2.6c.7 0 1.2.5 1.2 1.2v2.1c0 .7-.5 1.2-1.2 1.2H6.7c-.7 0-1.2-.5-1.2-1.2V2.7c0-.7.5-1.2 1.2-1.2zM2.7 10h2.6c.7 0 1.2.5 1.2 1.2v2.1c0 .7-.5 1.2-1.2 1.2H2.7c-.7 0-1.2-.5-1.2-1.2v-2.1c0-.7.5-1.2 1.2-1.2zM10.7 10h2.6c.7 0 1.2.5 1.2 1.2v2.1c0 .7-.5 1.2-1.2 1.2h-2.6c-.7 0-1.2-.5-1.2-1.2v-2.1c0-.7.5-1.2 1.2-1.2z",
+      "o": ""
+    },
+    "network-wired-disconnected": {
+      "board": "31c",
+      "group": "Shell",
+      "label": "Wired, unplugged",
+      "d": "M8 6v2.2M4 10V8.2h8V10",
+      "f": "M6.7 1.5h2.6c.7 0 1.2.5 1.2 1.2v2.1c0 .7-.5 1.2-1.2 1.2H6.7c-.7 0-1.2-.5-1.2-1.2V2.7c0-.7.5-1.2 1.2-1.2zM2.7 10h2.6c.7 0 1.2.5 1.2 1.2v2.1c0 .7-.5 1.2-1.2 1.2H2.7c-.7 0-1.2-.5-1.2-1.2v-2.1c0-.7.5-1.2 1.2-1.2zM10.7 10h2.6c.7 0 1.2.5 1.2 1.2v2.1c0 .7-.5 1.2-1.2 1.2h-2.6c-.7 0-1.2-.5-1.2-1.2v-2.1c0-.7.5-1.2 1.2-1.2z",
+      "o": ""
+    },
+    "network-wired-no-route": {
+      "board": "31c",
+      "group": "Shell",
+      "label": "Wired, no internet",
+      "d": "M8 6v2.2M4 10V8.2h8V10",
+      "f": "M6.7 1.5h2.6c.7 0 1.2.5 1.2 1.2v2.1c0 .7-.5 1.2-1.2 1.2H6.7c-.7 0-1.2-.5-1.2-1.2V2.7c0-.7.5-1.2 1.2-1.2zM2.7 10h2.6c.7 0 1.2.5 1.2 1.2v2.1c0 .7-.5 1.2-1.2 1.2H2.7c-.7 0-1.2-.5-1.2-1.2v-2.1c0-.7.5-1.2 1.2-1.2zM10.7 10h2.6c.7 0 1.2.5 1.2 1.2v2.1c0 .7-.5 1.2-1.2 1.2h-2.6c-.7 0-1.2-.5-1.2-1.2v-2.1c0-.7.5-1.2 1.2-1.2z",
+      "o": ""
+    },
+    "network-wireless": {
+      "board": "31b",
+      "group": "Wi‑Fi",
+      "label": "Wi‑Fi",
+      "d": "M2.13 6.31A8.6 8.6 0 0 1 13.87 6.31M4.73 9.09A4.8 4.8 0 0 1 11.27 9.09",
+      "f": "M6.4 12.6a1.6 1.6 0 1 0 3.2 0a1.6 1.6 0 1 0-3.2 0z",
+      "o": ""
+    },
+    "network-wireless-acquiring": {
+      "board": "31b",
+      "group": "Wi‑Fi",
+      "label": "Connecting",
+      "d": "",
+      "f": "M4.4 12.6a.9.9 0 1 0 1.8 0a.9.9 0 1 0-1.8 0zM7.1 12.6a.9.9 0 1 0 1.8 0a.9.9 0 1 0-1.8 0zM9.8 12.6a.9.9 0 1 0 1.8 0a.9.9 0 1 0-1.8 0z",
+      "o": "M2.13 6.31A8.6 8.6 0 0 1 13.87 6.31M4.73 9.09A4.8 4.8 0 0 1 11.27 9.09"
+    },
+    "network-wireless-disabled": {
+      "board": "31b",
+      "group": "Wi‑Fi",
+      "label": "Wi‑Fi off",
+      "d": "M2.5 2.5l11 11",
+      "f": "",
+      "o": "M2.13 6.31A8.6 8.6 0 0 1 13.87 6.31M4.73 9.09A4.8 4.8 0 0 1 11.27 9.09M7.1 12.6a.9.9 0 1 0 1.8 0a.9.9 0 1 0-1.8 0z"
+    },
+    "network-wireless-encrypted": {
+      "board": "31b",
+      "group": "Wi‑Fi",
+      "label": "Secured",
+      "d": "M5 7V5a3 3 0 0 1 6 0v2",
+      "f": "M4.5 7h7A1.5 1.5 0 0 1 13 8.5V13a1.5 1.5 0 0 1-1.5 1.5h-7A1.5 1.5 0 0 1 3 13V8.5A1.5 1.5 0 0 1 4.5 7z",
+      "o": ""
+    },
+    "network-wireless-hotspot": {
+      "board": "31b",
+      "group": "Wi‑Fi",
+      "label": "Hotspot",
+      "d": "M5.6 5.6a3.4 3.4 0 0 0 0 4.8M10.4 5.6a3.4 3.4 0 0 1 0 4.8M3.76 3.76a6 6 0 0 0 0 8.48M12.24 3.76a6 6 0 0 1 0 8.48",
+      "f": "M6.6 8a1.4 1.4 0 1 0 2.8 0a1.4 1.4 0 1 0-2.8 0z",
+      "o": ""
+    },
+    "network-wireless-no-route": {
+      "board": "31b",
+      "group": "Wi‑Fi",
+      "label": "No internet",
+      "d": "M13.4 8.6v2.4",
+      "f": "M6.4 12.6a1.6 1.6 0 1 0 3.2 0a1.6 1.6 0 1 0-3.2 0zM12.6 13.3a.8.8 0 1 0 1.6 0a.8.8 0 1 0-1.6 0z",
+      "o": "M2.13 6.31A8.6 8.6 0 0 1 13.87 6.31M4.73 9.09A4.8 4.8 0 0 1 11.27 9.09"
+    },
+    "network-wireless-offline": {
+      "board": "31b",
+      "group": "Wi‑Fi",
+      "label": "Offline",
+      "d": "M11.6 10.4l2.4 2.4M14 10.4l-2.4 2.4",
+      "f": "",
+      "o": "M2.13 6.31A8.6 8.6 0 0 1 13.87 6.31M4.73 9.09A4.8 4.8 0 0 1 11.27 9.09M7.1 12.6a.9.9 0 1 0 1.8 0a.9.9 0 1 0-1.8 0z"
+    },
+    "network-wireless-signal-excellent": {
+      "board": "31",
+      "group": "Top bar and status",
+      "label": "Wi‑Fi",
+      "d": "M2.13 6.31A8.6 8.6 0 0 1 13.87 6.31M4.73 9.09A4.8 4.8 0 0 1 11.27 9.09",
+      "f": "M6.4 12.6a1.6 1.6 0 1 0 3.2 0a1.6 1.6 0 1 0-3.2 0z",
+      "o": ""
+    },
+    "network-wireless-signal-good": {
+      "board": "31b",
+      "group": "Wi‑Fi",
+      "label": "Wi‑Fi, good",
+      "d": "M2.13 6.31A8.6 8.6 0 0 1 13.87 6.31M4.73 9.09A4.8 4.8 0 0 1 11.27 9.09",
+      "f": "M6.4 12.6a1.6 1.6 0 1 0 3.2 0a1.6 1.6 0 1 0-3.2 0z",
+      "o": ""
+    },
+    "network-wireless-signal-none": {
+      "board": "31b",
+      "group": "Wi‑Fi",
+      "label": "Wi‑Fi, no signal",
+      "d": "",
+      "f": "",
+      "o": "M2.13 6.31A8.6 8.6 0 0 1 13.87 6.31M4.73 9.09A4.8 4.8 0 0 1 11.27 9.09M7.1 12.6a.9.9 0 1 0 1.8 0a.9.9 0 1 0-1.8 0z"
+    },
+    "network-wireless-signal-ok": {
+      "board": "31b",
+      "group": "Wi‑Fi",
+      "label": "Wi‑Fi, fair",
+      "d": "M4.73 9.09A4.8 4.8 0 0 1 11.27 9.09",
+      "f": "M6.4 12.6a1.6 1.6 0 1 0 3.2 0a1.6 1.6 0 1 0-3.2 0z",
+      "o": "M2.13 6.31A8.6 8.6 0 0 1 13.87 6.31"
+    },
+    "network-wireless-signal-weak": {
+      "board": "31",
+      "group": "Top bar and status",
+      "label": "Wi‑Fi, weak",
+      "d": "",
+      "f": "M6.4 12.6a1.6 1.6 0 1 0 3.2 0a1.6 1.6 0 1 0-3.2 0z",
+      "o": "M2.13 6.31A8.6 8.6 0 0 1 13.87 6.31M4.73 9.09A4.8 4.8 0 0 1 11.27 9.09"
+    },
+    "network-workgroup": {
+      "board": "31d",
+      "group": "Shell",
+      "label": "Workgroup",
+      "d": "M8 4 3.8 11.6h8.4z",
+      "f": "M6.1 4a1.9 1.9 0 1 0 3.8 0a1.9 1.9 0 1 0-3.8 0zM1.9 11.6a1.9 1.9 0 1 0 3.8 0a1.9 1.9 0 1 0-3.8 0zM10.3 11.6a1.9 1.9 0 1 0 3.8 0a1.9 1.9 0 1 0-3.8 0z",
+      "o": ""
+    },
+    "night-light": {
+      "board": "31",
+      "group": "Quick Settings",
+      "label": "Night Light",
+      "d": "M8 2a4.24 4.24 0 0 0 6 6A6 6 0 1 1 8 2z",
+      "f": "",
+      "o": ""
+    },
+    "night-light-disabled": {
+      "board": "31b",
+      "group": "People, input and emblems",
+      "label": "Night Light off",
+      "d": "M2.5 2.5l11 11",
+      "f": "",
+      "o": "M8 2a4.24 4.24 0 0 0 6 6A6 6 0 1 1 8 2z"
+    },
+    "non-starred": {
+      "board": "31c",
+      "group": "Files",
+      "label": "Not starred",
+      "d": "M8 1.85L9.76 6.02 14.28 6.41 10.85 9.38 11.88 13.79 8 11.45 4.12 13.79 5.15 9.38 1.72 6.41 6.24 6.02z",
+      "f": "",
+      "o": ""
+    },
+    "notifications-disabled": {
+      "board": "31",
+      "group": "Quick Settings",
+      "label": "Do Not Disturb",
+      "d": "M2.8 11.6h10.4M4.3 11.6V7.2a3.7 3.7 0 0 1 7.4 0v4.4M2.2 2.2l11.6 11.6",
+      "f": "M6.3 13.4a1.7 1.7 0 0 0 3.4 0z",
+      "o": ""
+    },
+    "object-rotate-left": {
+      "board": "31d",
+      "group": "Viewers, Contacts, Web and Maps",
+      "label": "Rotate left",
+      "d": "M3 8a5 5 0 1 0 1.46-3.54M3.6 2.4v2.8h2.8",
+      "f": "M7 6.5h2a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5H7a.5.5 0 0 1-.5-.5V7a.5.5 0 0 1 .5-.5z",
+      "o": ""
+    },
+    "object-rotate-right": {
+      "board": "31d",
+      "group": "Viewers, Contacts, Web and Maps",
+      "label": "Rotate right",
+      "d": "M13 8a5 5 0 1 1-1.46-3.54M12.4 2.4v2.8H9.6",
+      "f": "M7 6.5h2a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5H7a.5.5 0 0 1-.5-.5V7a.5.5 0 0 1 .5-.5z",
+      "o": ""
+    },
+    "object-select": {
+      "board": "31",
+      "group": "Header bar and windows",
+      "label": "Done",
+      "d": "M2.8 8.4l3.4 3.4 7-7.2",
+      "f": "",
+      "o": ""
+    },
+    "open-menu": {
+      "board": "31",
+      "group": "Header bar and windows",
+      "label": "Main Menu",
+      "d": "M2.5 4h11M2.5 8h11M2.5 12h11",
+      "f": "",
+      "o": ""
+    },
+    "org.gnome.Settings-accessibility": {
+      "board": "31d",
+      "group": "Shell",
+      "label": "Accessibility menu",
+      "d": "M2.8 6.2 8 7.4l5.2-1.2M8 7.4v3.3M8 10.7l-2.3 3.6M8 10.7l2.3 3.6",
+      "f": "M6.4 3.1a1.6 1.6 0 1 0 3.2 0a1.6 1.6 0 1 0-3.2 0z",
+      "o": ""
+    },
+    "package-x-generic": {
+      "board": "31d",
+      "group": "Viewers, Contacts, Web and Maps",
+      "label": "Package",
+      "d": "M8 1.9l5.5 3v6.2L8 14.1l-5.5-3V4.9zM2.6 4.9 8 7.9l5.4-3M8 7.9v6.1",
+      "f": "",
+      "o": ""
+    },
+    "pan-down": {
+      "board": "31",
+      "group": "Header bar and windows",
+      "label": "Expand",
+      "d": "M3.5 6 8 10.5 12.5 6",
+      "f": "",
+      "o": ""
+    },
+    "pan-end": {
+      "board": "31b",
+      "group": "Editing and navigation",
+      "label": "Next",
+      "d": "M6 3.5 10.5 8 6 12.5",
+      "f": "",
+      "o": ""
+    },
+    "pan-start": {
+      "board": "31b",
+      "group": "Editing and navigation",
+      "label": "Previous",
+      "d": "M10 3.5 5.5 8 10 12.5",
+      "f": "",
+      "o": ""
+    },
+    "pan-up": {
+      "board": "31b",
+      "group": "Editing and navigation",
+      "label": "Collapse",
+      "d": "M3.5 10 8 5.5 12.5 10",
+      "f": "",
+      "o": ""
+    },
+    "phone": {
+      "board": "31d",
+      "group": "Viewers, Contacts, Web and Maps",
+      "label": "Phone",
+      "d": "M5.6 2.5H3.9c-.8 0-1.4.7-1.4 1.5.4 5.3 4.2 9.1 9.5 9.5.8 0 1.5-.6 1.5-1.4v-1.7l-2.8-1.1-1.4 1.4C7.9 10 6 8.1 5.3 6.7l1.4-1.4z",
+      "f": "",
+      "o": ""
+    },
+    "pointer": {
+      "board": "31",
+      "group": "Capture and media",
+      "label": "Pointer",
+      "d": "M3.4 2.4 12.6 7.6 8.5 8.7 6.5 12.6z",
+      "f": "",
+      "o": ""
+    },
+    "power-profile-balanced": {
+      "board": "31",
+      "group": "Quick Settings",
+      "label": "Power Mode",
+      "d": "M3.1 12.6A6 6 0 1 1 12.9 12.6M8 9V5.3",
+      "f": "M6.6 9a1.4 1.4 0 1 0 2.8 0a1.4 1.4 0 1 0-2.8 0z",
+      "o": ""
+    },
+    "power-profile-performance": {
+      "board": "31b",
+      "group": "Radios and power",
+      "label": "Performance",
+      "d": "M3.1 12.6A6 6 0 1 1 12.9 12.6M8 9l2.6-2.6",
+      "f": "M6.6 9a1.4 1.4 0 1 0 2.8 0a1.4 1.4 0 1 0-2.8 0z",
+      "o": ""
+    },
+    "power-profile-power-saver": {
+      "board": "31b",
+      "group": "Radios and power",
+      "label": "Power Saver",
+      "d": "M3.1 12.6A6 6 0 1 1 12.9 12.6M8 9 5.4 6.4",
+      "f": "M6.6 9a1.4 1.4 0 1 0 2.8 0a1.4 1.4 0 1 0-2.8 0z",
+      "o": ""
+    },
+    "preferences-desktop-accessibility": {
+      "board": "31",
+      "group": "Settings panels",
+      "label": "Accessibility",
+      "d": "M2.8 6.2 8 7.4l5.2-1.2M8 7.4v3.3M8 10.7l-2.3 3.6M8 10.7l2.3 3.6",
+      "f": "M6.4 3.1a1.6 1.6 0 1 0 3.2 0a1.6 1.6 0 1 0-3.2 0z",
+      "o": ""
+    },
+    "preferences-desktop-appearance": {
+      "board": "31",
+      "group": "Settings panels",
+      "label": "Appearance",
+      "d": "M8 2a6 6 0 0 0 0 12c.9 0 1.4-.6 1.4-1.3 0-.9-.8-1.2-.8-2 0-.7.6-1.2 1.4-1.2h1.6A2.4 2.4 0 0 0 14 7.1C14 4.3 11.3 2 8 2z",
+      "f": "M4.2 8.3a.95.95 0 1 0 1.9 0a.95.95 0 1 0-1.9 0zM5.4 5.3a.95.95 0 1 0 1.9 0a.95.95 0 1 0-1.9 0zM8.7 5.1a.95.95 0 1 0 1.9 0a.95.95 0 1 0-1.9 0z",
+      "o": ""
+    },
+    "preferences-desktop-keyboard-shortcuts": {
+      "board": "31d",
+      "group": "Settings, Files, setup, Text Editor and Ptyxis",
+      "label": "Shortcuts",
+      "d": "M3.75 3.5h8.5a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-8.5a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2zM8 5.75v2.5M6.75 7h2.5M5.5 10h5",
+      "f": "M3.7 7a0.9 0.9 0 1 0 1.8 0a0.9 0.9 0 1 0-1.8 0zM10.5 7a0.9 0.9 0 1 0 1.8 0a0.9 0.9 0 1 0-1.8 0z",
+      "o": ""
+    },
+    "preferences-system-devices": {
+      "board": "31d",
+      "group": "Settings, Files, setup, Text Editor and Ptyxis",
+      "label": "Devices",
+      "d": "M3.5 2.5H8A1.5 1.5 0 0 1 9.5 4v4A1.5 1.5 0 0 1 8 9.5H3.5A1.5 1.5 0 0 1 2 8V4a1.5 1.5 0 0 1 1.5-1.5zM3.75 12.5h4M5.75 9.5v3",
+      "f": "M12.2 6h1.1c.6 0 1 .4 1 1v6c0 .6-.4 1-1 1h-1.1c-.6 0-1-.4-1-1V7c0-.6.4-1 1-1z",
+      "o": ""
+    },
+    "preferences-system-multitasking": {
+      "board": "31",
+      "group": "Settings panels",
+      "label": "Multitasking",
+      "d": "M5 5V4a2 2 0 0 1 2-2h5a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-1M4 5h5a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z",
+      "f": "",
+      "o": ""
+    },
+    "preferences-system-notifications": {
+      "board": "31",
+      "group": "System and sign-in",
+      "label": "Notifications",
+      "d": "M2.8 11.6h10.4M4.3 11.6V7.2a3.7 3.7 0 0 1 7.4 0v4.4",
+      "f": "M6.3 13.4a1.7 1.7 0 0 0 3.4 0z",
+      "o": ""
+    },
+    "preferences-system-privacy": {
+      "board": "31d",
+      "group": "Settings, Files, setup, Text Editor and Ptyxis",
+      "label": "Privacy",
+      "d": "M8 1.8 13 3.8v4c0 3.2-2.1 5.4-5 6.5-2.9-1.1-5-3.3-5-6.5v-4z",
+      "f": "M8 5.3a1.45 1.45 0 0 1 .75 2.69l.4 2.51h-2.3l.4-2.51A1.45 1.45 0 0 1 8 5.3z",
+      "o": ""
+    },
+    "process-stop": {
+      "board": "31c",
+      "group": "Files",
+      "label": "Stop",
+      "d": "M2 8a6 6 0 1 0 12 0a6 6 0 1 0-12 0zM6 6l4 4M10 6l-4 4",
+      "f": "",
+      "o": ""
+    },
+    "rotation-allowed": {
+      "board": "31c",
+      "group": "Shell",
+      "label": "Auto Rotate",
+      "d": "M13 8a5 5 0 1 1-1.46-3.54M12.4 2.4v2.8H9.6",
+      "f": "",
+      "o": ""
+    },
+    "rotation-locked": {
+      "board": "31c",
+      "group": "Shell",
+      "label": "Rotation Locked",
+      "d": "M13 8a5 5 0 1 1-1.46-3.54M12.4 2.4v2.8H9.6M6.6 7.6V6.8a1.4 1.4 0 0 1 2.8 0v.8",
+      "f": "M6.1 7.6h3.8c.3 0 .6.3.6.6v2.3c0 .3-.3.6-.6.6H6.1c-.3 0-.6-.3-.6-.6V8.2c0-.3.3-.6.6-.6z",
+      "o": ""
+    },
+    "screen-shared": {
+      "board": "31b",
+      "group": "Media and privacy",
+      "label": "Screen Sharing",
+      "d": "M4 2.5h8a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2zM5.5 14h5M8 11.5V14",
+      "f": "M6.6 7a1.4 1.4 0 1 0 2.8 0a1.4 1.4 0 1 0-2.8 0z",
+      "o": ""
+    },
+    "security-high": {
+      "board": "31",
+      "group": "Settings panels",
+      "label": "Privacy & Security",
+      "d": "M8 1.8 13 3.8v4c0 3.2-2.1 5.4-5 6.5-2.9-1.1-5-3.3-5-6.5v-4zM5.8 8l1.5 1.5 2.9-3",
+      "f": "",
+      "o": ""
+    },
+    "security-low": {
+      "board": "31d",
+      "group": "Firmware, Disks, Usage, System Monitor and Help",
+      "label": "Security low",
+      "d": "M8 1.8 13 3.8v4c0 3.2-2.1 5.4-5 6.5-2.9-1.1-5-3.3-5-6.5v-4zM8 5.2v3",
+      "f": "M7.1 10.7a0.9 0.9 0 1 0 1.8 0a0.9 0.9 0 1 0-1.8 0z",
+      "o": ""
+    },
+    "security-medium": {
+      "board": "31d",
+      "group": "Firmware, Disks, Usage, System Monitor and Help",
+      "label": "Security medium",
+      "d": "M8 1.8 13 3.8v4c0 3.2-2.1 5.4-5 6.5-2.9-1.1-5-3.3-5-6.5v-4zM5.8 8h4.4",
+      "f": "",
+      "o": ""
+    },
+    "selection-area": {
+      "board": "31",
+      "group": "Capture and media",
+      "label": "Selection",
+      "d": "M2.5 5.5V4A1.5 1.5 0 0 1 4 2.5h1.5M10.5 2.5H12A1.5 1.5 0 0 1 13.5 4v1.5M13.5 10.5V12a1.5 1.5 0 0 1-1.5 1.5h-1.5M5.5 13.5H4A1.5 1.5 0 0 1 2.5 12v-1.5",
+      "f": "",
+      "o": ""
+    },
+    "selection-mode": {
+      "board": "31d",
+      "group": "Viewers, Contacts, Web and Maps",
+      "label": "Select",
+      "d": "M4 2.5h8A1.5 1.5 0 0 1 13.5 4v8a1.5 1.5 0 0 1-1.5 1.5H4A1.5 1.5 0 0 1 2.5 12V4A1.5 1.5 0 0 1 4 2.5zM5.4 8.2l1.8 1.8 3.4-3.6",
+      "f": "",
+      "o": ""
+    },
+    "sidebar-show": {
+      "board": "31",
+      "group": "Header bar and windows",
+      "label": "Sidebar",
+      "d": "M4 2.5h8a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2zM6.2 2.5v11",
+      "f": "",
+      "o": ""
+    },
+    "sidebar-show-right": {
+      "board": "31",
+      "group": "Header bar and windows",
+      "label": "Details Pane",
+      "d": "M4 2.5h8a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2zM9.8 2.5v11",
+      "f": "",
+      "o": ""
+    },
+    "software-update-available": {
+      "board": "31",
+      "group": "System and sign-in",
+      "label": "Updates",
+      "d": "M13.5 6.5A5.6 5.6 0 0 0 3.2 5M2.5 9.5A5.6 5.6 0 0 0 12.8 11M3 2v3.2h3.2M13 14v-3.2H9.8",
+      "f": "",
+      "o": ""
+    },
+    "software-update-urgent": {
+      "board": "31d",
+      "group": "Firmware, Disks, Usage, System Monitor and Help",
+      "label": "Urgent update",
+      "d": "M13.5 6.5A5.6 5.6 0 0 0 3.2 5M2.5 9.5A5.6 5.6 0 0 0 12.8 11M3 2v3.2h3.2M13 14v-3.2H9.8M8 5.6v2.4",
+      "f": "M7.15 10.2a0.85 0.85 0 1 0 1.7 0a0.85 0.85 0 1 0-1.7 0z",
+      "o": ""
+    },
+    "starred": {
+      "board": "31",
+      "group": "Files",
+      "label": "Starred",
+      "d": "",
+      "f": "M8 1.85L9.76 6.02 14.28 6.41 10.85 9.38 11.88 13.79 8 11.45 4.12 13.79 5.15 9.38 1.72 6.41 6.24 6.02z",
+      "o": ""
+    },
+    "start-here": {
+      "board": "31d",
+      "group": "Settings, Files, setup, Text Editor and Ptyxis",
+      "label": "Start",
+      "d": "M8 2.2 13.8 8 8 13.8 2.2 8z",
+      "f": "",
+      "o": ""
+    },
+    "switch-off": {
+      "board": "31d",
+      "group": "Shell",
+      "label": "Switch off mark",
+      "d": "M4 8a4 4 0 1 0 8 0a4 4 0 1 0-8 0z",
+      "f": "",
+      "o": ""
+    },
+    "switch-on": {
+      "board": "31d",
+      "group": "Shell",
+      "label": "Switch on mark",
+      "d": "M8 4v8",
+      "f": "",
+      "o": ""
+    },
+    "system-lock-screen": {
+      "board": "31",
+      "group": "System and sign-in",
+      "label": "Lock",
+      "d": "M5 7V5a3 3 0 0 1 6 0v2",
+      "f": "M4.5 7h7A1.5 1.5 0 0 1 13 8.5V13a1.5 1.5 0 0 1-1.5 1.5h-7A1.5 1.5 0 0 1 3 13V8.5A1.5 1.5 0 0 1 4.5 7z",
+      "o": ""
+    },
+    "system-log-out": {
+      "board": "31",
+      "group": "System and sign-in",
+      "label": "Log Out",
+      "d": "M6 2.5H4A1.5 1.5 0 0 0 2.5 4v8A1.5 1.5 0 0 0 4 13.5h2M7 8h7M11 5l3 3-3 3",
+      "f": "",
+      "o": ""
+    },
+    "system-reboot": {
+      "board": "31",
+      "group": "System and sign-in",
+      "label": "Restart",
+      "d": "M14 8a6 6 0 1 1-6-6c1.68 0 3.29.67 4.49 1.83L14 5.33M14 2v3.33h-3.33",
+      "f": "",
+      "o": ""
+    },
+    "system-rollback": {
+      "board": "31",
+      "group": "System and sign-in",
+      "label": "Rolled Back",
+      "d": "M2 8a6 6 0 1 0 6-6c-1.68 0-3.29.67-4.49 1.83L2 5.33M2 2v3.33h3.33M8 5.4v3",
+      "f": "M7.05 10.9a.95.95 0 1 0 1.9 0a.95.95 0 1 0-1.9 0z",
+      "o": ""
+    },
+    "system-run": {
+      "board": "31c",
+      "group": "Settings and apps",
+      "label": "Run",
+      "d": "",
+      "f": "M6.67 2.87L6.84 1.1A7 7 0 0 1 9.16 1.1L9.33 2.87A5.3 5.3 0 0 1 10.69 3.43L12.06 2.3A7 7 0 0 1 13.7 3.94L12.57 5.31A5.3 5.3 0 0 1 13.13 6.67L14.9 6.84A7 7 0 0 1 14.9 9.16L13.13 9.33A5.3 5.3 0 0 1 12.57 10.69L13.7 12.06A7 7 0 0 1 12.06 13.7L10.69 12.57A5.3 5.3 0 0 1 9.33 13.13L9.16 14.9A7 7 0 0 1 6.84 14.9L6.67 13.13A5.3 5.3 0 0 1 5.31 12.57L3.94 13.7A7 7 0 0 1 2.3 12.06L3.43 10.69A5.3 5.3 0 0 1 2.87 9.33L1.1 9.16A7 7 0 0 1 1.1 6.84L2.87 6.67A5.3 5.3 0 0 1 3.43 5.31L2.3 3.94A7 7 0 0 1 3.94 2.3L5.31 3.43A5.3 5.3 0 0 1 6.67 2.87zM5.7 8a2.3 2.3 0 1 0 4.6 0a2.3 2.3 0 1 0-4.6 0z",
+      "o": ""
+    },
+    "system-search": {
+      "board": "31",
+      "group": "System and sign-in",
+      "label": "Search",
+      "d": "M2.5 7a4.5 4.5 0 1 0 9 0a4.5 4.5 0 1 0-9 0zM10.4 10.4l3.3 3.3",
+      "f": "",
+      "o": ""
+    },
+    "system-shutdown": {
+      "board": "31",
+      "group": "System and sign-in",
+      "label": "Power Off",
+      "d": "M8 2v5.5M4.7 3.9A5.6 5.6 0 1 0 11.3 3.9",
+      "f": "",
+      "o": ""
+    },
+    "system-switch-user": {
+      "board": "31c",
+      "group": "Shell",
+      "label": "Switch User",
+      "d": "M2 14.2a4.2 4.2 0 0 1 8.4 0M11.5 4.5h3M13 3l1.5 1.5L13 6M14.5 9.5h-3M13 8l-1.5 1.5L13 11",
+      "f": "M3.8 5.2a2.4 2.4 0 1 0 4.8 0a2.4 2.4 0 1 0-4.8 0z",
+      "o": ""
+    },
+    "system-users": {
+      "board": "31",
+      "group": "Settings panels",
+      "label": "Users",
+      "d": "M3.4 14.2a4.6 4.6 0 0 1 9.2 0",
+      "f": "M5.2 5a2.8 2.8 0 1 0 5.6 0a2.8 2.8 0 1 0-5.6 0z",
+      "o": ""
+    },
+    "tab-new": {
+      "board": "31c",
+      "group": "Files",
+      "label": "New Tab",
+      "d": "M4 2.5h8a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2zM8 5.5v5M5.5 8h5",
+      "f": "",
+      "o": ""
+    },
+    "task-due": {
+      "board": "31d",
+      "group": "Firmware, Disks, Usage, System Monitor and Help",
+      "label": "Due",
+      "d": "M3.5 3.5h9a1.5 1.5 0 0 1 1.5 1.5v7.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 12.5V5 a1.5 1.5 0 0 1 1.5-1.5zM2 7h12M5.5 2v3M10.5 2v3M8 8.6v1.4",
+      "f": "M7.25 12.1a0.75 0.75 0 1 0 1.5 0a0.75 0.75 0 1 0-1.5 0z",
+      "o": ""
+    },
+    "text-x-script": {
+      "board": "31",
+      "group": "Files",
+      "label": "Code",
+      "d": "M5.4 4 2 8l3.4 4M10.6 4 14 8l-3.4 4",
+      "f": "",
+      "o": ""
+    },
+    "thunderbolt": {
+      "board": "31c",
+      "group": "Shell",
+      "label": "Thunderbolt",
+      "d": "M9 1.8 4 9h4l-1 5.2 5-7.2H8z",
+      "f": "",
+      "o": ""
+    },
+    "thunderbolt-acquiring": {
+      "board": "31c",
+      "group": "Shell",
+      "label": "Thunderbolt, connecting",
+      "d": "",
+      "f": "",
+      "o": "M9 1.8 4 9h4l-1 5.2 5-7.2H8z"
+    },
+    "touchpad-disabled": {
+      "board": "31b",
+      "group": "People, input and emblems",
+      "label": "Touchpad off",
+      "d": "M2.5 2.5l11 11",
+      "f": "",
+      "o": "M3.5 2.5h9a1.5 1.5 0 0 1 1.5 1.5v8a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 12V4a1.5 1.5 0 0 1 1.5-1.5zM2 10h12M8 10v3.5"
+    },
+    "user-bookmarks": {
+      "board": "31d",
+      "group": "Firmware, Disks, Usage, System Monitor and Help",
+      "label": "Bookmarks",
+      "d": "M4.5 2.5h7v11.5L8 11.2 4.5 14z",
+      "f": "",
+      "o": ""
+    },
+    "user-desktop": {
+      "board": "31c",
+      "group": "Settings and apps",
+      "label": "Desktop",
+      "d": "M4 2.5h8a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2zM5.5 14h5M8 11.5V14",
+      "f": "",
+      "o": ""
+    },
+    "user-home": {
+      "board": "31",
+      "group": "Files",
+      "label": "Home",
+      "d": "M2.5 7 8 2.5 13.5 7v5.5a1.5 1.5 0 0 1-1.5 1.5H4a1.5 1.5 0 0 1-1.5-1.5zM6.4 14v-3a1.6 1.6 0 0 1 3.2 0v3",
+      "f": "",
+      "o": ""
+    },
+    "user-not-tracked": {
+      "board": "31d",
+      "group": "Viewers, Contacts, Web and Maps",
+      "label": "Not tracked",
+      "d": "M2.5 2.5l11 11",
+      "f": "",
+      "o": "M3.4 14.2a4.6 4.6 0 0 1 9.2 0M5.2 5a2.8 2.8 0 1 0 5.6 0a2.8 2.8 0 1 0-5.6 0z"
+    },
+    "user-trash": {
+      "board": "31",
+      "group": "Files",
+      "label": "Trash",
+      "d": "M2.5 4.5h11M6 4.5V3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v1.5M3.8 4.5l.7 8.3a1.5 1.5 0 0 0 1.5 1.4h4a1.5 1.5 0 0 0 1.5-1.4l.7-8.3",
+      "f": "",
+      "o": ""
+    },
+    "user-trash-full": {
+      "board": "31c",
+      "group": "Shell",
+      "label": "Trash, full",
+      "d": "M2.5 4.5h11M6 4.5V3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v1.5M3.8 4.5l.7 8.3a1.5 1.5 0 0 0 1.5 1.4h4a1.5 1.5 0 0 0 1.5-1.4l.7-8.3M6.6 7v4.5M9.4 7v4.5",
+      "f": "",
+      "o": ""
+    },
+    "utilities-terminal": {
+      "board": "31c",
+      "group": "Settings and apps",
+      "label": "Terminal",
+      "d": "M3.5 2.5h9a1.5 1.5 0 0 1 1.5 1.5v8a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 12V4a1.5 1.5 0 0 1 1.5-1.5zM5 6l2 2-2 2M8.5 10.5h2.5",
+      "f": "",
+      "o": ""
+    },
+    "video-display": {
+      "board": "31",
+      "group": "Settings panels",
+      "label": "Displays",
+      "d": "M4 2.5h8a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2zM5.5 14h5M8 11.5V14",
+      "f": "",
+      "o": ""
+    },
+    "video-x-generic": {
+      "board": "31d",
+      "group": "Viewers, Contacts, Web and Maps",
+      "label": "Video",
+      "d": "M4 3h8a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z",
+      "f": "M6.7 5.9v4.2c0 .4.4.6.7.4l3.3-2.1c.3-.2.3-.6 0-.8L7.4 5.5c-.3-.2-.7 0-.7.4z",
+      "o": ""
+    },
+    "view-app-grid": {
+      "board": "31",
+      "group": "Settings panels",
+      "label": "Apps",
+      "d": "",
+      "f": "M2.25 3.5a1.25 1.25 0 1 0 2.5 0a1.25 1.25 0 1 0-2.5 0zM6.75 3.5a1.25 1.25 0 1 0 2.5 0a1.25 1.25 0 1 0-2.5 0zM11.25 3.5a1.25 1.25 0 1 0 2.5 0a1.25 1.25 0 1 0-2.5 0zM2.25 8a1.25 1.25 0 1 0 2.5 0a1.25 1.25 0 1 0-2.5 0zM6.75 8a1.25 1.25 0 1 0 2.5 0a1.25 1.25 0 1 0-2.5 0zM11.25 8a1.25 1.25 0 1 0 2.5 0a1.25 1.25 0 1 0-2.5 0zM2.25 12.5a1.25 1.25 0 1 0 2.5 0a1.25 1.25 0 1 0-2.5 0zM6.75 12.5a1.25 1.25 0 1 0 2.5 0a1.25 1.25 0 1 0-2.5 0zM11.25 12.5a1.25 1.25 0 1 0 2.5 0a1.25 1.25 0 1 0-2.5 0z",
+      "o": ""
+    },
+    "view-conceal": {
+      "board": "31b",
+      "group": "Editing and navigation",
+      "label": "Hide Password",
+      "d": "M2 8C3.4 5.2 5.5 3.8 8 3.8S12.6 5.2 14 8C12.6 10.8 10.5 12.2 8 12.2S3.4 10.8 2 8zM2.5 2.5l11 11",
+      "f": "",
+      "o": ""
+    },
+    "view-fullscreen": {
+      "board": "31c",
+      "group": "Settings and apps",
+      "label": "Fullscreen",
+      "d": "M2.5 5.5V4A1.5 1.5 0 0 1 4 2.5h1.5M10.5 2.5H12A1.5 1.5 0 0 1 13.5 4v1.5M13.5 10.5V12a1.5 1.5 0 0 1-1.5 1.5h-1.5M5.5 13.5H4A1.5 1.5 0 0 1 2.5 12v-1.5",
+      "f": "",
+      "o": ""
+    },
+    "view-grid": {
+      "board": "31",
+      "group": "Header bar and windows",
+      "label": "Grid View",
+      "d": "",
+      "f": "M3.5 2h2.5A1.5 1.5 0 0 1 7.5 3.5V6A1.5 1.5 0 0 1 6 7.5H3.5A1.5 1.5 0 0 1 2 6V3.5A1.5 1.5 0 0 1 3.5 2zM10 2h2.5A1.5 1.5 0 0 1 14 3.5V6a1.5 1.5 0 0 1-1.5 1.5H10A1.5 1.5 0 0 1 8.5 6V3.5A1.5 1.5 0 0 1 10 2zM3.5 8.5H6A1.5 1.5 0 0 1 7.5 10v2.5A1.5 1.5 0 0 1 6 14H3.5A1.5 1.5 0 0 1 2 12.5V10a1.5 1.5 0 0 1 1.5-1.5zM10 8.5h2.5A1.5 1.5 0 0 1 14 10v2.5a1.5 1.5 0 0 1-1.5 1.5H10a1.5 1.5 0 0 1-1.5-1.5V10A1.5 1.5 0 0 1 10 8.5z",
+      "o": ""
+    },
+    "view-list": {
+      "board": "31",
+      "group": "Header bar and windows",
+      "label": "List View",
+      "d": "M6.5 4H14M6.5 8H14M6.5 12H14",
+      "f": "M1.9 4a1.1 1.1 0 1 0 2.2 0a1.1 1.1 0 1 0-2.2 0zM1.9 8a1.1 1.1 0 1 0 2.2 0a1.1 1.1 0 1 0-2.2 0zM1.9 12a1.1 1.1 0 1 0 2.2 0a1.1 1.1 0 1 0-2.2 0z",
+      "o": ""
+    },
+    "view-more": {
+      "board": "31",
+      "group": "Header bar and windows",
+      "label": "More",
+      "d": "",
+      "f": "M1.5 8a1.5 1.5 0 1 0 3 0a1.5 1.5 0 1 0-3 0zM6.5 8a1.5 1.5 0 1 0 3 0a1.5 1.5 0 1 0-3 0zM11.5 8a1.5 1.5 0 1 0 3 0a1.5 1.5 0 1 0-3 0z",
+      "o": ""
+    },
+    "view-more-horizontal": {
+      "board": "31c",
+      "group": "Files",
+      "label": "More",
+      "d": "",
+      "f": "M1.5 8a1.5 1.5 0 1 0 3 0a1.5 1.5 0 1 0-3 0zM6.5 8a1.5 1.5 0 1 0 3 0a1.5 1.5 0 1 0-3 0zM11.5 8a1.5 1.5 0 1 0 3 0a1.5 1.5 0 1 0-3 0z",
+      "o": ""
+    },
+    "view-refresh": {
+      "board": "31c",
+      "group": "Shell",
+      "label": "Refresh",
+      "d": "M13 8a5 5 0 1 1-1.46-3.54M12.4 2.4v2.8H9.6",
+      "f": "",
+      "o": ""
+    },
+    "view-restore": {
+      "board": "31c",
+      "group": "Settings and apps",
+      "label": "Restore",
+      "d": "M6 5.5h6a1.5 1.5 0 0 1 1.5 1.5v5.5a1.5 1.5 0 0 1-1.5 1.5H6a1.5 1.5 0 0 1-1.5-1.5V7A1.5 1.5 0 0 1 6 5.5zM2.5 10V4A1.5 1.5 0 0 1 4 2.5h6",
+      "f": "",
+      "o": ""
+    },
+    "view-reveal": {
+      "board": "31b",
+      "group": "Editing and navigation",
+      "label": "Show Password",
+      "d": "M2 8C3.4 5.2 5.5 3.8 8 3.8S12.6 5.2 14 8C12.6 10.8 10.5 12.2 8 12.2S3.4 10.8 2 8z",
+      "f": "M6.2 8a1.8 1.8 0 1 0 3.6 0a1.8 1.8 0 1 0-3.6 0z",
+      "o": ""
+    },
+    "view-wrapped": {
+      "board": "31d",
+      "group": "Viewers, Contacts, Web and Maps",
+      "label": "Wrap lines",
+      "d": "M2.5 4h11M2.5 8h9a2 2 0 0 1 0 4H8.5M2.5 12h3M10 10.5 8.5 12l1.5 1.5",
+      "f": "",
+      "o": ""
+    },
+    "weather-showers": {
+      "board": "31d",
+      "group": "Characters and Weather",
+      "label": "Showers",
+      "d": "M4.6 9.6a2.6 2.6 0 0 1-.4-5.2 3.8 3.8 0 0 1 7.2.9 2.2 2.2 0 0 1 .4 4.3zM5 12 4.3 13.8M8 12l-.7 1.8M11 12l-.7 1.8",
+      "f": "",
+      "o": ""
+    },
+    "weather-showers-scattered": {
+      "board": "31d",
+      "group": "Characters and Weather",
+      "label": "Scattered showers",
+      "d": "M4.6 9.6a2.6 2.6 0 0 1-.4-5.2 3.8 3.8 0 0 1 7.2.9 2.2 2.2 0 0 1 .4 4.3zM6.5 12l-.7 1.8M9.5 12l-.7 1.8",
+      "f": "",
+      "o": ""
+    },
+    "web-browser": {
+      "board": "31d",
+      "group": "Settings, Files, setup, Text Editor and Ptyxis",
+      "label": "Web account",
+      "d": "M2 8a6 6 0 1 0 12 0a6 6 0 1 0-12 0zM2 8h12M8 2c1.7 1.6 2.6 3.7 2.6 6S9.7 12.4 8 14 c-1.7-1.6-2.6-3.7-2.6-6S6.3 3.6 8 2z",
+      "f": "",
+      "o": ""
+    },
+    "window": {
+      "board": "31",
+      "group": "Capture and media",
+      "label": "Window",
+      "d": "M4 2.5h8a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2zM2 6.4h12",
+      "f": "",
+      "o": ""
+    },
+    "window-close": {
+      "board": "31",
+      "group": "Header bar and windows",
+      "label": "Close",
+      "d": "M3.5 3.5l9 9M12.5 3.5l-9 9",
+      "f": "",
+      "o": ""
+    },
+    "window-maximize": {
+      "board": "31",
+      "group": "Header bar and windows",
+      "label": "Maximize",
+      "d": "M4.5 3.5h7a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1h-7a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1z",
+      "f": "",
+      "o": ""
+    },
+    "window-minimize": {
+      "board": "31",
+      "group": "Header bar and windows",
+      "label": "Minimize",
+      "d": "M3.5 11.5h9",
+      "f": "",
+      "o": ""
+    },
+    "window-new": {
+      "board": "31c",
+      "group": "Files",
+      "label": "New Window",
+      "d": "M4 2.5h8a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2zM2 6.4h12M8 8.4v3.2M6.4 10h3.2",
+      "f": "",
+      "o": ""
+    },
+    "x-office-calendar": {
+      "board": "31c",
+      "group": "Files",
+      "label": "Calendar",
+      "d": "M3.5 3.5h9a1.5 1.5 0 0 1 1.5 1.5v7.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 12.5V5a1.5 1.5 0 0 1 1.5-1.5zM2 7h12M5.5 2v3M10.5 2v3",
+      "f": "",
+      "o": ""
+    },
+    "x-office-spreadsheet": {
+      "board": "31c",
+      "group": "Files",
+      "label": "Spreadsheet",
+      "d": "M3.5 2.5h9a1.5 1.5 0 0 1 1.5 1.5v8a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 12V4a1.5 1.5 0 0 1 1.5-1.5zM2 6.3h12M2 9.7h12M6.2 2.5v11",
+      "f": "",
+      "o": ""
+    },
+    "zoom-fit-best": {
+      "board": "31d",
+      "group": "Viewers, Contacts, Web and Maps",
+      "label": "Fit",
+      "d": "M2.5 5.5V4A1.5 1.5 0 0 1 4 2.5h1.5M10.5 2.5H12A1.5 1.5 0 0 1 13.5 4v1.5M13.5 10.5V12 a1.5 1.5 0 0 1-1.5 1.5h-1.5M5.5 13.5H4A1.5 1.5 0 0 1 2.5 12v-1.5",
+      "f": "M6.5 5.5h3a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-3a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1z",
+      "o": ""
+    },
+    "zoom-in": {
+      "board": "31c",
+      "group": "Files",
+      "label": "Zoom In",
+      "d": "M2.5 7a4.5 4.5 0 1 0 9 0a4.5 4.5 0 1 0-9 0zM10.4 10.4l3.3 3.3M5 7h4M7 5v4",
+      "f": "",
+      "o": ""
+    },
+    "zoom-out": {
+      "board": "31c",
+      "group": "Files",
+      "label": "Zoom Out",
+      "d": "M2.5 7a4.5 4.5 0 1 0 9 0a4.5 4.5 0 1 0-9 0zM10.4 10.4l3.3 3.3M5 7h4",
+      "f": "",
+      "o": ""
+    }
+  }
+}
