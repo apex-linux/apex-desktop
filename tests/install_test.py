@@ -35,6 +35,9 @@ class InstallTest(unittest.TestCase):
         expected = [
             f"{extension}/metadata.json",
             f"{extension}/extension.js",
+            f"{extension}/dock.js",
+            f"{extension}/topBar.js",
+            f"{extension}/windowWatcher.js",
             f"{extension}/stylesheet-light.css",
             f"{extension}/stylesheet-dark.css",
             f"{extension}/schemas/gschemas.compiled",

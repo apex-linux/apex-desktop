@@ -315,7 +315,36 @@ def _top_bar(t: tokens_lib.Tokens, p: _Palette) -> list[Rule]:
                 "color": p.pill_ink,
             },
         ),
+        # Added by the extension (topBar.js): the diamond, its gap to the
+        # workspace pills, and the focused app name.
+        (
+            "#panel .apex-activities-box",
+            {"spacing": "10px"},
+        ),
+        (
+            "#panel .apex-activities-diamond",
+            {
+                # 10 px outside, as drawn, with a 2 px border.
+                "width": "6px",
+                "height": "6px",
+                "border": f"2px solid {p.bar_fg}",
+                "border-radius": t.radius("hairline"),
+            },
+        ),
+        (
+            "#panel .apex-focus-label",
+            {
+                "padding": "0 8px",
+                "color": p.bar_fg,
+                "font-weight": str(t.font_weight("bold")),
+            },
+        ),
         (f"{GLASS} #panel", {"background-color": p.bar_glass}),
+        # A maximised window turns the bar solid again (acceptance 7).
+        (
+            f"{GLASS} #panel.apex-solid-bar",
+            {"background-color": p.bar_solid},
+        ),
     ]
 
 
@@ -629,6 +658,18 @@ def _dock(t: tokens_lib.Tokens, p: _Palette) -> list[Rule]:
                 "height": "4px",
                 "border-radius": "2px",
                 "background-color": p.running_dot,
+            },
+        ),
+        # Items have no fill of their own; hover is a lift, not a highlight
+        # (Desktop.dc.html:129).
+        (
+            "#apexDock .dash-item-container .overview-tile,"
+            " #apexDock .dash-item-container .show-apps,"
+            " #apexDock .overview-icon",
+            {
+                "background-color": "transparent",
+                "box-shadow": "none",
+                "padding": "0",
             },
         ),
         (f"{GLASS} #apexDock .dash-background", {"background-color": p.dock}),
