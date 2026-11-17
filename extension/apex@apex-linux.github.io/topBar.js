@@ -86,6 +86,8 @@ export class TopBar {
         'hiding', () => this._focusLabel.show(),
         this);
     this._syncFocusLabel();
+    // 'showing' fires before extensions are enabled at session start.
+    this._focusLabel.visible = !Main.overview.visible;
   }
 
   /** Updates the label text from the window tracker. */

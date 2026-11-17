@@ -87,6 +87,11 @@ export class Dock {
         PRESSURE_THRESHOLD, PRESSURE_TIMEOUT, Shell.ActionMode.NORMAL);
     this._pressure.connectObject('trigger', () => this._reveal(), this);
     this._onMonitorsChanged();
+    // The session starts in the overview, which emits 'showing' before
+    // extensions are enabled.
+    if (Main.overview.visible) {
+      this._container.hide();
+    }
   }
 
   /** Removes the dock and its barrier. */

@@ -32,6 +32,12 @@ class SettingsTest(unittest.TestCase):
         self.assertIn("primary-color='#e8ebf0'", text)
         self.assertIn("enabled-extensions=['apex@apex-linux.github.io']", text)
 
+    def test_override_asks_for_the_light_shell(self) -> None:
+        # 'default' gives a dark Shell on GNOME 51; the artboards are light.
+        self.assertIn(
+            "color-scheme='prefer-light'", settings.override(self.tokens)
+        )
+
     def test_wallpaper_chooser_order(self) -> None:
         root = ElementTree.fromstring(
             settings.background_properties(self.tokens).split("\n", 2)[2]
