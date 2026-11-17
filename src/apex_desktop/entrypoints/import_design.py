@@ -11,6 +11,7 @@ error.
 
 import argparse
 from collections.abc import Sequence
+import hashlib
 import pathlib
 import re
 import sys
@@ -57,18 +58,28 @@ def import_design(source: pathlib.Path, dest: pathlib.Path) -> None:
         str(path.relative_to(source))
         for path in sorted((source / "handoff").glob("*.md"))
     ]
+    sources: list[str] = []
     for name in documents:
         target = dest / name
         target.parent.mkdir(parents=True, exist_ok=True)
-        text = (source / name).read_text(encoding="utf-8")
-        target.write_text(_redact(text), encoding="utf-8")
+        raw = (source / name).read_bytes()
+        sources.append(f"{hashlib.sha256(raw).hexdigest()}  {name}")
+        target.write_text(_redact(raw.decode("utf-8")), encoding="utf-8")
 
     assets = dest / "canvas" / "assets"
     for blob, name in _ASSETS.items():
-        text = (source / "canvas" / "assets" / f"{blob}.svg").read_text(
-            encoding="utf-8"
+        relative = f"canvas/assets/{blob}.svg"
+        raw = (source / relative).read_bytes()
+        sources.append(f"{hashlib.sha256(raw).hexdigest()}  {relative}")
+        (assets / name).write_text(
+            svg.sanitize(raw.decode("utf-8")), encoding="utf-8"
         )
-        (assets / name).write_text(svg.sanitize(text), encoding="utf-8")
+
+    # The SHA-256 of every source file as the design folder held it, so a
+    # later copy shows which files drifted (`sha256sum -c` in that folder).
+    (dest / "SOURCES.sha256").write_text(
+        "".join(f"{line}\n" for line in sources), encoding="utf-8"
+    )
 
 
 def main(argv: Sequence[str] | None = None) -> int:

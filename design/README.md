@@ -17,6 +17,10 @@ PYTHONPATH=src python3 -m apex_desktop.entrypoints.import_design ../.design
 | `OPEN-QUESTIONS.md` | Decisions the owner has not made yet, by `OQ-nn`. |
 | `canvas/assets/` | The canvas assets cleared for shipping; see its README. |
 
+`SOURCES.sha256` records the SHA-256 of every source file at the time of
+the copy. Run `sha256sum -c` with it inside the design folder to see which
+files changed there since.
+
 The files are copied as the design owner wrote them, with one change: the
 address of the private canvas is replaced by a description. They are not
 linted, so that a refresh stays a plain copy. The artboards themselves are
