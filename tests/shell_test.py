@@ -168,6 +168,30 @@ class StylesheetTest(unittest.TestCase):
         )
         self.assertEqual(today["box-shadow"], "none")
 
+    def test_split_tiles_join_into_one_pill(self) -> None:
+        css = shell.stylesheet(self.tokens, Scheme.LIGHT)
+        main = _block(
+            css, ".apex-shell .quick-toggle-has-menu .quick-toggle:ltr"
+        )
+        self.assertEqual(main["border-radius"], "999px 0 0 999px")
+        arrow = _block(
+            css,
+            ".apex-shell .quick-toggle-has-menu .quick-toggle-menu-button:ltr",
+        )
+        self.assertEqual(arrow["border-radius"], "0 999px 999px 0")
+        separator = _block(
+            css, ".apex-shell .quick-toggle-has-menu .quick-toggle-separator"
+        )
+        self.assertEqual(separator["width"], "0")
+
+    def test_panel_shadow_is_the_tight_layer(self) -> None:
+        # St cuts a 50 px blur off at its radius: a hard-edged box on light.
+        for scheme in Scheme:
+            with self.subTest(scheme.name):
+                css = shell.stylesheet(self.tokens, scheme)
+                self.assertNotIn("50px", css)
+                self.assertIn("box-shadow: 0 2px 8px", css)
+
     def test_accent_strong_comes_from_the_derived_token(self) -> None:
         strong = shell.accent_strong(self.tokens)
         self.assertEqual(strong.st(), "st-mix(-st-accent-color, #000000, 75%)")

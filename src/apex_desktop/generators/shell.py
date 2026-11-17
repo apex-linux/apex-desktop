@@ -13,7 +13,10 @@ translucent tints. Live blur behind them waits for OQ-03.
 St differs from browser CSS in ways the tokens do not: it draws one box
 shadow per element, and has no `color-mix()`. An inset hairline therefore
 becomes a 1 px border, and accent mixes become `st-mix()`, which St
-evaluates at run time against the user's accent colour.
+evaluates at run time against the user's accent colour. St also cuts a
+blurred shadow off at its blur radius while the blur is still visible, so
+the wide `--shadow` layer (50 px) drew a hard-edged box around panels on a
+light desktop; panels use the token's tight layer instead.
 """
 
 import dataclasses
@@ -183,7 +186,7 @@ def _palette(tokens: tokens_lib.Tokens, scheme: Scheme) -> _Palette:
         panel=role("--panel"),
         panel_solid=role("--panel-solid"),
         panel_border=role("--panel-border"),
-        shadow=_first_layer(tokens.role("--shadow", scheme)),
+        shadow=_layers(tokens.role("--shadow", scheme))[-1],
         card=role("--card"),
         card_border=role("--card-border"),
         msg_card=role("--msg-card"),
@@ -397,6 +400,13 @@ def _menus(t: tokens_lib.Tokens, p: _Palette) -> list[Rule]:
     ]
 
 
+# The split tile's arrow area: 40 px wide around a 16 px chevron, shaded
+# with a literal black at .12 over the tile (no token; WifiMenu.dc.html:84).
+SPLIT_ARROW_WIDTH = 40
+SPLIT_ARROW_PADDING = 12
+SPLIT_ARROW_SHADE = "rgba(0, 0, 0, 0.12)"
+
+
 def _quick_settings(t: tokens_lib.Tokens, p: _Palette) -> list[Rule]:
     return [
         (
@@ -411,6 +421,39 @@ def _quick_settings(t: tokens_lib.Tokens, p: _Palette) -> list[Rule]:
             ".quick-toggle, .quick-toggle-has-menu",
             {"min-height": "54px", "border-radius": "999px"},
         ),
+        # A split tile is one pill: the main area is square where the arrow
+        # area joins it, the arrow area is 40 px with a darker shade and no
+        # separator (shell-quick-settings-and-screenshot.md, "Split tile").
+        (
+            ".quick-toggle-has-menu .quick-toggle:ltr",
+            {"border-radius": "999px 0 0 999px"},
+        ),
+        (
+            ".quick-toggle-has-menu .quick-toggle:rtl",
+            {"border-radius": "0 999px 999px 0"},
+        ),
+        (
+            ".quick-toggle-has-menu .quick-toggle:ltr:last-child,"
+            " .quick-toggle-has-menu .quick-toggle:rtl:last-child",
+            {"border-radius": "999px"},
+        ),
+        (
+            ".quick-toggle-has-menu .quick-toggle-menu-button",
+            {
+                "min-width": f"{SPLIT_ARROW_WIDTH - 2 * SPLIT_ARROW_PADDING}px",
+                "padding": f"0 {SPLIT_ARROW_PADDING}px",
+                "box-shadow": f"inset 0 0 0 100px {SPLIT_ARROW_SHADE}",
+            },
+        ),
+        (
+            ".quick-toggle-has-menu .quick-toggle-menu-button:ltr",
+            {"border-radius": "0 999px 999px 0"},
+        ),
+        (
+            ".quick-toggle-has-menu .quick-toggle-menu-button:rtl",
+            {"border-radius": "999px 0 0 999px"},
+        ),
+        (".quick-toggle-has-menu .quick-toggle-separator", {"width": "0"}),
         (
             ".quick-toggle, .quick-toggle-has-menu .quick-toggle-menu-button",
             {"background-color": p.btn, "color": p.fg},
