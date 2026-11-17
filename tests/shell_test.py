@@ -83,6 +83,18 @@ class StylesheetTest(unittest.TestCase):
             css,
         )
 
+    def test_extension_actors_are_styled(self) -> None:
+        css = shell.stylesheet(self.tokens, Scheme.LIGHT)
+        for name in (
+            ".apex-activities-diamond",
+            ".apex-activities-box",
+            ".apex-focus-label",
+            ".apex-shell.apex-glass #panel.apex-solid-bar",
+            "#apexDock .dash-background",
+        ):
+            with self.subTest(name):
+                self.assertIn(name, css)
+
     def test_measurements_from_the_top_bar_spec(self) -> None:
         css = shell.stylesheet(self.tokens, Scheme.LIGHT)
         # 32 px bar with 24 px buttons leaves a 4 px border on each side.
