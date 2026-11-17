@@ -55,6 +55,23 @@ def override(tokens: tokens_lib.Tokens) -> str:
     )
 
 
+def solid_wallpapers(tokens: tokens_lib.Tokens) -> dict[str, str]:
+    """Returns one flat SVG per solid wallpaper, by installed file name.
+
+    They are pictures, not colour-only entries, so the Appearance chooser
+    shows them like any other wallpaper (wallpapers-and-app-icons.md).
+    """
+    return {
+        f"{name}.svg": (
+            '<svg xmlns="http://www.w3.org/2000/svg" width="2880"'
+            ' height="1800" viewBox="0 0 1440 900">\n'
+            f'  <rect width="1440" height="900" fill="{value.css()}"/>\n'
+            "</svg>\n"
+        )
+        for name, _, value in tokens.solid_wallpapers()
+    }
+
+
 def schema() -> str:
     """Returns the GSettings schema of the Apex Shell extension."""
     path = "/" + SCHEMA_ID.replace(".", "/") + "/"
@@ -95,5 +112,16 @@ def background_properties(tokens: tokens_lib.Tokens) -> str:
         f"    <pcolor>{wallpaper_base(tokens, Scheme.LIGHT)}</pcolor>\n"
         f"    <scolor>{wallpaper_base(tokens, Scheme.DARK)}</scolor>\n"
         "  </wallpaper>\n"
-        "</wallpapers>\n"
+        + "".join(
+            '  <wallpaper deleted="false">\n'
+            f"    <name>{saxutils.escape(label)}</name>\n"
+            f"    <filename>{BACKGROUNDS}/{name}.svg</filename>\n"
+            "    <options>zoom</options>\n"
+            "    <shade_type>solid</shade_type>\n"
+            f"    <pcolor>{value.css()}</pcolor>\n"
+            f"    <scolor>{value.css()}</scolor>\n"
+            "  </wallpaper>\n"
+            for name, label, value in tokens.solid_wallpapers()
+        )
+        + "</wallpapers>\n"
     )

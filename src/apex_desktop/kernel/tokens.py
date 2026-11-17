@@ -11,7 +11,7 @@ import pathlib
 import re
 from typing import Any
 
-from apex_desktop.kernel import color
+from apex_desktop.kernel import color as colors
 
 _VAR = re.compile(r"var\((--[a-z0-9-]+)\)")
 
@@ -33,7 +33,7 @@ class Accent:
 
     name: str
     label: str
-    color: color.Color
+    color: colors.Color
 
 
 class Tokens:
@@ -81,9 +81,9 @@ class Tokens:
 
     def color(
         self, name: str, scheme: Scheme, artboard: str | None = None
-    ) -> color.Color:
+    ) -> colors.Color:
         """Returns a colour role parsed into a colour."""
-        return color.parse(self.role(name, scheme, artboard))
+        return colors.parse(self.role(name, scheme, artboard))
 
     def resolve(self, text: str, scheme: Scheme) -> str:
         """Replaces every `var(--role)` in a token value with its value."""
@@ -98,7 +98,7 @@ class Tokens:
         """Returns the nine accents in picker order."""
         return [
             Accent(
-                option["name"], option["label"], color.parse(option["value"])
+                option["name"], option["label"], colors.parse(option["value"])
             )
             for option in self._data["accent"]["options"]
         ]
@@ -142,6 +142,17 @@ class Tokens:
     def shadow(self, name: str, scheme: Scheme) -> str:
         """Returns a shadow token with its `var()` references resolved."""
         return self.resolve(self._lookup("shadow", name), scheme)
+
+    def solid_wallpapers(self) -> list[tuple[str, str, colors.Color]]:
+        """Returns the solid wallpapers as (name, label, colour), in order."""
+        try:
+            solids = self._data["wallpaper"]["solid"]
+        except KeyError as error:
+            raise TokenError("no wallpaper.solid") from error
+        return [
+            (name, str(entry["label"]), colors.parse(entry["value"]))
+            for name, entry in solids.items()
+        ]
 
     def duration(self, name: str) -> str:
         """Returns a motion duration, for example `150ms`."""
