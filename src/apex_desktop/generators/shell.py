@@ -30,6 +30,9 @@ GLASS = ".apex-glass"
 # The shell artboards draw secondary text at .72 instead of the apps' .62
 # (OQ-24); this artboard is the one about the top bar and dock.
 SHELL_ARTBOARD = "Desktop.dc.html"
+# Out-of-month day numbers keep this artboard's darker --faint: the token
+# majority (.4) misses 4.5:1 (shell-calendar-notifications-osd.md).
+CALENDAR_ARTBOARD = "DateMenu.dc.html"
 
 ACCENT = "-st-accent-color"
 ACCENT_FG = "-st-accent-fg-color"
@@ -123,6 +126,7 @@ class _Palette:  # pylint: disable=too-many-instance-attributes
 
     fg: str
     dim: str
+    day_faint: str
     border: str
     btn: str
     btn_h: str
@@ -164,6 +168,7 @@ def _palette(tokens: tokens_lib.Tokens, scheme: Scheme) -> _Palette:
     return _Palette(
         fg=role("--fg"),
         dim=tokens.color("--dim", scheme, SHELL_ARTBOARD).css(),
+        day_faint=tokens.color("--faint", scheme, CALENDAR_ARTBOARD).css(),
         border=role("--border"),
         btn=role("--btn"),
         btn_h=role("--btn-h"),
@@ -480,13 +485,43 @@ def _calendar(t: tokens_lib.Tokens, p: _Palette) -> list[Rule]:
                 "color": p.fg,
             },
         ),
+        # In-month days have no fill (shell-calendar-notifications-osd.md,
+        # "Day cell styles"). The stock light theme paints every flat
+        # button, day cells included, in its own popup colour, which shows
+        # as a grey pill on the Apex panel.
+        (
+            ".calendar .calendar-day, .calendar .calendar-day-heading,"
+            " .calendar .calendar-month-header .pager-button,"
+            " .calendar .calendar-month-header .calendar-month-label",
+            {"background-color": "transparent", "color": p.fg},
+        ),
         (
             ".calendar .calendar-day",
             {"border-radius": card, "font-size": t.font_size("body")},
         ),
         (
+            ".calendar .calendar-day:hover, .calendar .calendar-day:active,"
+            " .calendar .calendar-month-header .pager-button:hover,"
+            " .calendar .calendar-month-header .calendar-month-label:hover",
+            {"background-color": p.btn_h},
+        ),
+        # Selected (not today): a 2 px accent ring, no fill.
+        (
+            ".calendar .calendar-day:selected",
+            {
+                "background-color": "transparent",
+                "box-shadow": f"inset 0 0 0 2px {ACCENT}",
+                "font-weight": str(t.font_weight("bold")),
+            },
+        ),
+        (
+            ".calendar .calendar-day.calendar-other-month",
+            {"color": p.day_faint},
+        ),
+        (
             ".calendar .calendar-day.calendar-today",
             {
+                "box-shadow": "none",
                 "background-color": p.accent_strong,
                 "color": ACCENT_FG,
                 "font-weight": str(t.font_weight("bold")),
@@ -630,16 +665,47 @@ def _dialogs(t: tokens_lib.Tokens, p: _Palette) -> list[Rule]:
     ]
 
 
+# The dock item (shell-top-bar-and-dock.md, "Dock"): the icon, a 4 px gap,
+# the 4 x 4 running dot, which keeps its space when hidden; 2 px between
+# items. The box ring is a 1 px border here, inside the token padding.
+DOT = 4
+DOT_GAP = 4
+ITEM_GAP = 2
+DOCK_BORDER = 1
+# Dock tile states the stock theme fills; Apex draws none of them
+# (hover is a lift, Desktop.dc.html:129).
+_TILE_STATES = ("", ":hover", ":focus", ":active", ":checked")
+
+
+def _px(value: str) -> int:
+    return int(value.removesuffix("px"))
+
+
 def _dock(t: tokens_lib.Tokens, p: _Palette) -> list[Rule]:
+    top, side, bottom = (_px(v) for v in t.fixed("dockPadding").split())
+    margin = ITEM_GAP // 2
+    below_icon = DOT_GAP + DOT + bottom
+    tiles = ", ".join(
+        f"#apexDock .dash-item-container .{tile}{state} .overview-icon"
+        for tile in ("overview-tile", "show-apps")
+        for state in _TILE_STATES
+    )
     return [
+        # Height is the icon plus top padding, dot gap, dot and bottom
+        # padding: 70 px at medium. The stock 12 px bottom margin would
+        # lift the dock off its 10 px offset.
         (
             "#apexDock .dash-background",
             {
                 "background-color": p.panel_solid,
-                "border": f"1px solid {p.dock_border}",
+                "border": f"{DOCK_BORDER}px solid {p.dock_border}",
                 "border-radius": t.radius("dock"),
                 "box-shadow": p.dock_shadow,
-                "padding": t.fixed("dockPadding"),
+                "padding": (
+                    f"{top - DOCK_BORDER}px {side - DOCK_BORDER - margin}px"
+                    f" {below_icon - DOCK_BORDER}px"
+                ),
+                "margin-bottom": "0",
             },
         ),
         (
@@ -651,24 +717,34 @@ def _dock(t: tokens_lib.Tokens, p: _Palette) -> list[Rule]:
                 "background-color": p.dock_sep,
             },
         ),
+        # The dot sits at the bottom of the icon; move it below the gap.
         (
-            "#apexDock .app-grid-running-dot",
+            "#apexDock .dash-item-container .app-grid-running-dot",
             {
-                "width": "4px",
-                "height": "4px",
-                "border-radius": "2px",
+                "width": f"{DOT}px",
+                "height": f"{DOT}px",
+                "border-radius": f"{DOT // 2}px",
                 "background-color": p.running_dot,
+                "offset-y": f"{DOT_GAP + DOT}px",
             },
         ),
-        # Items have no fill of their own; hover is a lift, not a highlight
-        # (Desktop.dc.html:129).
         (
             "#apexDock .dash-item-container .overview-tile,"
-            " #apexDock .dash-item-container .show-apps,"
-            " #apexDock .overview-icon",
+            " #apexDock .dash-item-container .show-apps",
             {
                 "background-color": "transparent",
                 "box-shadow": "none",
+                "margin": f"0 {margin}px",
+                "padding": f"{top}px 0 {below_icon}px",
+            },
+        ),
+        # Stock dash colours suit only a dark dock; the symbolic Show Apps
+        # glyph takes the dock's ink.
+        (
+            tiles,
+            {
+                "background-color": "transparent",
+                "color": p.fg,
                 "padding": "0",
             },
         ),

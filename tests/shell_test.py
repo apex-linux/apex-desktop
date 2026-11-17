@@ -26,6 +26,14 @@ def _data() -> dict[str, object]:
     return dict(json.loads(_TOKENS.read_text(encoding="utf-8")))
 
 
+def _block(css: str, selector: str) -> dict[str, str]:
+    """Returns the declarations of the rule with exactly this selector."""
+    body = css.split(f"\n{selector} {{\n", 1)[1].split("\n}", 1)[0]
+    return dict(
+        line.strip().rstrip(";").split(": ", 1) for line in body.splitlines()
+    )
+
+
 def _rgb(text: str) -> tuple[int, int, int]:
     parsed = color.parse(text)
     return (round(parsed.red), round(parsed.green), round(parsed.blue))
@@ -101,6 +109,64 @@ class StylesheetTest(unittest.TestCase):
         self.assertIn("border: 4px solid transparent;", css)
         self.assertIn("padding: 0 8px;", css)
         self.assertIn("font-size: 13.5px;", css)
+
+    def test_dock_height_matches_the_spec(self) -> None:
+        # shell-top-bar-and-dock.md: height is icon + 16, 70 px at medium,
+        # 10 px above the edge with no stock margin under the background.
+        css = shell.stylesheet(self.tokens, Scheme.LIGHT)
+        background = _block(css, ".apex-shell #apexDock .dash-background")
+        top, _, bottom = (
+            int(v.removesuffix("px")) for v in background["padding"].split()
+        )
+        border = 2 * shell.DOCK_BORDER
+        self.assertEqual(top + 54 + bottom + border, 70)
+        self.assertEqual(background["margin-bottom"], "0")
+        tile = _block(
+            css,
+            ".apex-shell #apexDock .dash-item-container .overview-tile,\n"
+            ".apex-shell #apexDock .dash-item-container .show-apps",
+        )
+        tile_top, _, tile_bottom = (
+            int(v.removesuffix("px")) for v in tile["padding"].split()
+        )
+        self.assertEqual(tile_top + 54 + tile_bottom, 70)
+        self.assertEqual(tile_top, 5)
+
+    def test_dock_glyphs_take_the_dock_ink(self) -> None:
+        for scheme in Scheme:
+            with self.subTest(scheme.name):
+                css = shell.stylesheet(self.tokens, scheme)
+                fg = self.tokens.role("--fg", scheme)
+                self.assertIn(
+                    "#apexDock .dash-item-container .show-apps:hover"
+                    " .overview-icon",
+                    css,
+                )
+                self.assertIn(f"color: {color.parse(fg).css()};", css)
+
+    def test_calendar_days_have_no_fill(self) -> None:
+        css = shell.stylesheet(self.tokens, Scheme.LIGHT)
+        self.assertIn(
+            ".apex-shell .calendar .calendar-day,\n"
+            ".apex-shell .calendar .calendar-day-heading,\n",
+            css,
+        )
+        selected = _block(css, ".apex-shell .calendar .calendar-day:selected")
+        self.assertEqual(selected["background-color"], "transparent")
+        self.assertEqual(
+            selected["box-shadow"], "inset 0 0 0 2px -st-accent-color"
+        )
+
+    def test_out_of_month_days_keep_the_date_menu_faint(self) -> None:
+        css = shell.stylesheet(self.tokens, Scheme.LIGHT)
+        other = _block(
+            css, ".apex-shell .calendar .calendar-day.calendar-other-month"
+        )
+        self.assertEqual(other["color"], "rgba(29, 29, 33, 0.64)")
+        today = _block(
+            css, ".apex-shell .calendar .calendar-day.calendar-today"
+        )
+        self.assertEqual(today["box-shadow"], "none")
 
     def test_accent_strong_comes_from_the_derived_token(self) -> None:
         strong = shell.accent_strong(self.tokens)
