@@ -37,9 +37,9 @@ carries over. "Open" means neither source answers it.
 | ID | Status | What the sources say |
 | --- | --- | --- |
 | OQ-01 | Answered | Fedora `bootc` base image, currently Fedora 45; one OCI image installs and updates. |
-| OQ-02 | Partly answered | Spec non-goal: "Theming and extensions come first; a patch to an upstream component needs a reason an extension cannot satisfy." The legacy attempt carried a large GNOME patch series (`apex-gnome`, shell patches 0001 to 0016); the new rule means each spec's "patch" rows need that reason or a cut. |
+| OQ-02 | Partly answered | Spec non-goal: "Theming and extensions come first; a patch to an upstream component needs a reason an extension cannot satisfy." The legacy attempt carried a large GNOME patch series (`apex-gnome`, shell patches 0001 to 0016); the new rule means each spec's "patch" rows need that reason or a cut. | The update hold ("Held for up to 14 days") is cut with OQ-04.
 | OQ-03 | Legacy, partly | Glass on shell surfaces only, text-heavy modal dialogs solid; Reduce Transparency swaps to solid tokens; re-blur only when the redraw clip covers the box. The budget lived in legacy ADR 0014 and `0003-blur.patch`, which the new patch rule puts in question. |
-| OQ-04 | Conflict | Spec: stock `bootc` only, no custom update daemon, the Settings panel is a front end to it. The canvas and legacy rely on an `Update1` daemon (holds, locked staging, three-boot fallback, rejected builds, "Apex Updates" notifications). Decide which of those features survive with stock `bootc`. |
+| OQ-04 | Answered 2026-11-17 | Owner: "Chỉ bootc gốc", stock `bootc` only, confirming the spec. Holds, the rejected-build list, the three-boot fallback, greenboot checks, `apexctl` and the "Apex Updates" notifications are cut; download-only staging, rollback and signed images stay. Residual checks are OQ-36 and OQ-37. |
 | OQ-05 | Answered | Spec goal 1: hardware support "by component ... never by one machine's profile"; the M7400QC is "the first acceptance target, not the only one". Its 80 % charge limit is a required check. |
 | OQ-06 | Partly answered | The iGPU drives the desktop; the NVIDIA driver ships "as prebuilt modules in an image flavor". Still open: early KMS (`amdgpu` in the initramfs) and the Secure Boot plan (spec: off for now). |
 | OQ-07 | Partly answered | `.legacy/apex.git` keeps `docs/DESIGN.md`, `docs/ARCHITECTURE.md`, `docs/ROADMAP.md` and ADRs including 0014. `DESIGN.md` says it "replaces `design/SPEC.md`", so the SPEC.md the canvas quotes is gone; its radius and performance sections are not recoverable from the mirrors. |
@@ -56,11 +56,13 @@ carries over. "Open" means neither source answers it.
 | OQ-18 | Legacy | App chrome keeps libadwaita's colours, metrics and shadows (decision 4); only the window radius changes (decision 5, 0 / 8 / 14 / 20 via a generated `gtk.css`). Type: Adwaita Sans with `ss03` through fontconfig at 13.5 px, hinting off; the canvas's Inter + `cv05` is "the same design". |
 | OQ-19 | Legacy, partly | Lock is single-stage, clock and prompt together (decision 7); greeter keeps the stock layout over a pre-blurred image; GRUB hidden unless the previous boot failed (decision 17); Plymouth script theme with a two-step fallback. Guest, polkit fingerprint and TPM2 stay open. |
 | OQ-20 | Legacy | Toggles: Wi-Fi, Bluetooth, Power Mode, Night Light, Dark Style, Do Not Disturb, Airplane Mode, VPN; Restart and Power Off confirm. |
-| OQ-21 | Legacy, partly | Update notifications come from one agent as "Apex Updates" with three fixed strings; "Keep Current Version" only dismisses. Dock menu bookmarks, OSD value and screenshot window mode are open. |
+| OQ-21 | Partly; updates part answered by OQ-04 | No update banner in M3; the only update notification is the "You Started the Previous Version" alert, posted by the Apex Shell extension from stock bootc state (owner to confirm). Dock menu bookmarks, OSD value and screenshot window mode are open. |
 | OQ-22 | Open | Builder delivery and scope. Spec schedules Apex Code in M4. |
-| OQ-23 | Legacy | Welcome is "not scheduled" in legacy; the spec puts it in M3. |
+| OQ-23 | Legacy | Welcome is "not scheduled" in legacy; the spec puts it in M3. | The rollback sentence on page 1 must change: nothing goes back by itself under OQ-04.
 | OQ-24 | Legacy | Owner rule: when a board value fails contrast, the token changes; dim text in light is .72, not .62. |
 | OQ-31 | Legacy | Small white text sits on the accent mixed 25 % toward black, so all nine accents reach 4.5:1; the clock's unread dot uses the bar foreground, not the accent (owner, 2026-11-04); selection tint is the accent at 16 %. |
+| OQ-36 | Open, new 2026-11-17 | Stock bootc behaviours the update spec depends on but the docs do not state; to verify on the reference machine. |
+| OQ-37 | Open, new 2026-11-17 | Whether What's New lists packages again, which needs `apex-image` CI to publish a package diff. |
 | Others | Open | Tier 3 items not listed here have no recorded answer. |
 
 Milestones from the spec also change how much each tier blocks: boot, greeter,
@@ -104,15 +106,19 @@ switcher captions, dock menus, OSD value, screenshot window mode, indicator
 overflow), GDM, gnome-control-center (two new pages, sidebar changes),
 Nautilus (Home dashboard, details pane, filter chips, status bar), Ptyxis
 (session sidebar, states, splits) and GNOME Builder (agent panel). Each patch
-must be rebased on every GNOME release. The Updates artboard already plans
-for this ("Settings 51.1 is held back ... Held for up to 14 days, then Apex
-ships the stock 51.1"), which would silently drop the patched pages.
+must be rebased on every GNOME release. The Updates artboard planned for
+this with a per-package hold ("Settings 51.1 is held back ... Held for up to
+14 days, then Apex ships the stock 51.1"). Stock bootc updates the image as
+a whole and has no hold, so the hold is cut (OQ-04, 2026-11-17): a GNOME
+release that breaks an Apex patch must be fixed before the image is
+published, or the image is not published.
 
 *   Proposal: the owner sets a patch budget per component; each spec's
     "Build classification" table lists stock, theme and patch items so the
     owner can cut by row.
 *   Blocks: scope of every shell and app spec.
-*   Spec refs: `Q-SET-1`, `Q-UPD-5`; every spec's build classification.
+*   Spec refs: `Q-SET-1`; every spec's build classification. (`Q-UPD-5` is
+    cut with the hold.)
 
 ### OQ-03: Is live glass with saturation in scope, and what is its budget? (expensive)
 
@@ -138,20 +144,46 @@ saturation; the canvas's own notes call for "patch 0003" to add it.
 
 ### OQ-04: How do updates work end to end?
 
-The canvas promises updates "that never surprise you": downloads in the
-background, nothing starts until the user restarts, automatic fallback after
-three failed boots, a hold on patched GNOME components. Stock
-`bootc-fetch-apply-updates.timer` and greenboot's auto-reboot both
-contradict "nothing restarts until you say so".
+**Answered 2026-11-17.** The owner chose stock `bootc` only ("Chỉ bootc
+gốc"), confirming `apex/docs/spec.md`: no custom update daemon, and the
+Settings panel is a front end to `bootc upgrade`, `bootc rollback` and
+`bootc status`.
 
-*   Sub-questions: one updater D-Bus service shared by Settings, the
-    notification, the Power Off dialog and `apexctl`; what "Keep This
-    Version" and the Power Off switch turned off mean (skip one restart, or
-    discard); whether a plain `systemctl reboot` applies a staged update; what
-    the rejected-build list is; which polkit actions exist.
-*   Blocks: `updates-and-rollback.md`, `dialogs.md`, the banner.
+The canvas promised updates "that never surprise you" with an `Update1`
+daemon. Checked against the bootc documentation (sources in
+[updates-and-rollback.md](handoff/updates-and-rollback.md#what-stock-bootc-provides-and-what-is-cut)):
+
+*   **Kept, stock:** background download that is not used at the next boot
+    (`bootc upgrade --download-only`, then `--from-downloaded`); applying at
+    a restart the user confirms; going back (`bootc rollback`); signed
+    images through `/etc/containers/policy.json`.
+*   **Kept, with image config only:** Automatic Downloads on mains power
+    (an Apex timer running `bootc upgrade --download-only` with
+    `ConditionACPower=true`); the stock `bootc-fetch-apply-updates.timer`
+    is disabled because it reboots.
+*   **Cut:** the per-package hold; the metered-network wait; the
+    three-boot automatic fallback and the "startup check" (bootc has no
+    boot counting or health checks); the rejected-build list; the package
+    list in What's New (OQ-37); the "Updates Ready" banner and the "Apex
+    Updates" sender; `apexctl`.
+*   **Replaced:** the health failure flow becomes "You Started the Previous
+    Version": the user picks the previous entry in the startup menu after a
+    failed boot, and the session offers to keep that version.
+
+Answers to the old sub-questions: there is no shared D-Bus service; clients
+read `bootc status` (through a status file if it needs root) and call a
+stateless `pkexec` helper. "Not Now" and the Power Off switch turned off
+skip one restart: stock bootc discards a download-only update at boot and
+stages it again from cache. A plain `systemctl reboot` applies a staged
+update but not a download-only one. The polkit actions are
+`io.github.apex_linux.Updates.{check,download,apply,rollback}` (naming per
+OQ-08).
+
+*   Still open: OQ-36 (behaviours to verify on the machine), OQ-37
+    (package list), and whether the alert is posted by the Shell extension
+    (OQ-21).
 *   Spec refs: `DLG-1`, `Q-UPD-3`, `Q-UPD-4`, `Q-UPD-7`, `Q-UPD-8`,
-    `Q-UPD-9`.
+    `Q-UPD-9` (all answered or moot; see the spec).
 
 ### OQ-05: How does machine-specific design become conditional?
 
@@ -206,7 +238,8 @@ their content as intent, not requirement.
 ### OQ-08: What are the product's identifiers and version scheme?
 
 *   Reverse-DNS prefix: the canvas uses both `io.github.apex-linux` (polkit
-    action `io.github.apex-linux.apex.update.rollback`) and
+    action `io.github.apex-linux.apex.update.rollback`, which the update
+    spec now replaces with `io.github.apex_linux.Updates.rollback`) and
     `io.github.apex_linux` (GSettings schema). D-Bus and GSettings names
     cannot contain hyphens, so `io.github.apex_linux` is the safe choice for
     all of them.
@@ -230,7 +263,8 @@ their content as intent, not requirement.
     Mail, Calendar, Music, Text Editor, Terminal, Software, Settings.
     `Desktop.dc.html` adds Image Viewer, probably running but not pinned,
     with no pinned/running separator. Is GNOME Software shipped at all? Its
-    icon is reused for "Apex Updates".
+    icon was reused for "Apex Updates", which OQ-04 cut; the Power Off
+    update row still uses it.
 *   Default browser: GNOME Web is pinned; a canvas note says "Firefox on
     request".
 *   Spec refs: `Q-SET-2`, `Q-UPD-13`; `shell-top-bar-and-dock.md`
@@ -259,12 +293,13 @@ Calculator's provider or run in the shell?
 ### OQ-12: Where do the Apex Desktop and Software Updates pages live?
 
 A gnome-control-center patch (as drawn: first rows of the Settings sidebar),
-extension preferences, or a separate app. Tied to OQ-02 and the 14-day hold.
+extension preferences, or a separate app. Tied to OQ-02. (The 14-day hold
+that tied it to Settings releases is cut with OQ-04.)
 Also: Apex Desktop's "Corner Radius" for all windows needs a compositor-side
 clip for every toolkit (expensive), and "Lower Refresh Rate on Battery" needs
 a new daemon that must not fight the Displays panel.
 
-*   Spec refs: `Q-SET-1`, `Q-SET-4`, `Q-SET-5`, `Q-SET-12`, `Q-UPD-5`.
+*   Spec refs: `Q-SET-1`, `Q-SET-4`, `Q-SET-5`, `Q-SET-12`.
 
 ### OQ-13: How much of the Files redesign is in scope? (expensive)
 
@@ -372,11 +407,13 @@ and whether the target Shell has a stock Do Not Disturb tile.
 
 ### OQ-21: Notifications, OSD and dock menus
 
-*   One update notification is drawn two ways: "Settings / Update ready" in
-    the calendar and "Apex Updates / Updates Ready" as a banner, with
-    different text, icon and metrics. Pick one sender, icon and string.
-*   May "Restart Now" restart directly? `apexctl` "never reboots the computer
-    by itself"; the design owner proposes it opens the restart dialog.
+*   Update notifications, answered by OQ-04 (2026-11-17): the "Updates
+    Ready" banner and the calendar's "Settings / Update ready" are both cut.
+    The one update notification left is the "You Started the Previous
+    Version" alert, sender "Software Updates". Open: may the Apex Shell
+    extension post it, or does it appear only in the Settings panel?
+*   "Restart Now" opens GNOME's restart dialog and never restarts directly
+    (settled in the update spec).
 *   Dock menu bookmarks for Files and a window count instead of the window
     list are patches. The OSD numeric value is a patch.
 *   Screenshot window mode outlines windows in place (patch, expensive)
@@ -401,9 +438,52 @@ and whether the target Shell has a stock Do Not Disturb tile.
 ### OQ-23: Welcome app
 
 New small libadwaita app or a GNOME Tour fork, its app id, how it is
-reopened, and whether its rollback promise holds (depends on OQ-04).
+reopened. Its rollback promise ("If one fails to start, Apex goes back by
+itself") does not hold under OQ-04; proposed copy: "If one does not start,
+choose the previous version in the startup menu."
 
 *   Spec refs: welcome questions 2, 5, 7.
+
+### OQ-36: Stock bootc behaviours to verify on the reference machine (added 2026-11-17)
+
+The update spec relies on behaviour the bootc docs either state for
+upstream only or do not state. The M3 session must check each on the
+Fedora 45 image before building the panel on it:
+
+*   The shipped bootc has `--download-only` and `--from-downloaded` (the
+    release that added them is not documented; v1.16.10 is likely).
+*   `bootc upgrade --check` fills `cachedUpdate` in `bootc status`.
+*   Whether `bootc status` works without root.
+*   Which status field marks a queued rollback (`rollbackQueued` is the
+    candidate) and which shows that the booted deployment is not the
+    bootloader's default (after picking it in the menu).
+*   Whether a second `bootc rollback` restores the original order (Cancel),
+    and which command makes a manually booted older deployment the default
+    (Keep This Version).
+*   That `bootc upgrade` refuses an unsigned image under a policy that
+    requires signatures, and what it prints.
+*   That Fedora's GRUB shows the menu after a failed boot of a bootc
+    deployment (legacy decision 17 relies on this).
+*   Whether Fedora enables `bootc-fetch-apply-updates.timer` by default
+    (Fedora's docs could not be read automatically).
+
+A later owner decision, not for M3: whether to add greenboot for boot
+counting and health checks. The bootc book says greenboot does not yet
+integrate with bootc, while greenboot-rs says it is designed for bootc.
+
+*   Blocks: `updates-and-rollback.md` acceptance criteria 4 and 7 to 10.
+*   Spec refs: `Q-UPD-14`.
+
+### OQ-37: Should What's New list packages? (added 2026-11-17)
+
+bootc gives no package diff between images. The drawn summary ("GNOME 51.0
+→ 51.1, Linux 7.2.7 → 7.2.9, Mesa 26.1.0 → 26.1.2") and package table need
+`apex-image` CI to publish a diff with each build (for example a release
+note or an image label). Until then What's New shows the version, build
+date and a Release Notes link.
+
+*   Blocks: the What's New group only.
+*   Spec refs: `Q-UPD-6`.
 
 ## Tier 3: consistency the design owner can settle
 
@@ -417,7 +497,7 @@ owner only needs to say "agreed" or override. Values and sources are in
 | OQ-25 | `--bar-solid`: `#ebebef` / `#151518` (Desktop) vs `#f3f3f5` / `#121215` (Apex Desktop). | Take Desktop's values; Desktop is the artboard about the bar. |
 | OQ-26 | `--panel` is more opaque on the Launcher (`.86` / `.82`); `--head`, `--card`, `--faint` differ on DateMenu, Desktop, Overview, Spotlight. | Majority values everywhere; Launcher folder may keep `.86` as `--panel-strong` if the owner liked it. |
 | OQ-27 | Two terminal palettes: `--term-*` (in-scene) vs `--t-*` (Terminal app). The in-scene light green fails AA (3.2:1). Overview swaps prompt and path colours. | Retire `--term-*`; use `--t-*` everywhere; complete the ANSI palette (black, yellow, white and eight brights are proposed in `terminal.md`). |
-| OQ-28 | `--warn` and `--warn-bg` differ between Updates, Rollback and Code; `--err` (dark) is `#ff7b7b` or `#ff7b63`; badges use literals; destructive red `#c01c28` has no token. | One status set: `--err` `#c01c28` / `#ff7b7b`, `--warn` `#9c6500` / `#f8c454`, `--warn-bg` `.14` / `.2`; add `--destructive`. |
+| OQ-28 | `--warn` and `--warn-bg` differ between Updates, Rollback and Code; `--err` (dark) is `#ff7b7b` or `#ff7b63`; badges use literals; destructive red `#c01c28` has no token. | One status set: `--err` `#c01c28` / `#ff7b7b`, `--warn` `#9c6500` / `#f8c454`, `--warn-bg` `.14` / `.2`; add `--destructive`. (`--destructive` added to `tokens.json` 2026-11-17; the rest still needs the owner's yes.) |
 | OQ-29 | Radii: Spotlight 24 vs 26 for other panels; notification card 18 (calendar) vs banner 16; search entry 440 (Overview) vs 400 (Launcher); dialog column gap 18 vs 20. | Panels 26, notification cards 18, search entry 440, gap 18. |
 | OQ-30 | Error rings `#ffcfcf` (light lock) vs `#ff8a8a` (dark lock, disk unlock); placeholder opacity .96 vs .62; avatar fill none vs white .22. | One error ring `#ff8a8a` on all wallpaper surfaces; placeholder .62; avatar fill white .22 on both. |
 | OQ-31 | Contrast failures: white text on accent fills fails 4.5:1 for every accent but Purple; accent text on `--win` fails for most accents; `--faint` is 2.45:1; greeter footer about 4.2:1; the 2 px focus ring fails 3:1 for Yellow (light) and Purple (dark). | Adopt `--accent-strong` (accent mixed 75 % with black, already on three artboards) for fills under white text and for accent text, following libadwaita's `accent_bg_color` / `accent_color` split; `--faint` only for exempt uses; raise the footer to `--dim`; per-accent focus-ring check in CI. |
@@ -446,7 +526,7 @@ if the owner wants.
 | "Apex Fedora" (volume label), "588 GB free of 1 TB", "Apex Fedora — Spec.odt", "mockup-2880x1800.png", "Fedora-Workstation-Live-45.iso" | Files, Tiling | Sample data; the volume name is open (OQ-08). |
 | "Fedora 45 go/no-go", "Fedora 45 release", "S1b starts", "Canvas boards 34 to 36", "just vm-image … apex-image" | Calendar | Sample events and notifications. |
 | "2880 / 1.5" | Spotlight calculator example | Echo of the old panel spec. |
-| `io.github.apex-linux.apex.update.rollback` | Polkit Details | Naming open (OQ-08). |
+| `io.github.apex-linux.apex.update.rollback` | Polkit Details | Replaced by `io.github.apex_linux.Updates.rollback` (OQ-04, OQ-08). |
 | SPEC.md excerpt, roadmap "S2a", ADR 0014 | Window switcher and Desktop editor content | Old project documents (OQ-07). |
 
 ## Local ID map
@@ -479,11 +559,13 @@ numbered IDs refer to their questions by position and are cited above as
 | `Q-SET-7`, `Q-SET-10` | OQ-12 (Settings layout follows upstream unless the owner says otherwise) |
 | `Q-SET-8`, `Q-SET-9`, `Q-SET-11` | OQ-32 |
 | `Q-UPD-1`, `Q-UPD-2` | OQ-08 |
-| `Q-UPD-3`, `Q-UPD-4`, `Q-UPD-7`, `Q-UPD-8`, `Q-UPD-9` | OQ-04 |
-| `Q-UPD-5` | OQ-02, OQ-12 |
-| `Q-UPD-6`, `Q-UPD-11` | OQ-32 |
+| `Q-UPD-3`, `Q-UPD-4`, `Q-UPD-7`, `Q-UPD-8`, `Q-UPD-9` | OQ-04 (answered) |
+| `Q-UPD-14` | OQ-36 |
+| `Q-UPD-5` | Cut (OQ-04) |
+| `Q-UPD-6` | OQ-37 |
+| `Q-UPD-11` | OQ-32 |
 | `Q-UPD-10` | OQ-05, Tier 4 |
-| `Q-UPD-12`, `Q-UPD-13` | OQ-21, OQ-09 |
+| `Q-UPD-12`, `Q-UPD-13` | OQ-21, OQ-09 (mostly moot after OQ-04) |
 | `AC-1` | OQ-15 |
 | `AC-2` to `AC-5`, `AC-12` | OQ-22 |
 | `AC-6`, `AC-7`, `AC-9` | OQ-35 |
@@ -506,9 +588,10 @@ decision to ship stock GNOME unchanged.
     "booting previous version", emergency and tries-exhausted states, the
     splash on shutdown and during firmware updates (`BOOT-4`, `BOOT-5`,
     `BOOT-8`).
-3.  **Update states:** checking, error, metered network, low disk space,
-    rollback pending, the panel after an automatic fallback, cancelling a
-    download (`Q-UPD-7`).
+3.  **Update states:** checking, error, low disk space, rollback pending,
+    "You Started the Previous Version" in the panel, and cancelling a
+    download. `updates-and-rollback.md` now specifies them in words on the
+    drawn metrics (2026-11-17); they still have no drawing (`Q-UPD-7`).
 4.  **Power and session:** Restart and Log Out dialogs, low battery,
     inhibitors, other users signed in (`DLG-5`); Power panel without a
     battery or with the dGPU active.

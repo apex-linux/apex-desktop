@@ -73,8 +73,8 @@ Editor, Terminal and Settings, matching the switcher list.
 | Rect | x 6, y 38, 708x856 | x 6, y 38, 1428x856 | `Tiling.dc.html:129` |
 | Inset | 6 px inside the work area on every side; for the half, 6 px short of the centre line (right edge at 714) | 6 px inside the work area | derived |
 | Radius | 14 on all four corners | same | same |
-| Fill | `color-mix(in srgb, var(--accent) 16%, transparent)` | same | `Tiling.dc.html:130` |
-| Ring | `inset 0 0 0 2px color-mix(in srgb, var(--accent) 70%, transparent)` | same | `Tiling.dc.html:132` |
+| Fill | `--accent-tint` (`color-mix(in srgb, var(--accent) 16%, transparent)`) | same | `Tiling.dc.html:130` |
+| Ring | `inset 0 0 0 2px var(--accent-ring)` (`--accent-ring` is the accent at 70 % over transparent) | same | `Tiling.dc.html:132` |
 | Glass | `blur(20px) saturate(160%)` behind the fill | same | `Tiling.dc.html:131` |
 | Motion | `transition: width .3s cubic-bezier(.2,.8,.2,1)` (`standard`, `slow`) | same | `Tiling.dc.html:133` |
 | Stacking | Above tiled windows, below the dragged window (`z-index:4` vs 5) | same | |

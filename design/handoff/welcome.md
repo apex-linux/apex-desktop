@@ -129,7 +129,7 @@ setting is detected:
 | "Tuned for this laptop" / "Speakers, the fingerprint reader, NVIDIA power saving and an 80 % charge limit…" | `:71` | Lists this laptop's hardware and a charge-limit value | Show each item only when present: fingerprint reader (fprintd device), NVIDIA GPU (PCI), charge limit (UPower charge threshold support, value from the setting). Hide the row when nothing applies |
 | "English ↔ Vietnamese Telex" with Super+Alt+Space | `:174` | Assumes two specific input sources | Show the row only when two or more input sources are configured; label it "Switch input source" or name the user's sources |
 | "80 %" | `:71` | Uses a space before %; Quick Settings uses "87%" (`WifiMenu.dc.html:59`) | Pick one style for the locale |
-| "If one fails to start, Apex goes back by itself." | `:63` | Promises automatic rollback | Keep only if the update system ships boot-health rollback; see [updates-and-rollback.md](updates-and-rollback.md) |
+| "If one fails to start, Apex goes back by itself." | `:63` | Promises automatic rollback, which stock `bootc` does not do (OQ-04, 2026-11-17) | Replace with "If one does not start, choose the previous version in the startup menu."; see [updates-and-rollback.md](updates-and-rollback.md) |
 | "Settings › Apex Desktop" | `:100` | Names a custom Settings panel | Depends on [settings.md](settings.md) |
 
 ## States
@@ -249,8 +249,9 @@ which gives each a global `OQ-nn` ID and maps the local IDs used here.
     Telex shortcut.
 4.  **Keybinding overrides.** Confirm Super+Space for search, Super+Alt+Space
     for input sources and Alt+Tab for windows; these change GNOME defaults.
-5.  **Rollback promise** on page 1: keep only if the update system
-    guarantees it.
+5.  **Rollback promise** on page 1: answered by OQ-04 (stock `bootc`, no
+    automatic fallback). Use the replacement copy above; the owner may
+    reword it.
 6.  **Next button contrast**: accept libadwaita behaviour or use the
     darkened accent.
 7.  **Reopening the welcome** after it has run: where from?

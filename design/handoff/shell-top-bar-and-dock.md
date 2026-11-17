@@ -265,7 +265,7 @@ app's DBusMenu; only the styling is Apex's.
 
 | Group | Tokens |
 | --- | --- |
-| Colour | `--bar`, `--bar-solid`, `--bar-fg`, `--bar-hover`, `--dock`, `--dock-border`, `--dock-sep`, `--panel-solid`, `--panel-border`, `--fg`, `--dim`, `--border`, `--btn-h`, `--accent`, `--wall`. Literals: `--recording`, `--privacy`, `--pill-ink` (above). |
+| Colour | `--bar`, `--bar-solid`, `--bar-fg`, `--bar-hover`, `--dock`, `--dock-border`, `--dock-sep`, `--panel-solid`, `--panel-border`, `--fg`, `--dim`, `--border`, `--btn-h`, `--accent`, `--wall`. `--recording`, `--privacy`, `--pill-ink` (in `tokens.json` under `color.shell` since 2026-11-17). |
 | Type | `typography.family.ui`; sizes `small` 12px, `small-plus` 12.5px, `ui` 13.5px; weights 500, 600, 700, 800; `features.numbers` (tabular) on the recording timer |
 | Radius | `pill-bar` 12 (bar buttons), `window` 14 (menus, dock items), `dock` 24, `circle` (dots). Literals: 2 (diamond), 4 (pills), 9 (menu rows, switch), 10 (privacy pill), 13 (hover label) |
 | Shadow | `dock`, `panel` (menus, hover label) |
@@ -427,6 +427,7 @@ they block engineering.
 9.  The overflow limit of four: fixed, or computed from free bar width?
 10. Indicator menu rows use weight 500 (`Indicators.dc.html:48`); tokens.json
     calls 600 the default UI weight. Confirm 500 for menus.
-11. Pill colours `#8d151d`, `#e54543`, `#7e2d00`, `#d95613` have no tokens.
-    Add `--recording`, `--privacy`, `--pill-ink` to tokens.json?
+11. Answered 2026-11-17: `--recording`, `--privacy` and `--pill-ink` are in
+    `tokens.json` (`color.shell`). In dark, `--pill-ink` on the pills is 4.5:1,
+    just at AA for 12.5 px bold text.
 12. Multi-monitor: bar and dock on every monitor or primary only?
