@@ -80,7 +80,8 @@ variant (`Appearance.dc.html:24-28`):
 | Ink | `#1b1e25` |
 
 Ship each as a one-rect SVG at 2880x1800, so it appears in the Appearance
-chooser like any other picture.
+chooser like any other picture. The colours are tokens:
+`wallpaper.solid.{slate,sage,sand,mist,ink}.value` in `tokens.json`.
 
 ### App icon style (asset files)
 

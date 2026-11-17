@@ -62,7 +62,7 @@ interactive states its prototype models, and the handoff spec that covers it.
 
 | No. | Title | File | Size | Theme | Accent | States | Spec |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 18 | Settings: Software Updates | `Updates.dc.html` | | L/D, default L | yes | `state`: up-to-date, available, downloading, ready (default), waiting. `showHold`: on. Automatic Downloads switch. | [updates-and-rollback](handoff/updates-and-rollback.md) |
+| 18 | Settings: Software Updates | `Updates.dc.html` | | L/D, default L | yes | `state`: up-to-date, available, downloading, ready (default), waiting. `showHold`: on. Automatic Downloads switch. Partly superseded: OQ-04 (stock bootc) cuts `waiting` (metered), the hold and the package list. | [updates-and-rollback](handoff/updates-and-rollback.md) |
 | 23 | Settings: Appearance | `Appearance.dc.html` | | L/D, default L | yes | Style, accent and background pickers are live (clicking restyles the window). | [settings](handoff/settings.md) |
 | 24 | Settings: Power | `Power.dc.html` | | L/D, default L | yes | Switches (charge limit, battery percentage, lower refresh rate, dim screen) and power-mode radio group are live. | [settings](handoff/settings.md) |
 | 25 | Fingerprint enrollment | `Fingerprint.dc.html` | | L/D, default L | yes | `progress`: 0 to 100, default 55 (enrollment ring). | [settings](handoff/settings.md) |
@@ -75,7 +75,7 @@ interactive states its prototype models, and the handoff spec that covers it.
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 17 | Quick Settings: Wi-Fi submenu | `WifiMenu.dc.html` | | L/D, default L | yes | Network list (connected, secured, hotspot, printer). | [shell-quick-settings-and-screenshot](handoff/shell-quick-settings-and-screenshot.md) |
 | 19 | Screenshot UI | `Screenshot.dc.html` | | L/D, default L | yes | Capture type (screenshot, screencast), capture area (selection, screen, window), show pointer switch; primary button label follows the type. | [shell-quick-settings-and-screenshot](handoff/shell-quick-settings-and-screenshot.md) |
-| 26 | Update health failure | `Rollback.dc.html` | | L/D, default L | yes | `state`: check failed, fell back after 3 boots. Alert with Keep This Version / Go Back… or Show Changes / OK. | [updates-and-rollback](handoff/updates-and-rollback.md) |
+| 26 | Update health failure | `Rollback.dc.html` | | L/D, default L | yes | `state`: check failed, fell back after 3 boots. Alert with Keep This Version / Go Back… or Show Changes / OK. Both states cut by OQ-04; the spec replaces them with "You Started the Previous Version". | [updates-and-rollback](handoff/updates-and-rollback.md) |
 
 ### Row 6: Files redesign
 

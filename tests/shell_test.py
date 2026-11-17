@@ -122,6 +122,15 @@ class ContrastRulesTest(unittest.TestCase):
                 with self.subTest(scheme=scheme.value, pair=name):
                     self.assertGreaterEqual(self._ratio(fg, bg), 4.5)
 
+    def test_indicator_pills(self) -> None:
+        # shell-top-bar-and-dock.md: pill ink reaches 4.5:1 in both themes.
+        for scheme in Scheme:
+            ink = self.tokens.color("--pill-ink", scheme)
+            for fill in ("--recording", "--privacy"):
+                with self.subTest(f"{scheme.value} {fill}"):
+                    bg = self.tokens.color(fill, scheme)
+                    self.assertGreaterEqual(self._ratio(ink, bg), 4.5)
+
     def test_white_text_on_accent_fills(self) -> None:
         # Rule 3 and OQ-31: small white text sits on --accent-strong.
         white = color.parse("#ffffff")

@@ -35,8 +35,10 @@ ACCENT = "-st-accent-color"
 ACCENT_FG = "-st-accent-fg-color"
 
 _MIX = re.compile(
-    r"^color-mix\(in srgb, var\(--accent\) (\d+)%, (#[0-9a-fA-F]{3,6})\)$"
+    r"^color-mix\(in srgb, var\(--accent\) (\d+)%,"
+    r" (#[0-9a-fA-F]{3,6}|transparent)\)$"
 )
+_TRANSPARENT = color.Color(0, 0, 0, 0)
 
 
 @dataclasses.dataclass(frozen=True)
@@ -51,6 +53,8 @@ class AccentMix:
 
     def st(self) -> str:
         """Returns the St CSS expression."""
+        if self.partner == _TRANSPARENT:
+            return f"st-transparentize({ACCENT}, {1 - self.weight:.2f})"
         return (
             f"st-mix({ACCENT}, {self.partner.css()}, "
             f"{round(self.weight * 100)}%)"
@@ -61,13 +65,21 @@ class AccentMix:
         return color.mix(accent, self.partner, self.weight)
 
 
-def accent_strong(tokens: tokens_lib.Tokens) -> AccentMix:
-    """Reads `--accent-strong`, the fill under white text (OQ-31)."""
-    formula = tokens.accent_derived("--accent-strong")
+def derived(tokens: tokens_lib.Tokens, name: str) -> AccentMix:
+    """Reads a derived accent such as `--accent-tint` from the tokens."""
+    formula = tokens.accent_derived(name)
     match = _MIX.match(formula)
     if match is None:
-        raise tokens_lib.TokenError(f"unsupported --accent-strong {formula!r}")
-    return AccentMix(int(match.group(1)) / 100, color.parse(match.group(2)))
+        raise tokens_lib.TokenError(f"unsupported {name} {formula!r}")
+    weight, partner = int(match.group(1)) / 100, match.group(2)
+    if partner == "transparent":
+        return AccentMix(weight, _TRANSPARENT)
+    return AccentMix(weight, color.parse(partner))
+
+
+def accent_strong(tokens: tokens_lib.Tokens) -> AccentMix:
+    """Reads `--accent-strong`, the fill under white text (OQ-31)."""
+    return derived(tokens, "--accent-strong")
 
 
 def focus_ring(tokens: tokens_lib.Tokens, scheme: Scheme) -> AccentMix | None:
@@ -105,11 +117,6 @@ def _layers(shadow: str) -> list[str]:
     return layers
 
 
-def _transparentize(alpha: float) -> str:
-    """Returns the accent at an alpha, written as St wants it."""
-    return f"st-transparentize({ACCENT}, {1 - alpha:.2f})"
-
-
 @dataclasses.dataclass(frozen=True)
 class _Palette:  # pylint: disable=too-many-instance-attributes
     """The resolved values for one scheme: one field per colour role."""
@@ -137,6 +144,9 @@ class _Palette:  # pylint: disable=too-many-instance-attributes
     pill: str
     pill_border: str
     running_dot: str
+    recording: str
+    privacy: str
+    pill_ink: str
     accent_strong: str
     focus: str
 
@@ -176,6 +186,9 @@ def _palette(tokens: tokens_lib.Tokens, scheme: Scheme) -> _Palette:
         pill_border=role("--pill-border"),
         # The dot is --fg at .7 opacity (Desktop.dc.html:130).
         running_dot=tokens.color("--fg", scheme).with_alpha(0.7).css(),
+        recording=role("--recording"),
+        privacy=role("--privacy"),
+        pill_ink=role("--pill-ink"),
         accent_strong=accent_strong(tokens).st(),
         focus=ACCENT if ring is None else ring.st(),
     )
@@ -276,6 +289,31 @@ def _top_bar(t: tokens_lib.Tokens, p: _Palette) -> list[Rule]:
         (
             "#panel .panel-button .system-status-icon",
             {"icon-size": "16px"},
+        ),
+        # The stock theme paints these pills with an inset shadow inside the
+        # transparent border; so does this one, in every state.
+        (
+            "#panel .panel-button.screen-recording-indicator,"
+            " #panel .panel-button.screen-recording-indicator:hover,"
+            " #panel .panel-button.screen-recording-indicator:focus,"
+            " #panel .panel-button.screen-recording-indicator:active",
+            {
+                "background-color": "transparent",
+                "box-shadow": f"inset 0 0 0 100px {p.recording}",
+                "color": p.pill_ink,
+                **_type(t, "small-plus", "bold"),
+            },
+        ),
+        (
+            "#panel .panel-button.screen-sharing-indicator,"
+            " #panel .panel-button.screen-sharing-indicator:hover,"
+            " #panel .panel-button.screen-sharing-indicator:focus,"
+            " #panel .panel-button.screen-sharing-indicator:active",
+            {
+                "background-color": "transparent",
+                "box-shadow": f"inset 0 0 0 100px {p.privacy}",
+                "color": p.pill_ink,
+            },
         ),
         (f"{GLASS} #panel", {"background-color": p.bar_glass}),
     ]
@@ -501,8 +539,8 @@ def _transients(t: tokens_lib.Tokens, p: _Palette) -> list[Rule]:
             " .tile-preview.tile-preview-right.on-primary,"
             " .tile-preview.tile-preview-left.tile-preview-right.on-primary",
             {
-                "background-color": _transparentize(0.16),
-                "border": f"2px solid {_transparentize(0.7)}",
+                "background-color": derived(t, "--accent-tint").st(),
+                "border": f"2px solid {derived(t, '--accent-ring').st()}",
                 "border-radius": t.radius("window"),
             },
         ),

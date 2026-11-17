@@ -64,6 +64,9 @@ def generate(design: pathlib.Path, destdir: pathlib.Path) -> list[str]:
         text = (assets / source).read_text(encoding="utf-8")
         files[_SHARE / "backgrounds/apex" / installed] = svg.sanitize(text)
 
+    for name, text in settings.solid_wallpapers(tokens).items():
+        files[_SHARE / "backgrounds/apex" / name] = text
+
     for relative, text in files.items():
         _write(destdir / relative, text)
     return sorted(str(path) for path in files)
