@@ -23,6 +23,7 @@ others in `conflicts`. It does not pick a winner; open conflicts are tracked in
 *   [Motion](#motion)
 *   [Icons](#icons)
 *   [Fixed scenes](#fixed-scenes)
+*   [Wallpapers](#wallpapers)
 *   [Contrast](#contrast)
 *   [Mapping to GNOME](#mapping-to-gnome)
 
@@ -54,8 +55,8 @@ logical pixels and test at scale 1, 1.25, 1.5 and 2.
 | `surface` | `--win`, `--view`, `--side`, `--head`, `--card`, `--card-border`, `--pop`, `--msg-card`, `--shot`, `--file` | Backgrounds inside application windows. `--win` is the window and header area, `--view` the content view, `--side` the sidebar, `--card` boxed lists. |
 | `content` | `--fg`, `--dim`, `--faint`, `--border` | Text and hairlines. `--dim` is secondary text, `--faint` tertiary text and placeholders. |
 | `control` | `--btn`, `--btn-h`, `--sel`, `--row-h`, `--bar-hover` | Flat button fill, hover or selected fill, selected list row, hovered shell row. |
-| `shell` | `--bar`, `--bar-solid`, `--bar-fg`, `--dock`, `--dock-border`, `--dock-sep`, `--panel`, `--panel-solid`, `--panel-border`, `--pill`, `--pill-border`, `--scrim`, `--folder`, `--folder-back`, `--shadow`, `--wall` | GNOME Shell surfaces. Translucent tints (`--bar`, `--dock`, `--panel`, `--scrim`) sit on top of live blur; `--panel-solid` is the opaque variant for modal dialogs and popup menus. |
-| `status` | `--err`, `--warn`, `--warn-bg`, `--ok`, `--st-needs`, `--st-fail`, `--mod`, `--add`, `--exec` | Error, warning and success colours, terminal session states, version-control and debugger marks. |
+| `shell` | `--bar`, `--bar-solid`, `--bar-fg`, `--dock`, `--dock-border`, `--dock-sep`, `--panel`, `--panel-solid`, `--panel-border`, `--pill`, `--pill-border`, `--scrim`, `--dialog-scrim`, `--recording`, `--privacy`, `--pill-ink`, `--folder`, `--folder-back`, `--shadow`, `--wall` | GNOME Shell surfaces. Translucent tints (`--bar`, `--dock`, `--panel`, `--scrim`) sit on top of live blur; `--panel-solid` is the opaque variant for modal dialogs and popup menus. `--scrim` tints the blurred wallpaper in Overview and Launcher; `--dialog-scrim` (black at .32) dims the screen behind system-modal dialogs. `--recording` and `--privacy` fill the top-bar status pills, with `--pill-ink` on them. |
+| `status` | `--err`, `--warn`, `--warn-bg`, `--ok`, `--destructive`, `--st-needs`, `--st-fail`, `--mod`, `--add`, `--exec` | Error, warning and success colours, terminal session states, version-control and debugger marks. `--destructive` (`#c01c28` in both themes) fills destructive buttons such as Power Off; `--err` is for error text and rings. |
 | `terminal-in-scene` | `--term-bg`, `--term-fg`, `--term-user`, `--term-path`, `--term-key` | A terminal window drawn inside another artboard (Polkit, Rollback, Screenshot, Tiling). |
 | `terminal-app` | `--t-*` | The Terminal app's own palette (Terminal artboards and the Overview thumbnail). |
 | `syntax` | `--k`, `--s`, `--f`, `--n`, `--ty`, `--c`, `--line`, `--md-head`, `--md-code` | Code highlighting in Apex Code and Markdown in Text Editor. |
@@ -98,10 +99,17 @@ Yellow `#c88800`, Orange `#ed5b00`, Red `#e62d42`, Pink `#d56199`, Purple
 `#9141ac`, Slate `#6f8396`. These are exactly the GNOME accent colours, so the
 picker maps to the stock `org.gnome.desktop.interface accent-color` key.
 
-One derived colour appears: `--accent-strong`, the accent mixed 75 % with
-black (defined in `WifiMenu.dc.html`, computed inline in `DateMenu.dc.html`
-and `Polkit.dc.html`). It is the canvas's own answer to white text on accent
-fills, but only three artboards use it.
+Three derived colours, all under `accent.derived`:
+
+*   `--accent-strong`: the accent mixed 75 % with black (defined in
+    `WifiMenu.dc.html`, computed inline in `DateMenu.dc.html` and
+    `Polkit.dc.html`). It is the canvas's own answer to white text on accent
+    fills, but only three artboards use it.
+*   `--accent-tint`: the accent at 16 % over transparent. Washes such as the
+    tile preview fill, the polkit icon disc, selected rows in Files and the
+    selection tint.
+*   `--accent-ring`: the accent at 70 % over transparent, drawn as an inset
+    2 px ring (tile preview).
 
 The canvas uses `--accent` both as a fill (selected tiles, switches, primary
 buttons, focus rings) and as text (headings in the SPEC.md editor view). See
@@ -273,6 +281,15 @@ converted to outlines when the theme is built. See
     under a `rgba(8,10,20,.68)` scrim (`.34` on the dark lock screen); white
     text; 38 px fields at white .18; focus is a 2 px white inner ring. The
     greeter always uses the light wallpaper.
+
+## Wallpapers
+
+`wallpaper` in `tokens.json` lists what the Appearance chooser offers:
+Facets (default, light and dark SVGs in `../canvas/assets/`) and five flat
+colours with no dark variant, under `wallpaper.solid`: Slate `#4d5868`, Sage
+`#8a9a86`, Sand `#d8cfc1`, Mist `#c7d1dd`, Ink `#1b1e25`
+(`Appearance.dc.html:24-28`). The Slate wallpaper has nothing to do with the
+Slate accent.
 
 ## Contrast
 

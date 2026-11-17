@@ -6,7 +6,9 @@ Two GNOME Shell system-modal dialogs drawn over the desktop:
 
 *   **Authentication Required**: the polkit prompt. The artboard shows it
     asking for an administrator password to boot the previous Apex version,
-    after `apexctl update rollback` in a terminal.
+    after a rollback request (drawn as `apexctl update rollback` in a
+    terminal; `apexctl` is cut, so the real trigger is "Use at Next
+    Restart…" in Software Updates or `sudo bootc rollback`).
 *   **Power Off**: the end-session dialog with a countdown, a switch that
     decides whether the next boot starts the staged update, and Cancel,
     Restart and Power Off buttons.
@@ -34,7 +36,7 @@ light to `rgba(29,29,33,.72)`, not the majority `.62`
 | Dialog frame, scrim, buttons | `js/ui/modalDialog.js` (`ModalDialog`, `Lightbox`) and `js/ui/dialog.js` (`Dialog`, `MessageDialogContent`) | High |
 | User row in the polkit dialog | `js/ui/userWidget.js` (`UserWidget`, `Avatar`) | High |
 | Styles | `data/theme/gnome-shell-sass/widgets/_dialogs.scss`, `_end-session-dialog.scss` | High |
-| Update switch backend | Stock binds a checkbox to PackageKit offline updates (`org.freedesktop.PackageKit.Offline`). On an image-based system it must bind to the staged deployment instead (rpm-ostree or bootc) | Medium |
+| Update switch backend | Stock binds a checkbox to PackageKit offline updates (`org.freedesktop.PackageKit.Offline`). It must bind to the bootc staged deployment instead (stock `bootc`, decided 2026-11-17, OQ-04) | High |
 
 ## Layout and measurements
 
@@ -45,7 +47,7 @@ these.
 
 | Element | Authentication | Power Off | Source |
 | --- | --- | --- | --- |
-| Scrim | `rgba(0,0,0,.32)` over the whole screen, top bar and dock included | Same | `Polkit.dc.html:85`, `EndSession.dc.html:57` |
+| Scrim | `--dialog-scrim` (`rgba(0,0,0,.32)`) over the whole screen, top bar and dock included | Same | `Polkit.dc.html:85`, `EndSession.dc.html:57` |
 | Dialog position | Centred on screen | Centred | `:87`, `:59` |
 | Width | 440 | 460 | same |
 | Height | Content height | Content height | |
@@ -78,7 +80,7 @@ these.
 | Details box | Full width, radius 12, ring `inset 0 0 0 1px var(--border)`, clips |
 | Details button | Full width, 38 tall, padding 0 12, gap 8, 12.5 px / 600, `--dim`; chevron 14 px, rotated 90 deg when open, `transform .15s ease` |
 | Details content | Grid `76px minmax(0,1fr)`, row gap 6, padding 0 12 12 34, 12 px (`small`); labels `--dim` |
-| Details rows | "Action" `io.github.apex-linux.apex.update.rollback` in JetBrains Mono 11.5 px, wraps anywhere; "Vendor" "Apex" |
+| Details rows | "Action" `io.github.apex_linux.Updates.rollback` (the artboard draws `io.github.apex-linux.apex.update.rollback`; replaced per OQ-04 and OQ-08) in JetBrains Mono 11.5 px, wraps anywhere; "Vendor" "Apex" |
 | Buttons | "Cancel" (flex 1, fill `--btn`) and "Authenticate" (flex 1, fill accent mixed with 25 % black, text `#fff`); each 187 px wide |
 
 The field ring is always 2 px accent in the artboard: it shows the focused
@@ -99,7 +101,7 @@ An unfocused field is not drawn; use the same fill with no ring.
 | Switch track | 40 x 22, radius 11, on: accent, off: `--btn-h`; `background .2s cubic-bezier(.2,.8,.2,1)` |
 | Switch knob | 18 x 18, radius 9, `#fff`, `shadow.knob`, top 2, left 2 (off) or 20 (on), `left .2s cubic-bezier(.2,.8,.2,1)` |
 | Buttons | "Cancel" flex 1 (about 107 px), Restart flex 1.4 (about 149 px), "Power Off" flex 1.2 (128 px) |
-| Button fills | Cancel and Restart `--btn`; Power Off literal `#c01c28` with `#fff` text in both themes |
+| Button fills | Cancel and Restart `--btn`; Power Off `--destructive` (`#c01c28`) with `#fff` text in both themes |
 
 Style objects: `track` and `knob` at `EndSession.dc.html:107-108`.
 
@@ -164,25 +166,26 @@ A real build uses the stock 60 s countdown and, at 0, runs the default
 action, Power Off. The copy needs plural forms
 ("…in 1 second.", "…in 2 seconds."), as stock already has with `ngettext`.
 
-Switch semantics, to confirm with `updates-and-rollback.md`:
+Switch semantics, settled by OQ-04 (2026-11-17, stock `bootc` only; details
+in [updates-and-rollback.md](updates-and-rollback.md#cross-linked-surfaces)):
 
 | Switch | Power Off | Restart |
 | --- | --- | --- |
-| On | Powers off; the next boot starts the staged version | Restarts into the staged version |
-| Off | Powers off; the next boot starts the current version, and the staged version stays staged | Restarts into the current version |
+| On | Runs `bootc upgrade --from-downloaded` through the Apex helper, then powers off; the next boot starts the new version | Same, then restarts into the new version |
+| Off | Powers off; the next boot starts the current version; bootc discards the download-only update and the next check stages it again from cache | Restarts into the current version, same discard |
 
-On rpm-ostree a staged deployment is applied at any shutdown. "Off" therefore
-needs finalization locking: stage with `--lock-finalization`, and on "On"
-run `rpm-ostree finalize-deployment` (or the bootc or ostree equivalent).
-Check the exact commands against the tool chosen. Confidence: medium.
+The card and switch show only for a download-only update
+(`staged.downloadOnly` true in `bootc status`). A plain staged update
+applies at any shutdown, so the dialog shows no switch and the middle button
+reads "Restart & Update". The verified bootc behaviour and sources are in
+the update spec.
 
-The card shows only when a staged version exists. Without one the dialog is
-the stock three-button Power Off.
+Without a staged version the dialog is the stock three-button Power Off.
 
-The version line must come from the staged deployment: its version string and
-the package changes for GNOME Shell, the kernel and Mesa. A package diff
-takes seconds, so compute it once when the update is staged, cache it, and
-let the Shell read the cached text. The format "45.20261010.133" follows the
+The version line must come from the staged deployment's `version` in
+`bootc status`. bootc provides no package diff, so the drawn "GNOME 51.1,
+Linux 7.2.9, Mesa 26.1.2" is cut until OQ-37 decides a source; the line reads
+"Apex <version>". The format "45.20261010.133" follows the
 Fedora-major.date.serial scheme and is old-spec text; it is hard-coded in the
 artboard and in `Updates.dc.html:119`.
 
@@ -200,7 +203,7 @@ Needed but not drawn:
 
 | Group | Tokens and literals |
 | --- | --- |
-| Colour | `--panel-solid`, `--panel-border`, `--fg`, `--dim` (artboard value .72 light), `--border`, `--btn`, `--btn-h`, `--card`, `--card-border`, `--err` (light `#c01c28`, dark `#ff7b63`), `--accent` and two derived values: accent at 16 % on transparent (icon disc) and accent mixed with 25 % black (avatar, Authenticate); literals `rgba(0,0,0,.32)` (scrim), `#c01c28` (Power Off fill), `#fff` (knob, text on filled buttons) |
+| Colour | `--panel-solid`, `--panel-border`, `--fg`, `--dim` (artboard value .72 light), `--border`, `--btn`, `--btn-h`, `--card`, `--card-border`, `--err` (light `#c01c28`, dark `#ff7b63`), `--accent`, `--accent-tint` (icon disc), `--accent-strong` (avatar, Authenticate), `--dialog-scrim`, `--destructive` (Power Off fill); literal `#fff` (knob, text on filled buttons) |
 | Type | `typography.family.ui`, `typography.family.mono` (Action id); sizes `title-3` 20, `ui` 13.5, `body` 13, `small-plus` 12.5, `small` 12, `caption` 11.5, literal 14 (entry); weights 500, 600, 700; tabular figures on the countdown |
 | Radius | `panel` 26, `field` 19, `pill-bar` 12, `circle`; literals 18 (36 px buttons), 28 (icon disc), 11 and 9 (switch) |
 | Shadow | `shadow.panel`, `shadow.card`, `shadow.knob` |
@@ -270,14 +273,15 @@ Needed but not drawn:
     avatar and the Authenticate button without a restart.
 9.  Choosing Power Off with no staged update shows the stock three buttons
     and no update card.
-10. With a staged update, the card shows "Start the new version next time",
-    the staged version and the changed GNOME, Linux and Mesa versions, read
-    from the cache, within 100 ms of opening the dialog.
+10. With a download-only update, the card shows "Start the new version next
+    time" and "Apex <version>" from `bootc status`, within 100 ms of opening
+    the dialog.
 11. The switch is on by default; turning it off changes the middle button
     from "Restart & Update" to "Restart" and moves the knob from 20 px to
     2 px in 200 ms.
-12. With the switch off, Restart boots the current version and the staged
-    version is still listed as staged afterwards.
+12. With the switch off, Restart boots the current version; afterwards
+    `bootc status` shows no staged deployment, and Software Updates offers
+    the same version again without a full download.
 13. The countdown starts at 60, decreases by one each second with correct
     plural forms, and at 0 powers off.
 14. On battery with an update pending, the low-battery warning appears.
@@ -291,10 +295,10 @@ which gives each a global `OQ-nn` ID and maps the local IDs used here.
 
 | ID | Question | Blocks |
 | --- | --- | --- |
-| DLG-1 | Update backend: rpm-ostree or bootc, and how is "do not start the new version" implemented (finalization lock, or discard)? | Update switch |
+| DLG-1 | Answered 2026-11-17 (OQ-04): stock bootc; "do not start the new version" is bootc's download-only staging, discarded at boot. | Update switch |
 | DLG-2 | Polkit fingerprint: accept stock sequential behaviour, or fund parallel password and fingerprint? | Auth dialog scope |
-| DLG-3 | Version line format and source; "45.20261010.133" assumes a Fedora base, which is unconfirmed. | Card copy |
+| DLG-3 | Version line format: the source is the image's `version` in `bootc status`; the scheme is OQ-08. | Card copy |
 | DLG-4 | Details disclosure open or closed by default; is it shown at all to non-technical users? | Auth dialog |
 | DLG-5 | Low battery, inhibitors, other users, Restart and Log Out dialogs are not drawn. | End-session states |
 | DLG-6 | Column gap differs: 18 (polkit) and 20 (Power Off). Intended? | Theme |
-| DLG-7 | Destructive red `#c01c28` is a literal with no token, the same in light and dark. | Tokens |
+| DLG-7 | Answered 2026-11-17: `--destructive` (`#c01c28`, both themes) is in `tokens.json` under `color.status`. | Tokens |

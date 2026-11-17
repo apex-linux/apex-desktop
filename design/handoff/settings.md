@@ -38,9 +38,11 @@ support it, and the M7400QC must still get every one of them. See
 | Users page and fingerprint dialog | `panels/system/users/cc-users-page`, `cc-fingerprint-dialog` (fprintd D-Bus `net.reactivated.Fprint`); Users moved under System in GNOME 46 | High |
 | Apex Desktop | No upstream panel. Either a downstream panel added to gnome-control-center (`panels/apex-desktop/`), or the preferences window of the Apex Shell extension. The artboards put it first in the Settings sidebar, which only a gnome-control-center patch can do. | High that it is new; the placement needs an owner decision (Q-SET-1) |
 
-Evidence that the design already assumes a patched Settings: the Updates
+Evidence that the design already assumed a patched Settings: the Updates
 hold note says "Apex's Settings changes do not apply to 51.1 yet"
-(`Updates.dc.html:109`).
+(`Updates.dc.html:109`). The hold itself is cut (OQ-04, 2026-11-17): stock
+`bootc` updates the image as a whole, so a GNOME release that breaks the
+Settings patch blocks the image release instead.
 
 ## Layout and measurements
 
@@ -208,7 +210,7 @@ Files, Web, Calendar, Music, Text Editor, Terminal, Bazaar, Settings, with
 no Mail and Bazaar in place of Software (for example
 `Appearance.dc.html:138-145`). The Software icon here
 (`91d271bbd5c894bdd2ed6a39ef85e177`) is the same asset the "Apex Updates"
-banner and the Power Off dialog use. Treat the Apex Desktop dock as stale
+banner (now cut, OQ-04) and the Power Off dialog use. Treat the Apex Desktop dock as stale
 (Q-SET-2).
 
 ## States
@@ -414,12 +416,12 @@ which gives each a global `OQ-nn` ID and maps the local IDs used here.
 *   **Q-SET-1** Where does the Apex Desktop panel live: a gnome-control-center
     patch (first sidebar row, as drawn) or extension preferences / a
     separate app? The patch is carried on every GNOME release; the
-    Updates hold note (`Updates.dc.html:109`) shows the design already
-    expects such delays.
+    Updates hold note (`Updates.dc.html:109`) expected such delays, but the
+    hold is cut (OQ-04), so a broken patch blocks the image release.
 *   **Q-SET-2** Default dock apps. `ApexDesktop.dc.html:199-203` has Mail and
     Software; 23 other artboards have Bazaar and no Mail. Which mail app,
-    if any? Is GNOME Software shipped at all (its icon is reused for
-    "Apex Updates")?
+    if any? Is GNOME Software shipped at all (its icon was reused for
+    "Apex Updates", now cut, and is still used by the Power Off update row)?
 *   **Q-SET-3** NVIDIA driver: proprietary (akmods, signing for Secure
     Boot, image build cost) or nouveau / NVK. The "Powered down" row
     depends on runtime PM working with the chosen driver.

@@ -160,7 +160,7 @@ canvas does not draw.
 | --- | --- |
 | Firmware logo hand-off | Fedora's default `bgrt` theme keeps the ASUS firmware logo; this design replaces it with black. Expect a visible cut from the logo to black when Plymouth starts |
 | Bootloader | No GRUB or systemd-boot screen is drawn. On an image-based system the menu lists deployments (current, rollback) and must be reachable (hold Shift or Esc) |
-| Booting previous version | After an automatic fallback (see `updates-and-rollback.md`), the splash has no message to say so |
+| Booting previous version | Stock `bootc` has no automatic fallback (OQ-04, 2026-11-17). After a failed boot the user picks the previous entry in the GRUB menu; the menu must then appear without a key held (legacy decision 17, to verify, OQ-36). The session then shows "You Started the Previous Version" (see [updates-and-rollback.md](updates-and-rollback.md)); the splash needs no message |
 | Messages | `Plymouth.SetMessageFunction` (fsck, SELinux relabel, `plymouth display-message`) has no style |
 | Multiple encrypted volumes | The artboard hides systemd's prompt text, which names the disk. With two volumes the user cannot tell which one is asked for |
 | Caps Lock on | No indicator |

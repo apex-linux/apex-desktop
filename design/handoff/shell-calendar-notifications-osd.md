@@ -6,8 +6,11 @@ This spec covers four transient shell surfaces:
 
 *   The calendar and notifications panel that opens from the top-bar clock
     (artboard 34, `DateMenu.dc.html`).
-*   A notification banner, the "Updates Ready" banner with Later and Restart
-    Now (artboard 16, `Transients.dc.html`).
+*   A notification banner, drawn as the "Updates Ready" banner with Later and
+    Restart Now (artboard 16, `Transients.dc.html`). Its metrics are the
+    theme for every banner. Its update content is cut: OQ-04 (2026-11-17)
+    chose stock `bootc` with no update daemon, so nothing sends "Updates
+    Ready" (see [updates-and-rollback.md](updates-and-rollback.md)).
 *   The volume on-screen display (OSD) (artboard 16).
 *   A dock app popup menu for Files (artboard 16).
 
@@ -264,7 +267,7 @@ light `.72`. Use the DateMenu values on this surface until the owner rules.
 | Event accent bar | Theme or small patch | Theme if the stock event row can take a `border-left` style; otherwise one extra actor in `EventsSection` |
 | Title-case "Add World Clocks…", "Select Weather Location…" | Stock strings differ | Stock uses sentence case ("Add world clocks…", "Select weather location…"); changing case means patching translations. Recommend stock strings |
 | Banner position, width, radius, action buttons | Theme | `.notification-banner` |
-| Banner content and sender | New component | The sender ("Apex Updates") is the update service, not the Shell; see [updates-and-rollback.md](updates-and-rollback.md) |
+| Banner content and sender | Cut | "Apex Updates" / "Updates Ready" had a daemon as sender; OQ-04 removed it. The only update notification left is the health failure alert in [updates-and-rollback.md](updates-and-rollback.md) |
 | OSD pill and level bar | Theme | `.osd-window`, `.level` |
 | OSD numeric value | Patch | Stock `OsdWindow` has icon, optional label and level bar, no number |
 | OSD bottom offset clearing the dock | Theme or dock integration | Stock OSD sits at a fixed bottom margin; with an always-visible dock the margin must account for dock height |
@@ -328,8 +331,9 @@ light `.72`. Use the DateMenu values on this surface until the owner rules.
 12. A notification banner appears 12 px below the top bar, centred, 460 px
     wide, 16 px radius, with actions in a row of equal-width 32 px pill
     buttons aligned with the text column.
-13. "Restart Now" on the update banner opens the restart confirmation dialog;
-    "Later" dismisses the banner and leaves the notification in the list.
+13. A banner with two actions renders them as equal-width pills; choosing an
+    action or dismissing leaves the notification in the list unless the
+    sender marks it transient. (The drawn update banner itself is cut.)
 14. Pressing a volume key shows a 40 px tall OSD pill, 280 px wide, centred,
     whose bottom edge sits 24 px above the dock, with a 180 px accent level
     bar and the numeric value; the OSD hides after the stock timeout.
@@ -355,7 +359,8 @@ which gives each a global `OQ-nn` ID and maps the local IDs used here.
     Artboard 34 shows "Settings" / "Update ready" / "Apex 45.20261024.141
     starts after the next restart." (`DateMenu.dc.html:126`); artboard 16
     shows "Apex Updates" / "Updates Ready" / "45.20261010.133 is downloaded…"
-    (`Transients.dc.html:47-49`). Pick one sender, icon and string.
+    (`Transients.dc.html:47-49`). Answered 2026-11-17 (OQ-04, OQ-21): both
+    are cut; neither ships. The calendar's sample row is sample data only.
 3.  **Dock menu contents.** Are bookmarks in the Files menu wanted (patch),
     and should the open-windows list be replaced by a count (patch)?
 4.  **OSD numeric value** (patch) and the list of OSD kinds to theme.
@@ -365,8 +370,9 @@ which gives each a global `OQ-nn` ID and maps the local IDs used here.
     "Fedora 45 release", "S1b starts", "just vm-image … apex-image", "Canvas
     boards 34 to 36", "apex-fedora", "Apex 45.20261024.141", "45.20261010.133",
     "GNOME 51.1, Linux 7.2.9". All are sample data; none is shipped copy.
-    Version strings in real notifications come from the update service.
+    Version strings in real notifications come from `bootc status`.
 8.  **Is a "Restart Now" action allowed to restart directly?** The terminal
     text in artboard 19 says `apexctl` "never reboots the computer by itself"
     (`Screenshot.dc.html:55`); the banner should route through the restart
-    dialog.
+    dialog. Settled: no update action restarts directly; Restart Now
+    actions open the restart dialog.
