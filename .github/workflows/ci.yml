@@ -25,5 +25,5 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - uses: astral-sh/setup-uv@v10.3.3
-      - run: sudo apt-get install --yes just
+      - run: sudo apt-get install --yes just libglib2.0-bin
       - run: just test

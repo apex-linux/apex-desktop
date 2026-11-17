@@ -1,0 +1,158 @@
+"""Tests the Shell stylesheet generator: tokens in, CSS out."""
+
+import copy
+import json
+import pathlib
+import re
+import unittest
+
+from apex_desktop.generators import shell
+from apex_desktop.kernel import color
+from apex_desktop.kernel import tokens as tokens_lib
+
+Scheme = tokens_lib.Scheme
+
+_TOKENS = pathlib.Path(__file__).resolve().parent.parent / (
+    "design/system/tokens.json"
+)
+_LITERAL = re.compile(r"#[0-9a-fA-F]{3,6}\b|rgba?\([^)]*\)")
+
+# Accent and surface pairs where a 2 px ring misses 3:1. Tracked as OQ-31;
+# the test fails if the set changes, so a fix or a regression is noticed.
+_KNOWN_RING_FAILURES = {("purple", Scheme.DARK)}
+
+
+def _data() -> dict[str, object]:
+    return dict(json.loads(_TOKENS.read_text(encoding="utf-8")))
+
+
+def _rgb(text: str) -> tuple[int, int, int]:
+    parsed = color.parse(text)
+    return (round(parsed.red), round(parsed.green), round(parsed.blue))
+
+
+def _token_rgbs(data: object) -> set[tuple[int, int, int]]:
+    """Returns the RGB of every colour written anywhere in the tokens."""
+    found: set[tuple[int, int, int]] = set()
+    text = json.dumps(data)
+    for literal in _LITERAL.findall(text):
+        try:
+            found.add(_rgb(literal))
+        except color.ColorError:
+            pass
+    return found
+
+
+class StylesheetTest(unittest.TestCase):
+
+    def setUp(self) -> None:
+        self.tokens = tokens_lib.Tokens.load(_TOKENS)
+
+    def test_every_colour_comes_from_the_tokens(self) -> None:
+        allowed = _token_rgbs(_data())
+        for scheme in Scheme:
+            css = shell.stylesheet(self.tokens, scheme)
+            for literal in _LITERAL.findall(css):
+                with self.subTest(scheme=scheme.value, literal=literal):
+                    self.assertIn(_rgb(literal), allowed)
+
+    def test_a_token_change_reaches_the_css(self) -> None:
+        data = _data()
+        changed = copy.deepcopy(data)
+        role = changed["color"]["shell"]["--panel-solid"]  # type: ignore
+        role["light"]["value"] = "#123456"
+        css = shell.stylesheet(tokens_lib.Tokens(changed), Scheme.LIGHT)
+        self.assertIn("background-color: #123456;", css)
+        self.assertNotIn("#123456", shell.stylesheet(self.tokens, Scheme.LIGHT))
+
+    def test_rules_are_scoped(self) -> None:
+        css = shell.stylesheet(self.tokens, Scheme.LIGHT)
+        for line in css.splitlines():
+            if line.endswith("{") or line.endswith(","):
+                with self.subTest(line):
+                    self.assertTrue(line.startswith(shell.ROOT), line)
+
+    def test_shell_surfaces_are_solid_unless_glass(self) -> None:
+        css = shell.stylesheet(self.tokens, Scheme.DARK)
+        solid = self.tokens.color("--bar-solid", Scheme.DARK).css()
+        glass = self.tokens.color("--bar", Scheme.DARK).css()
+        self.assertIn(".apex-shell #panel {\n  height: 32px;", css)
+        self.assertIn(f"background-color: {solid};", css)
+        self.assertIn(
+            ".apex-shell.apex-glass #panel {\n" f"  background-color: {glass};",
+            css,
+        )
+
+    def test_measurements_from_the_top_bar_spec(self) -> None:
+        css = shell.stylesheet(self.tokens, Scheme.LIGHT)
+        # 32 px bar with 24 px buttons leaves a 4 px border on each side.
+        self.assertIn("border: 4px solid transparent;", css)
+        self.assertIn("padding: 0 8px;", css)
+        self.assertIn("font-size: 13.5px;", css)
+
+    def test_accent_strong_comes_from_the_derived_token(self) -> None:
+        strong = shell.accent_strong(self.tokens)
+        self.assertEqual(strong.st(), "st-mix(-st-accent-color, #000000, 75%)")
+        self.assertIn(strong.st(), shell.stylesheet(self.tokens, Scheme.LIGHT))
+
+
+class ContrastRulesTest(unittest.TestCase):
+    """The contrast rules in system/README.md and the shell specs."""
+
+    def setUp(self) -> None:
+        self.tokens = tokens_lib.Tokens.load(_TOKENS)
+
+    def _ratio(self, fg: color.Color, bg: color.Color) -> float:
+        return color.contrast(fg, bg)
+
+    def test_text_on_solid_shell_surfaces(self) -> None:
+        for scheme in Scheme:
+            panel = self.tokens.color("--panel-solid", scheme)
+            solid_bar = self.tokens.color("--bar-solid", scheme)
+            dim = self.tokens.color("--dim", scheme, shell.SHELL_ARTBOARD)
+            pairs = {
+                "fg on panel": (self.tokens.color("--fg", scheme), panel),
+                "dim on panel": (dim, panel),
+                "bar-fg on bar": (
+                    self.tokens.color("--bar-fg", scheme),
+                    solid_bar,
+                ),
+            }
+            for name, (fg, bg) in pairs.items():
+                with self.subTest(scheme=scheme.value, pair=name):
+                    self.assertGreaterEqual(self._ratio(fg, bg), 4.5)
+
+    def test_indicator_pills(self) -> None:
+        # shell-top-bar-and-dock.md: pill ink reaches 4.5:1 in both themes.
+        for scheme in Scheme:
+            ink = self.tokens.color("--pill-ink", scheme)
+            for fill in ("--recording", "--privacy"):
+                with self.subTest(f"{scheme.value} {fill}"):
+                    bg = self.tokens.color(fill, scheme)
+                    self.assertGreaterEqual(self._ratio(ink, bg), 4.5)
+
+    def test_white_text_on_accent_fills(self) -> None:
+        # Rule 3 and OQ-31: small white text sits on --accent-strong.
+        white = color.parse("#ffffff")
+        strong = shell.accent_strong(self.tokens)
+        for accent in self.tokens.accents():
+            with self.subTest(accent.name):
+                fill = strong.resolve(accent.color)
+                self.assertGreaterEqual(self._ratio(white, fill), 4.5)
+
+    def test_focus_rings_reach_three_to_one(self) -> None:
+        failures = set()
+        for scheme in Scheme:
+            panel = self.tokens.color("--panel-solid", scheme)
+            ring = shell.focus_ring(self.tokens, scheme)
+            for accent in self.tokens.accents():
+                shown = (
+                    accent.color if ring is None else ring.resolve(accent.color)
+                )
+                if self._ratio(shown, panel) < 3.0:
+                    failures.add((accent.name, scheme))
+        self.assertEqual(failures, _KNOWN_RING_FAILURES)
+
+
+if __name__ == "__main__":
+    unittest.main()
