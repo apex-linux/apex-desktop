@@ -54,6 +54,7 @@ export class Dock {
     this._watcher = watcher;
     this._revealed = false;
     this._hideId = 0;
+    this._placeLater = 0;
 
     this._dash = new ApexDash();
     this._container = new St.Bin({
@@ -71,8 +72,8 @@ export class Dock {
     this._dash.showAppsButton.connectObject(
         'notify::checked', () => this._onShowApps(), this);
     this._container.connectObject(
-        'notify::width', () => this._place(),
-        'notify::height', () => this._place(),
+        'notify::width', () => this._queuePlace(),
+        'notify::height', () => this._queuePlace(),
         'notify::hover', () => this._onHover(),
         this);
     Main.layoutManager.connectObject(
@@ -97,6 +98,10 @@ export class Dock {
   /** Removes the dock and its barrier. */
   destroy() {
     this._clearHide();
+    if (this._placeLater) {
+      global.compositor.get_laters().remove(this._placeLater);
+      this._placeLater = 0;
+    }
     this._watcher.disconnectObject(this);
     Main.layoutManager.disconnectObject(this);
     Main.overview.disconnectObject(this);
@@ -106,6 +111,24 @@ export class Dock {
     this._container.destroy();
     this._container = null;
     this._dash = null;
+  }
+
+  /**
+   * Re-centres the dock before the next redraw. The size notifications
+   * arrive during allocation; moving the dock there would leave it needing
+   * another allocation after layout, and Clutter logs "Can't update stage
+   * views actor apexDock".
+   */
+  _queuePlace() {
+    if (this._placeLater) {
+      return;
+    }
+    this._placeLater = global.compositor.get_laters().add(
+        Meta.LaterType.BEFORE_REDRAW, () => {
+          this._placeLater = 0;
+          this._place();
+          return GLib.SOURCE_REMOVE;
+        });
   }
 
   /** Centres the dock above the bottom edge of the primary monitor. */
@@ -200,6 +223,14 @@ export class Dock {
       !this._container.hover;
     const offset = hidden ? this._container.height + HIDE_EXTRA +
       BOTTOM_OFFSET : 0;
+    // An animation needs the actor's stage view, which an actor that is
+    // hidden or not yet allocated (just shown after the overview) has not
+    // got: Clutter logs "Can't update stage views". Jump there instead.
+    if (!this._container.visible || !this._container.has_allocation()) {
+      this._container.remove_transition('translation-y');
+      this._container.translation_y = offset;
+      return;
+    }
     this._container.ease({
       translation_y: offset,
       duration: HIDE_TIME,
