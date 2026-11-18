@@ -1,9 +1,11 @@
 // The Apex Shell extension. Its generated stylesheet themes the shell; this
-// file wires the parts that need code: the top bar additions and the dock.
+// file wires the parts that need code: the top bar additions, the dock and
+// the light default.
 
 import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 
+import {ColorScheme} from './colorScheme.js';
 import {Dock} from './dock.js';
 import {TopBar} from './topBar.js';
 import {WindowWatcher} from './windowWatcher.js';
@@ -23,6 +25,7 @@ export default class ApexExtension extends Extension {
     this._settings.connectObject(
         'changed::translucent-surfaces', () => this._syncGlass(), this);
     this._syncGlass();
+    this._colorScheme = new ColorScheme();
     // The extension stays enabled on the lock screen so the stylesheet
     // applies there; the top bar additions and the dock do not.
     Main.sessionMode.connectObject('updated', () => this._syncMode(), this);
@@ -33,6 +36,8 @@ export default class ApexExtension extends Extension {
   disable() {
     Main.sessionMode.disconnectObject(this);
     this._stopSession();
+    this._colorScheme.destroy();
+    this._colorScheme = null;
     this._settings.disconnectObject(this);
     this._settings = null;
     this._ui.remove_style_class_name(GLASS_CLASS);
