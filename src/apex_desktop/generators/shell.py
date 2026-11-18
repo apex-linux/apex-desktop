@@ -407,6 +407,10 @@ SPLIT_ARROW_PADDING = 12
 SPLIT_ARROW_SHADE = "rgba(0, 0, 0, 0.12)"
 
 
+# Height of the Quick Settings system row: battery pill and round buttons.
+SYSTEM_ROW = 36
+
+
 def _quick_settings(t: tokens_lib.Tokens, p: _Palette) -> list[Rule]:
     return [
         (
@@ -477,6 +481,25 @@ def _quick_settings(t: tokens_lib.Tokens, p: _Palette) -> list[Rule]:
         (
             ".quick-settings .icon-button",
             {"padding": "10px", "background-color": p.btn, "color": p.fg},
+        ),
+        # The battery in the system row is a QuickToggle, so the 54 px tile
+        # height above reached it and stretched the row's round buttons into
+        # tall pills on laptops. It is a 36 px pill
+        # (shell-quick-settings-and-screenshot.md, "System row").
+        (
+            ".quick-settings-system-item .power-item",
+            {
+                "min-height": f"{SYSTEM_ROW}px",
+                "min-width": "0",
+                "padding": "0 14px",
+                "border-radius": f"{SYSTEM_ROW // 2}px",
+                "background-color": p.btn,
+                "color": p.fg,
+            },
+        ),
+        (
+            ".quick-settings-system-item .power-item .quick-toggle-title",
+            _type(t, "body", "semibold"),
         ),
         (
             ".slider",
