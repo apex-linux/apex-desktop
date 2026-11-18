@@ -24,6 +24,11 @@ test:
 install destdir:
     scripts/install.sh "{{destdir}}"
 
+# Lists Adwaita's full-colour files for names Apex draws, from an installed
+# Adwaita (for example one copied out of the image).
+icons-full-colour adwaita="/usr/share/icons/Adwaita":
+    PYTHONPATH=src uv run --frozen python -m apex_desktop.entrypoints.list_full_colour "{{adwaita}}"
+
 # Re-extracts the Apex Symbolic glyphs from the design owner's canvas folder
 # and rebuilds the outlined icons. The image build never runs this.
 icons project="../.design/canvas/project":

@@ -98,6 +98,49 @@ class IndexThemeTest(unittest.TestCase):
         self.assertIn("Directories=symbolic\n", text)
         self.assertIn("[symbolic]\n", text)
 
+    def test_full_colour_names_are_drawn_by_apex(self) -> None:
+        # Only a name Apex draws as -symbolic hides Adwaita's full colour.
+        paths = _full_colour()
+        self.assertEqual(paths, sorted(set(paths)))
+        self.assertIn("scalable/places/folder.svg", paths)
+        for path in paths:
+            with self.subTest(path):
+                size, _, file = path.split("/")
+                self.assertIn(size, icons.FULL_COLOUR_SIZES)
+                stem = file.rsplit(".", 1)[0]
+                self.assertTrue((_SHIPPED / f"{stem}-symbolic.svg").exists())
+
+    def test_full_colour_directories_are_declared(self) -> None:
+        text = icons.index_theme(_full_colour())
+        self.assertIn("Directories=symbolic,16x16/devices,16x16/emblems,", text)
+        self.assertIn(
+            "[scalable/places]\nContext=Places\nSize=128\nMinSize=8\n"
+            "MaxSize=512\nType=Scalable\n",
+            text,
+        )
+        self.assertIn(
+            "[16x16/places]\nContext=Places\nSize=16\nType=Fixed\n", text
+        )
+
+    def test_requires_names_every_linked_file(self) -> None:
+        paths = _full_colour()
+        lines = [
+            line
+            for line in icons.requires(paths).splitlines()
+            if line and not line.startswith("#")
+        ]
+        self.assertEqual(len(lines), len(paths))
+        for line, path in zip(lines, paths):
+            self.assertEqual(
+                line, f"adwaita-icon-theme /usr/share/icons/Adwaita/{path}"
+            )
+
+
+def _full_colour() -> list[str]:
+    return icons.read_full_colour(
+        (_ROOT / icons.FULL_COLOUR_LIST).read_text(encoding="utf-8")
+    )
+
 
 if __name__ == "__main__":
     unittest.main()

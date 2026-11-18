@@ -67,6 +67,23 @@ class InstallTest(unittest.TestCase):
             self.assertTrue(alias.is_symlink())
             self.assertTrue(alias.resolve().is_file())
 
+    def test_links_full_colour_icons_into_adwaita(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            destdir = pathlib.Path(tmp)
+            run_install(destdir)
+            folder = destdir / "usr/share/icons/Apex/scalable/places/folder.svg"
+            self.assertTrue(folder.is_symlink())
+            self.assertEqual(
+                str(folder.readlink()),
+                "../../../Adwaita/scalable/places/folder.svg",
+            )
+            requires = destdir / "usr/share/apex-desktop/requires.txt"
+            self.assertIn(
+                "adwaita-icon-theme"
+                " /usr/share/icons/Adwaita/scalable/places/folder.svg\n",
+                requires.read_text(encoding="utf-8"),
+            )
+
     def test_rejects_a_missing_destdir(self) -> None:
         result = subprocess.run([str(_INSTALL)], check=False)
         self.assertEqual(result.returncode, 2)

@@ -50,6 +50,14 @@ install_icons() {
       install -m 0644 "${file}" "${target}/${file##*/}"
     fi
   done
+  # Adwaita's full-colour files for names Apex draws, so GTK 4 finds them
+  # before the Apex glyph (src/apex_desktop/entrypoints/list_full_colour.py).
+  local path
+  while IFS= read -r path; do
+    [[ -z "${path}" || "${path}" == \#* ]] && continue
+    install -d "${destdir}/usr/share/icons/Apex/${path%/*}"
+    ln -sfn "../../../Adwaita/${path}" "${destdir}/usr/share/icons/Apex/${path}"
+  done <"${root}/icons/adwaita-full-colour.txt"
 }
 
 main() {
