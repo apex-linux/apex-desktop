@@ -58,7 +58,13 @@ def generate(design: pathlib.Path, destdir: pathlib.Path) -> list[str]:
     files[_SHARE / "gnome-background-properties/apex.xml"] = (
         settings.background_properties(tokens)
     )
-    files[_SHARE / "icons" / icons.THEME / "index.theme"] = icons.index_theme()
+    full_colour = icons.read_full_colour(
+        (design.parent / icons.FULL_COLOUR_LIST).read_text(encoding="utf-8")
+    )
+    files[_SHARE / "icons" / icons.THEME / "index.theme"] = icons.index_theme(
+        full_colour
+    )
+    files[_SHARE / "apex-desktop/requires.txt"] = icons.requires(full_colour)
     assets = design / "canvas" / "assets"
     for installed, source in settings.WALLPAPERS.items():
         text = (assets / source).read_text(encoding="utf-8")
