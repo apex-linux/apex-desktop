@@ -192,6 +192,18 @@ class StylesheetTest(unittest.TestCase):
                 self.assertNotIn("50px", css)
                 self.assertIn("box-shadow: 0 2px 8px", css)
 
+    def test_battery_pill_keeps_the_system_row_36_px(self) -> None:
+        # The power item is a QuickToggle; the 54 px tile rule must not
+        # reach it, or the round buttons beside it stretch.
+        css = shell.stylesheet(self.tokens, Scheme.LIGHT)
+        power = _block(
+            css, ".apex-shell .quick-settings-system-item .power-item"
+        )
+        self.assertEqual(power["min-height"], "36px")
+        self.assertEqual(power["border-radius"], "18px")
+        button = _block(css, ".apex-shell .quick-settings .icon-button")
+        self.assertEqual(16 + 2 * int(button["padding"][:-2]), 36)
+
     def test_accent_strong_comes_from_the_derived_token(self) -> None:
         strong = shell.accent_strong(self.tokens)
         self.assertEqual(strong.st(), "st-mix(-st-accent-color, #000000, 75%)")
